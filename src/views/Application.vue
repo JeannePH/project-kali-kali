@@ -4,10 +4,13 @@ import TheSidemenu from "../components/TheSidemenu.vue";
 </script>
 
 <template>
+
   <TheSidemenu/>
-<div class="home">
-  <h1>Home</h1>
+<div>
+  <h1>Détail de l'application</h1>
 </div>
+
+
 </template>
 
 <style scoped>

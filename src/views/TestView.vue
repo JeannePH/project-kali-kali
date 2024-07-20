@@ -4,12 +4,13 @@ import TheSidemenu from "../components/TheSidemenu.vue";
 </script>
 
 <template>
-  <TheSidemenu/>
-<div class="home">
-  <h1>Home</h1>
-</div>
+
+  <div class="test">
+    <h1>Page de test</h1>
+  </div>
+
+<TheSidemenu/>
 </template>
 
 <style scoped>
-
 </style>
