@@ -1,43 +1,64 @@
 <script setup>
+import {ref, computed} from "vue";
+import TheSidemenu from "./components/TheSidemenu.vue";
+import HeaderComponent from "./components/HeaderComponent.vue";
+import {useRoute} from "vue-router";
+
+//Déclarer et définir des variables pour les props du header.
+const appNameVariable = "OCT";
+
+//Ajouter une référence réactive pour suivre l'état du menu latéral.
+const isSidemenuOpen = ref(true);
+
+//Ajouter une fonction pour mettre à jour isSideMenuOpen lorsqu'un événement toggle est reçu.
+function handleToggle(open) {
+  isSidemenuOpen.value = open;
+}
+
+// Utiliser useRoute pour obtenir le nom de la route actuelle.
+const route = useRoute();
+
+
+// Déclarer une constante réactive pour le nom de la route actuelle.
+const currentRouteName = computed(() => route.name || '');
+
+// Ajouter une constante pour appObjectVariable qui utilise currentRouteName
+const appObjectVariable = computed(() => currentRouteName.value);
+
+
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo"/>
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo"/>
-    </a>
+  <div :class="['app-container', { 'menu-open': isSidemenuOpen }]">
+    <TheSidemenu @toggle="handleToggle"/>
+    <div class="main-container">
+      <header-component :app-name="true ? appNameVariable : ''" :app-object="true ? appObjectVariable : ''"/>
+      <router-view></router-view>
+    </div>
   </div>
-  <div>
-    <router-link to="/test">Page de test</router-link>
-    |
-    <router-link to="/home">Home</router-link>
-    |
-    <router-link to="/about">About</router-link>
-    |
-    <router-link to="/application">Application</router-link>
-    |
-    <RouterLink to="/login">Login</RouterLink>
-  </div>
-
-  <router-view></router-view>
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  transition: margin-left 0.3s;
+  margin-left: 50px;
+  flex-grow: 1;
+  padding: 20px;
+  width: 100%;
 }
 
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+.app-container.menu-open .main-container {
+  margin-left: 240px;
 }
+
 </style>

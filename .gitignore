@@ -24,3 +24,9 @@ dist-ssr
 *.sw?
 
 .env
+
+.gitignore
+
+# Test pages and files
+src/views/TestView.vue
+

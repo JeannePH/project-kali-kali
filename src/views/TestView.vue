@@ -1,15 +1,23 @@
 <script setup>
+import HeaderComponent from "../components/HeaderComponent.vue";
+import TheNavigation from "../components/TheNavigation.vue";
+import store from "../store.js";
 
-import TheSidemenu from "../components/TheSidemenu.vue";
+const appNameVariable = "OCT";
+const appObjectVariable = "Pages";
 </script>
 
 <template>
-
-  <div class="test">
-    <h1>Page de test</h1>
+  <div>
+    <TheNavigation/>
+    <TableComponent/>
+    {{ store.applications }}
+    <div class="card-container">
+      <div class="card" v-for="application in store.applications" :id="application.id" :key="application.id">
+        <span>{{ application.name }}</span>
+      </div>
+    </div>
   </div>
-
-<TheSidemenu/>
 </template>
 
 <style scoped>

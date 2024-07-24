@@ -1,12 +1,17 @@
 <script setup>
 
-import { ref } from 'vue';
+import {ref} from 'vue';
+import { defineEmits } from 'vue';
+
+const emits = defineEmits(['toggle']);
+
 
 const sidemenuOpen = ref(true);
 const userName = ref('jeanne@ezacae.com');
 
 function toggleSideMenu() {
   sidemenuOpen.value = !sidemenuOpen.value;
+  emits('toggle', sidemenuOpen.value);
 }
 
 function logout() {
@@ -32,18 +37,24 @@ function logout() {
         <div class="menu-container">
           <ul class="menu-list">
             <li class="menu-item">
-              <router-link to="/home" class="router-link">Applications</router-link>
+              <router-link to="/application" class="router-link">Applications</router-link>
             </li>
-            <li class="menu-item non-clickable">Administration</li>
-            <li class="menu-item non-clickable">Audit</li>
-            <li class="menu-item non-clickable">Recherche</li>
+            <li class="menu-item">
+              <router-link to="/administration" class="router-link">Administration</router-link>
+            </li>
+            <li class="menu-item">
+              <router-link to="/audit" class="router-link">Audit</router-link>
+            </li>
+            <li class="menu-item">
+              <router-link to="/search" class="router-link">Recherche</router-link>
+            </li>
             <li class="menu-item non-clickable">Data</li>
             <ul class="submenu">
-              <li class="menu-item non-clickable">Pages</li>
-              <li class="menu-item non-clickable">Workflows</li>
-              <li class="menu-item non-clickable">Variables</li>
-              <li class="menu-item non-clickable">Composants</li>
-              <li class="menu-item non-clickable">Actions</li>
+              <li class="menu-item"><router-link to="/pages" class="router-link">Pages</router-link></li>
+              <li class="menu-item"><router-link to="/workflows" class="router-link">Workflows</router-link></li>
+              <li class="menu-item"><router-link to="/variables" class="router-link">Variables</router-link></li>
+              <li class="menu-item"><router-link to="/composants" class="router-link">Composants</router-link></li>
+              <li class="menu-item"><router-link to="/actions" class="router-link">Actions</router-link></li>
             </ul>
           </ul>
         </div>
@@ -57,7 +68,6 @@ function logout() {
     </div>
   </div>
 </template>
-
 
 
 <style scoped>
@@ -136,16 +146,22 @@ function logout() {
   padding: 0;
 }
 
+.menu-item a {
+  color: #2c3e50;  /* Adapted to dark color for white background */
+  opacity: 0.7;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
 .menu-item {
   padding: 8px;
-  color: #555;
   display: flex;
   align-items: center;
 }
 
-.menu-item:hover {
-  background-color: #f0f0f0;
-  cursor: pointer;
+.menu-item a.kali-active-link,
+.menu-item a:hover {
+  opacity: 1;
+  color: #2c3e50;
 }
 
 .menu-item.non-clickable {
