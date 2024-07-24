@@ -1,12 +1,19 @@
 <script setup>
+import store from '../store';
 import TableComponent from "../components/TableComponent.vue";
-import store from "../store";
+
+store.fetchPages();
 
 </script>
 
 <template>
   <div class="container">
-    <TableComponent/>
+    <div v-if="!store.pages.length">
+      No data available.
+    </div>
+    <div v-else>
+      <TableComponent :data="store.pages"/>
+    </div>
   </div>
 </template>
 

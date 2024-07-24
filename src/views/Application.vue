@@ -7,6 +7,7 @@ store.fetchApplications();
 
 <template>
   <div>
+    <span>{{ store.applications }}</span>
     <div class="container" v-if="!store.applications.length">Il n'y a pas d'application dans la table application</div>
     <div class="container" v-else>
       <div class="card" v-for="application in store.applications" :id="application.id" :key="application.id">
