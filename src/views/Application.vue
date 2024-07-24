@@ -1,15 +1,7 @@
 <script setup>
 import store from "../store";
-import {supabase} from "../supabase.js";
 
-const fetchApplications = async () => {
-  let {data: application, error} = await supabase
-      .from('application')
-      .select()
-  store.applications = application;
-}
-
-fetchApplications()
+store.fetchApplications();
 
 </script>
 
