@@ -23,7 +23,7 @@ const props = defineProps({
         </tr>
         </thead>
         <tbody>
-        <tr v-for="row in store.pages" :key="row.id">
+        <tr v-for="row in data" :key="row.id">
           <td v-for="(value, key) in row" :key="key">
             <span v-if="value">{{ value }}</span>
             <span v-else class="dot red-dot"></span>
