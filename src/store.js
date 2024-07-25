@@ -5,9 +5,9 @@ const store = reactive({
     applications: [],
     pages: [],
     workflows: [],
+    objects: [],
     actions: [],
     variables: [],
-    objects: [],
 
 
     async fetchApplications() {
@@ -17,12 +17,20 @@ const store = reactive({
         store.applications = application;
     },
 
-    async fetchPages() {
+    async fetchPages(applicationId) {
         let {data: page, error} = await supabase
             .from('page')
             .select()
+            .eq('application_id', applicationId);
         store.pages = page;
+        if (error) {
+            console.error(error);
+            store.pages = page;
+        } else {
+            console.log(page);
+        }
     },
+
     async fetchWorkflows() {
         let {data: workflow, error} = await supabase
             .from('workflow')
@@ -44,13 +52,12 @@ const store = reactive({
         store.actions = action;
     },
 
-    async fetchVariables() {
+  async fetchVariables() {
         let {data: variable, error} = await supabase
             .from('variable')
             .select()
-        store.variables = variable;
-    },
-
+      store.variables = variable;
+  }
 
 });
 
