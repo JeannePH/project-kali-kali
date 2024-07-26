@@ -8,6 +8,7 @@ const store = reactive({
     objects: [],
     actions: [],
     variables: [],
+    selectedApplicationId: null, // Propriété pour l'ID sélectionné
 
 
     async fetchApplications() {
@@ -17,11 +18,11 @@ const store = reactive({
         store.applications = application;
     },
 
-    async fetchPages(applicationId) {
+    async fetchPages() {
         let {data: page, error} = await supabase
             .from('page')
             .select()
-            .eq('application_id', applicationId);
+            .eq('application_id', store.selectedApplicationId);
         store.pages = page;
         if (error) {
             console.error(error);
@@ -35,29 +36,67 @@ const store = reactive({
         let {data: workflow, error} = await supabase
             .from('workflow')
             .select()
+            .eq('application_id', store.selectedApplicationId);
         store.workflows = workflow;
+        if (error) {
+            console.error(error);
+            store.pages = workflow;
+        } else {
+            console.log(workflow);
+        }
     },
 
     async fetchObjects() {
         let {data: object, error} = await supabase
             .from('ww_object')
             .select()
+            .eq('application_id', store.selectedApplicationId);
         store.objects = object;
+        if (error) {
+            console.error(error);
+            store.pages = object;
+        } else {
+            console.log(object);
+        }
     },
 
     async fetchActions() {
         let {data: action, error} = await supabase
             .from('action')
             .select()
+            .eq('application_id', store.selectedApplicationId);
         store.actions = action;
+        if (error) {
+            console.error(error);
+            store.pages = action;
+        } else {
+            console.log(action);
+        }
     },
 
-  async fetchVariables() {
+    async fetchVariables() {
         let {data: variable, error} = await supabase
             .from('variable')
             .select()
-      store.variables = variable;
-  }
+            .eq('application_id', store.selectedApplicationId);
+        store.variables = variable;
+        if (error) {
+            console.error(error);
+            store.pages = variable;
+        } else {
+            console.log(variable);
+        }
+    },
+
+    // Méthode pour mettre à jour l'ID de l'application sélectionnée
+    setSelectedApplicationId(id) {
+        store.selectedApplicationId = id;
+    },
+
+    // Méthode pour récupérer l'ID de l'application sélectionnée
+    getSelectedApplicationId() {
+        return store.selectedApplicationId;
+    }
 
 });
 

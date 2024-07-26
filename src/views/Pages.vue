@@ -1,14 +1,8 @@
 <script setup>
 import store from '../store';
 import TableComponent from "../components/TableComponent.vue";
-import { useRoute } from 'vue-router';
 
-
-const route = useRoute();
-const applicationId = route.params.applicationId;
-
-
-store.fetchPages(applicationId);
+store.fetchPages();
 
 </script>
 

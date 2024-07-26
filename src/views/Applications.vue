@@ -1,8 +1,14 @@
 <script setup>
 import store from "../store";
+import {useRouter} from "vue-router";
 
 store.fetchApplications();
+const router = useRouter();
 
+function selectApplication(applicationId) {
+  store.setSelectedApplicationId(applicationId);
+  router.push({ name: 'Pages', params: { applicationId } });
+}
 </script>
 
 <template>
@@ -10,8 +16,8 @@ store.fetchApplications();
     <div class="container" v-if="!store.applications.length">Il n'y a pas d'application dans la table application</div>
     <div class="container" v-else>
       <div class="card" v-for="application in store.applications" :id="application.id" :key="application.id">
-        <router-link :to="{name: 'Pages', params: {applicationId: application.id}}" class="router-link">
-          <span>{{ application.name }}</span>
+        <router-link :to="{path: '/pages'}" class="router-link">
+          <span @click="selectApplication(application.id)">{{ application.name }}</span>
         </router-link>
       </div>
     </div>

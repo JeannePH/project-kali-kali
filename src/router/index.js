@@ -21,7 +21,7 @@ const routes = [
     {path: '/audit', name: 'Audit', component: Audit},
     {path: '/administration', name: 'Administration', component: Administration},
     {path: '/search', name: 'Recherche', component: Search},
-    {path: '/pages/:applicationId', name: 'Pages', component: Pages},
+    {path: '/pages', name: 'Pages', component: Pages},
     {path: '/workflows', name: 'Workflows', component: Workflows},
     {path: '/variables', name: 'Variables', component: Variables},
     {path: '/composants', name: 'Composants', component: Composants},
