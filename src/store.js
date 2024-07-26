@@ -9,7 +9,11 @@ const store = reactive({
     actions: [],
     variables: [],
     selectedApplicationId: null, // Propriété pour l'ID sélectionné
-
+    pageKeys: [],
+    workflowKeys: [],
+    actionKeys: [],
+    wwObjectKeys: [],
+    variableKeys: [],
 
     async fetchApplications() {
         let {data: application, error} = await supabase
@@ -33,6 +37,9 @@ const store = reactive({
         } else {
             console.log('✅ Toutes les pages de cette application :', page);
             store.pages = page;
+            if (page.length > 0) {
+                store.pageKeys = Object.keys(page[0]);
+            }
         }
     },
 
@@ -41,11 +48,14 @@ const store = reactive({
             .from('workflow')
             .select()
             .eq('application_id', store.selectedApplicationId);
-        store.workflows = workflow;
         if (error) {
             console.error('❌ Erreur lors de la récupération des workflows:', error);
         } else {
             console.log('✅ Tout les workflows de cette application :', workflow);
+            store.workflows = workflow;
+            if (workflow.length > 0) {
+                store.workflowKeys = Object.keys(workflow[0]);
+            }
         }
     },
 
@@ -54,11 +64,14 @@ const store = reactive({
             .from('ww_object')
             .select()
             .eq('application_id', store.selectedApplicationId);
-        store.objects = object;
         if (error) {
             console.error('❌ Erreur lors de la récupération des ww_object:', error);
         } else {
             console.log('✅ Tout les ww_object de cette application :', object);
+            store.objects = object;
+            if (object.length > 0) {
+                store.wwObjectKeys = Object.keys(object[0]);
+            }
         }
     },
 
@@ -80,11 +93,14 @@ const store = reactive({
             .from('variable')
             .select()
             .eq('application_id', store.selectedApplicationId);
-        store.variables = variable;
         if (error) {
             console.error('❌ Erreur lors de la récupération des variables:', error);
         } else {
             console.log('✅ Toutes les variables de cette application :', variable);
+            store.variables = variable;
+            if (variable.length > 0) {
+                store.variableKeys = Object.keys(variable[0]);
+            }
         }
     },
 
@@ -96,8 +112,23 @@ const store = reactive({
     // Méthode pour récupérer l'ID de l'application sélectionnée
     getSelectedApplicationId() {
         return store.selectedApplicationId;
-    }
+    },
 
+    // Nouvelle méthode pour récupérer toutes les données en parallèle
+    async fetchAllSelectedApplicationData() {
+        try {
+            await Promise.all([
+                this.fetchPages(),
+                this.fetchWorkflows(),
+                this.fetchObjects(),
+                this.fetchActions(),
+                this.fetchVariables()
+            ]);
+            console.log('✅ Toutes les données ont été récupérées avec succès.');
+        } catch (error) {
+            console.error('❌ Erreur lors de la récupération des données:', error);
+        }
+    }
 });
 
 export default store;

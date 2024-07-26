@@ -5,10 +5,17 @@ import {useRouter} from "vue-router";
 store.fetchApplications();
 const router = useRouter();
 
-function selectApplication(applicationId) {
+async function selectApplication(applicationId) {
+  // Définir l'application sélectionnée
   store.setSelectedApplicationId(applicationId);
-  router.push({ name: 'Pages', params: { applicationId } });
+
+  // Récupérer toutes les données associées
+  await store.fetchAllSelectedApplicationData();
+
+  // Naviguer vers la page des détails des pages ou une autre vue
+  router.push({name: 'Pages'});
 }
+
 </script>
 
 <template>
@@ -16,9 +23,7 @@ function selectApplication(applicationId) {
     <div class="container" v-if="!store.applications.length">Il n'y a pas d'application dans la table application</div>
     <div class="container" v-else>
       <div class="card" v-for="application in store.applications" :id="application.id" :key="application.id">
-        <router-link :to="{path: '/pages'}" class="router-link">
           <span @click="selectApplication(application.id)">{{ application.name }}</span>
-        </router-link>
       </div>
     </div>
   </div>
