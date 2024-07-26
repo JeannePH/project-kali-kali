@@ -15,7 +15,12 @@ const store = reactive({
         let {data: application, error} = await supabase
             .from('application')
             .select()
-        store.applications = application;
+        if (error) {
+            console.error('❌ Erreur lors de la récupération des applications:', error);
+        } else {
+            console.log('✅ Toutes les applications :', application);
+            store.applications = application;
+        }
     },
 
     async fetchPages() {
@@ -23,12 +28,11 @@ const store = reactive({
             .from('page')
             .select()
             .eq('application_id', store.selectedApplicationId);
-        store.pages = page;
         if (error) {
-            console.error(error);
-            store.pages = page;
+            console.error('❌ Erreur lors de la récupération des pages:', error);
         } else {
-            console.log(page);
+            console.log('✅ Toutes les pages de cette application :', page);
+            store.pages = page;
         }
     },
 
@@ -39,10 +43,9 @@ const store = reactive({
             .eq('application_id', store.selectedApplicationId);
         store.workflows = workflow;
         if (error) {
-            console.error(error);
-            store.pages = workflow;
+            console.error('❌ Erreur lors de la récupération des workflows:', error);
         } else {
-            console.log(workflow);
+            console.log('✅ Tout les workflows de cette application :', workflow);
         }
     },
 
@@ -53,10 +56,9 @@ const store = reactive({
             .eq('application_id', store.selectedApplicationId);
         store.objects = object;
         if (error) {
-            console.error(error);
-            store.pages = object;
+            console.error('❌ Erreur lors de la récupération des ww_object:', error);
         } else {
-            console.log(object);
+            console.log('✅ Tout les ww_object de cette application :', object);
         }
     },
 
@@ -67,10 +69,9 @@ const store = reactive({
             .eq('application_id', store.selectedApplicationId);
         store.actions = action;
         if (error) {
-            console.error(error);
-            store.pages = action;
+            console.error('❌ Erreur lors de la récupération des actions:', error);
         } else {
-            console.log(action);
+            console.log('✅ Toutes les actions de cette application :', action);
         }
     },
 
@@ -81,10 +82,9 @@ const store = reactive({
             .eq('application_id', store.selectedApplicationId);
         store.variables = variable;
         if (error) {
-            console.error(error);
-            store.pages = variable;
+            console.error('❌ Erreur lors de la récupération des variables:', error);
         } else {
-            console.log(variable);
+            console.log('✅ Toutes les variables de cette application :', variable);
         }
     },
 
