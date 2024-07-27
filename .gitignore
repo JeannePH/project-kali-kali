@@ -29,4 +29,5 @@ dist-ssr
 
 # Test pages and files
 src/views/TestView.vue
-
+src/views/PagesOld.vue
+src/components/TableComponentOld.vue

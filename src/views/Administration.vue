@@ -11,11 +11,11 @@ onMounted(async () => {
 
 <template>
   <div class="container">
-    <ColumnsSelector :title="'Pages'" :columns="store.pageKeys" />
-    <ColumnsSelector :title="'Variables'" :columns="store.variableKeys" />
-    <ColumnsSelector :title="'Workflows'" :columns="store.workflowKeys" />
-    <ColumnsSelector :title="'Composants'" :columns="store.wwObjectKeys" />
-    <ColumnsSelector :title="'Actions'" :columns="store.actionKeys" />
+    <ColumnsSelector :title="'Pages'" :columns="store.pageKeys"  type="pages"/>
+    <ColumnsSelector :title="'Variables'" :columns="store.variableKeys"  type="variables"/>
+    <ColumnsSelector :title="'Workflows'" :columns="store.workflowKeys"  type="workflows"/>
+    <ColumnsSelector :title="'Composants'" :columns="store.wwObjectKeys"  type="objects"/>
+    <ColumnsSelector :title="'Actions'" :columns="store.actionKeys"  type="actions"/>
   </div>
 </template>
 

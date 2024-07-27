@@ -1,17 +1,29 @@
 <script setup>
-import {ref} from 'vue';
+import {onMounted, ref, watch} from 'vue';
+import store from "../store.js";
 
 const props = defineProps({
   columns: {type: Array, required: true}, // Les clés de colonnes
-  title: {type: String, required: true} // Le titre pour chaque section
+  title: {type: String, required: true}, // Le titre pour chaque section
+  type: { type: String, required: true } // Type de données (pages, workflows, etc.)
 });
 
+// Initialiser selectedColumns avec les clés sélectionnées dans le store
 const selectedColumns = ref([]);
 
-const savePreferences = () => {
-  console.log('Colonnes sélectionnées:', selectedColumns.value);
-  // Ici, vous pouvez stocker les préférences ou les envoyer à un serveur
-};
+onMounted(() => {
+  // Charger les sélections actuelles depuis le store
+  selectedColumns.value = [...store[store.typeToProperty[props.type]]];
+  console.log(`Initial selected columns for ${props.type}:`, selectedColumns.value);
+
+});
+
+// Observer les changements dans selectedColumns et les propager au store
+watch(selectedColumns, (newColumns) => {
+  store.setSelectedColumns(props.type, newColumns);
+});
+
+
 </script>
 
 <template>
@@ -23,7 +35,6 @@ const savePreferences = () => {
         {{ column }}
       </label>
     </div>
-    <button @click="savePreferences">Enregistrer les préférences</button>
   </div>
 </template>
 

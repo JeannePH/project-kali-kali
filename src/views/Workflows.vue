@@ -1,8 +1,15 @@
 <script setup>
 import store from '../store';
 import TableComponent from "../components/TableComponent.vue";
+import {computed, onMounted} from "vue";
 
-store.fetchWorkflows();
+onMounted(() => {
+  store.fetchWorkflows();
+})
+
+
+// Calcul des colonnes sélectionnées pour les workflows
+const selectedColumns = computed(() => store.selectedWorkflowKeys);
 
 </script>
 
@@ -12,7 +19,7 @@ store.fetchWorkflows();
       No data available.
     </div>
     <div v-else>
-      <TableComponent :data="store.workflows"/>
+      <TableComponent :data="store.workflows" :columns="selectedColumns"/>
     </div>
   </div>
 </template>

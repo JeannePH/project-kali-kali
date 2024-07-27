@@ -1,8 +1,14 @@
 <script setup>
 import store from '../store';
 import TableComponent from "../components/TableComponent.vue";
+import {computed, onMounted} from "vue";
 
-store.fetchActions();
+onMounted(() => {
+  store.fetchActions()
+});
+
+// Calcul des colonnes sélectionnées pour les actions
+const selectedColumns = computed(() => store.selectedActionKeys);
 
 </script>
 
@@ -12,7 +18,7 @@ store.fetchActions();
       No data available.
     </div>
     <div v-else>
-      <TableComponent :data="store.actions"/>
+      <TableComponent :data="store.actions" :columns="selectedColumns"/>
     </div>
   </div>
 </template>

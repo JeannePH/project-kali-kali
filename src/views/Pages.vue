@@ -1,9 +1,14 @@
 <script setup>
 import store from '../store';
 import TableComponent from "../components/TableComponent.vue";
+import {computed, onMounted} from "vue";
 
-store.fetchPages();
+onMounted(() => {
+  store.fetchPages();
+});
 
+// Colonnes sélectionnées pour les pages
+const selectedColumns = computed(() => store.selectedPageKeys);
 </script>
 
 <template>
@@ -12,7 +17,7 @@ store.fetchPages();
       No data available.
     </div>
     <div v-else>
-      <TableComponent :data="store.pages"/>
+      <TableComponent :data="store.pages" :columns="selectedColumns"/>
     </div>
   </div>
 </template>

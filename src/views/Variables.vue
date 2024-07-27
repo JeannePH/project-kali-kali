@@ -1,8 +1,16 @@
 <script setup>
 import store from '../store';
 import TableComponent from "../components/TableComponent.vue";
+import {computed, onMounted} from "vue";
 
-store.fetchVariables();
+
+onMounted(() => {
+  // Calcul des colonnes sélectionnées pour les variables
+  store.fetchVariables();
+})
+
+const selectedColumns = computed(()=> store.selectedVariableKeys);
+
 
 </script>
 
@@ -12,7 +20,7 @@ store.fetchVariables();
       No data available.
     </div>
     <div v-else>
-      <TableComponent :data="store.variables"/>
+      <TableComponent :data="store.variables" :columns="selectedColumns"/>
     </div>
   </div>
 </template>

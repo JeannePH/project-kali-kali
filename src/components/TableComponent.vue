@@ -1,11 +1,8 @@
 <script setup>
-import store from '../store';
-
 const props = defineProps({
   data: { type: Array, default: () => [] },
-})
-
-
+  columns: { type: Array, default: () => [] } // Colonnes sélectionnées
+});
 </script>
 
 
@@ -16,16 +13,18 @@ const props = defineProps({
     </div>
 
     <div v-else>
-      <table class="pages-table">
+      <table class="data-table">
         <thead>
         <tr>
-          <th v-for="key in Object.keys(data[0])" :key="key">{{ key }}</th>
+          <th v-for="column in columns" :key="column">{{ column }}</th>
         </tr>
         </thead>
         <tbody>
         <tr v-for="row in data" :key="row.id">
-          <td v-for="(value, key) in row" :key="key">
-            <span v-if="value">{{ value }}</span>
+          <td v-for="column in columns" :key="column">
+              <span v-if="row[column] !== null && row[column] !== undefined">
+                {{ row[column] }}
+              </span>
             <span v-else class="dot red-dot"></span>
           </td>
         </tr>
@@ -47,13 +46,13 @@ const props = defineProps({
 }
 
 
-.pages-table {
+.data-table {
   min-width: 100%;
   border-collapse: collapse;
 }
 
-.pages-table th,
-.pages-table td {
+.data-table th,
+.data-table td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
@@ -64,7 +63,7 @@ const props = defineProps({
   white-space: nowrap; /* Empêche le retour à la ligne */
 }
 
-.pages-table th {
+.data-table th {
   background-color: #f2f2f2;
 }
 
