@@ -2,6 +2,7 @@
 import store from '../store';
 import TableComponent from "../components/TableComponent.vue";
 import {computed, onMounted} from "vue";
+import SelectComponent from "../components/SelectComponent.vue";
 
 
 onMounted(() => {
@@ -20,6 +21,7 @@ const selectedColumns = computed(()=> store.selectedVariableKeys);
       No data available.
     </div>
     <div v-else>
+      <SelectComponent :options="store.applicationVersions" :modelValue="store.applicationVersions[0].cache_version"/>
       <TableComponent :data="store.variables" :columns="selectedColumns"/>
     </div>
   </div>

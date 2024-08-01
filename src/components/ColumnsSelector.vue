@@ -27,10 +27,10 @@ watch(selectedColumns, (newColumns) => {
 </script>
 
 <template>
-  <div>
+  <div class="column-container">
     <h3>{{ title }}</h3>
-    <div v-for="column in columns" :key="column">
-      <label>
+    <div v-for="column in columns" :key="column" class="column">
+      <label class="checkbox-label">
         <input type="checkbox" :value="column" v-model="selectedColumns"/>
         {{ column }}
       </label>
@@ -39,5 +39,28 @@ watch(selectedColumns, (newColumns) => {
 </template>
 
 <style scoped>
+.checkbox-label {
+  display: inline-block;
+  vertical-align: middle;
+  white-space: nowrap; /* Empêche le texte de passer à la ligne */
+}
+.checkbox-label input[type="checkbox"] {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 8px; /* Espace entre la checkbox et le texte */
+}
 
+.column-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex: 1;
+}
+
+.column {
+  box-sizing: border-box;
+  min-width: 270px;
+  gap: 16px;
+
+}
 </style>

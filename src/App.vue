@@ -32,7 +32,7 @@ const appObjectVariable = computed(() => currentRouteName.value);
   <div :class="['app-container', { 'menu-open': isSidemenuOpen }]">
     <TheSidemenu @toggle="handleToggle"/>
     <div class="main-container">
-      <header-component :app-name="true ? appNameVariable : ''" :app-object="true ? appObjectVariable : ''"/>
+      <header-component :app-name="appNameVariable" :app-object="appObjectVariable"/>
       <router-view></router-view>
     </div>
   </div>

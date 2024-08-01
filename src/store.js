@@ -11,6 +11,14 @@ const store = reactive({
     variables: [],
 
     selectedApplicationId: null, // Propriété pour l'ID sélectionné
+    applicationVersions: [],
+    selectedCacheVersion: null, // Ajout pour suivre la version sélectionnée
+    applicationAudits: [],
+
+    // Méthodes pour récupérer les données, etc.
+    setSelectedCacheVersion(version) {
+        this.selectedCacheVersion = version;
+    },
 
     // Clés des colonnes disponibles
     pageKeys: [],
@@ -36,16 +44,36 @@ const store = reactive({
     },
 
     async fetchApplications() {
-        let {data: application, error} = await supabase
+        let {data: applications, error} = await supabase
             .from('application')
             .select()
         if (error) {
             console.error('❌ Erreur lors de la récupération des applications:', error);
         } else {
-            console.log('✅ Toutes les applications :', application);
-            store.applications = application;
+            console.log('✅ Toutes les applications :', applications);
+            store.applications = applications;
         }
     },
+
+
+    // Nouvelle méthode pour récupérer toutes les données en parallèle
+    async fetchAllSelectedApplicationData() {
+        try {
+            await Promise.all([
+                this.fetchPages(),
+                this.fetchWorkflows(),
+                this.fetchWwObjects(),
+                this.fetchActions(),
+                this.fetchVariables(),
+                this.fetchApplicationVersions(),
+                this.getApplicationAudits()
+            ]);
+            console.log('✅ Toutes les données ont été récupérées avec succès.');
+        } catch (error) {
+            console.error('❌ Erreur lors de la récupération des données :', error);
+        }
+    },
+
 
     async fetchPages() {
         let {data: page, error} = await supabase
@@ -62,7 +90,7 @@ const store = reactive({
             }
             // Charger les colonnes sélectionnées depuis localStorage si pas déjà définies
             if (store.selectedPageKeys.length === 0) {
-                store.selectedPageKeys = [...store.pageKeys]; // Par défaut toutes les clés sont sélectionnées
+                store.selectedPageKeys = [...store.pageKeys]; // Par défaut toutes les clés sont sélectionnées.
             }
         }
     },
@@ -82,7 +110,7 @@ const store = reactive({
             }
             // Charger les colonnes sélectionnées depuis localStorage si pas déjà définies
             if (store.selectedWorkflowKeys.length === 0) {
-                store.selectedWorkflowKeys = [...store.workflowKeys]; // Par défaut toutes les clés sont sélectionnées
+                store.selectedWorkflowKeys = [...store.workflowKeys]; // Par défaut toutes les clés sont sélectionnées.
             }
         }
     },
@@ -102,7 +130,7 @@ const store = reactive({
             }
             // Charger les colonnes sélectionnées depuis localStorage si pas déjà définies
             if (store.selectedWwObjectKeys.length === 0) {
-                store.selectedWwObjectKeys = [...store.wwObjectKeys]; // Par défaut toutes les clés sont sélectionnées
+                store.selectedWwObjectKeys = [...store.wwObjectKeys]; // Par défaut toutes les clés sont sélectionnées.
             }
         }
     },
@@ -113,7 +141,7 @@ const store = reactive({
             .select()
             .eq('application_id', store.selectedApplicationId);
         if (error) {
-            console.error('❌ Erreur lors de la récupération des actions:', error);
+            console.error('❌ Erreur lors de la récupération des actions :', error);
         } else {
             console.log('✅ Toutes les actions de cette application :', action);
             store.actions = action;
@@ -122,7 +150,7 @@ const store = reactive({
             }
             // Charger les colonnes sélectionnées depuis localStorage si pas déjà définies
             if (store.selectedActionKeys.length === 0) {
-                store.selectedActionKeys = [...store.actionKeys]; // Par défaut toutes les clés sont sélectionnées
+                store.selectedActionKeys = [...store.actionKeys]; // Par défaut toutes les clés sont sélectionnées.
             }
         }
     },
@@ -133,7 +161,7 @@ const store = reactive({
             .select()
             .eq('application_id', store.selectedApplicationId);
         if (error) {
-            console.error('❌ Erreur lors de la récupération des variables:', error);
+            console.error('❌ Erreur lors de la récupération des variables :', error);
         } else {
             console.log('✅ Toutes les variables de cette application :', variable);
             store.variables = variable;
@@ -142,7 +170,7 @@ const store = reactive({
             }
             // Charger les colonnes sélectionnées depuis localStorage si pas déjà définies
             if (store.selectedVariableKeys.length === 0) {
-                store.selectedVariableKeys = [...store.variableKeys]; // Par défaut toutes les clés sont sélectionnées
+                store.selectedVariableKeys = [...store.variableKeys]; // Par défaut toutes les clés sont sélectionnées.
             }
         }
     },
@@ -155,22 +183,6 @@ const store = reactive({
     // Méthode pour récupérer l'ID de l'application sélectionnée
     getSelectedApplicationId() {
         return store.selectedApplicationId;
-    },
-
-    // Nouvelle méthode pour récupérer toutes les données en parallèle
-    async fetchAllSelectedApplicationData() {
-        try {
-            await Promise.all([
-                this.fetchPages(),
-                this.fetchWorkflows(),
-                this.fetchWwObjects(),
-                this.fetchActions(),
-                this.fetchVariables()
-            ]);
-            console.log('✅ Toutes les données ont été récupérées avec succès.');
-        } catch (error) {
-            console.error('❌ Erreur lors de la récupération des données:', error);
-        }
     },
 
     // Méthode pour mettre à jour les colonnes sélectionnées
@@ -197,6 +209,37 @@ const store = reactive({
                 this[propertyName] = []; // Initialiser à un tableau vide si aucune sélection n'est trouvée
             }
         });
+    },
+
+    async getApplicationAudits () {
+        let {data: audits, error} = await supabase
+            .from('audit')
+            .select("*")
+            // Filters
+            .eq('application_id', store.selectedApplicationId);
+        if (error) {
+            console.error('❌ Erreur lors de la récupération de l\'audit', error);
+        } else {
+            console.log('✅ Tout les audits récupérés :', audits);
+            store.applicationAudits = audits;
+
+        }
+    },
+
+    async fetchApplicationVersions(selectedApplicationId) {
+        let { data: versions, error } = await supabase
+            .from('application_version')
+            .select('*')
+            .eq('application_id', selectedApplicationId);
+        if (error) {
+            console.error('❌ Erreur lors de la récupération des versions de l\'application:', error);
+        } else {
+            console.log('✅ Versions de l\'application récupérées :', versions);
+            store.applicationVersions = versions;
+            if (versions.length > 0) {
+                this.selectedCacheVersion = versions[0].cache_version; // Initialiser à la première version
+            }
+        }
     }
 });
 

@@ -1,7 +1,14 @@
 <script setup>
+import store from "../store.js";
+import {computed} from "vue";
+
 const props = defineProps({
   data: { type: Array, default: () => [] },
   columns: { type: Array, default: () => [] } // Colonnes sélectionnées
+});
+
+const filteredData = computed(() => {
+  return props.data.filter(row => row.cache_version === store.selectedCacheVersion);
 });
 </script>
 

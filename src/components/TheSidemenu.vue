@@ -1,10 +1,7 @@
 <script setup>
-
 import {ref} from 'vue';
-import { defineEmits } from 'vue';
 
 const emits = defineEmits(['toggle']);
-
 
 const sidemenuOpen = ref(true);
 const userName = ref('jeanne@ezacae.com');
@@ -17,7 +14,6 @@ function toggleSideMenu() {
 function logout() {
   alert('Logged out!');
 }
-
 </script>
 
 <template>
@@ -48,7 +44,7 @@ function logout() {
             <li class="menu-item">
               <router-link to="/search" class="router-link">Recherche</router-link>
             </li>
-            <li class="menu-item non-clickable">Data</li>
+            <li class="menu-item non-clickable">Data ▼</li>
             <ul class="submenu">
               <li class="menu-item"><router-link to="/pages" class="router-link">Pages</router-link></li>
               <li class="menu-item"><router-link to="/workflows" class="router-link">Workflows</router-link></li>

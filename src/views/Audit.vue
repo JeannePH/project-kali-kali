@@ -1,42 +1,36 @@
 <script setup>
-import ChartComponent from "../components/ChartComponent.vue";
+import {onMounted, computed} from 'vue';
+import store from '../store';
+import DoughnutComponent from '../components/DoughnutComponent.vue';
 
+onMounted(async () => {
+  await store.getApplicationAudits();
+  console.log(store.applicationAudits);
+});
+
+const audits = computed(() => store.applicationAudits);
+const labels = {
+  null_error_action_percentage: 'Pourcentage de workflows n\'ayant pas de gestion des cas d\'erreur',
+  workflow_nameless_percentage: 'Pourcentage de workflows n\'ayant pas de nom',
+  variable_no_value_percentage: 'Pourcentage de variables n\'ayant pas de valeur par défaut',
+  ww_object_nameless_percentage: 'Pourcentage de composants n\'ayant pas de nom'
+};
 </script>
 
-
 <template>
-  <div>
-
-    <div class="main-content">
-      <h1>OCT Audit</h1>
-      <div class="version-selectors">
-        <div>
-          <label for="version1">Version</label>
-          <select id="version1" v-model="selectedVersion1">
-            <option v-for="version in versions" :key="version" :value="version">
-              {{ version }}
-            </option>
-          </select>
+  <div class="audit-container">
+    <div class="label-column">
+      <p v-for="(label, key) in labels" :key="key" class="label">{{ label }}</p>
+    </div>
+    <div class="chart-columns">
+      <div v-for="audit in audits" :key="audit.cache_version" class="chart-card">
+        <div class="chart-column-header">
+          <h3>Version {{ audit.cache_version }}</h3>
         </div>
-        <div>
-          <label for="version2">Version</label>
-          <select id="version2" v-model="selectedVersion2">
-            <option v-for="version in versions" :key="version" :value="version">
-              {{ version }}
-            </option>
-          </select>
-        </div>
-        <div>
-          <input type="checkbox" v-model="compare"> Comparer à une autre version
-        </div>
-        <button>Upload</button>
-      </div>
-      <div class="charts">
-        <div v-for="(item, index) in data" :key="index">
-          <p>{{ item.label }}</p>
-          <div class="chart-container">
-            <ChartComponent :percentage="item.values[selectedVersion1]" />
-            <ChartComponent v-if="compare" :percentage="item.values[selectedVersion2]" />
+        <div class="doughnut-container">
+          <div class="doughnut-item" v-for="(label, key) in labels" :key="key">
+            <DoughnutComponent :label="label" :value="audit[key]"/>
+            <p class="percentage">{{ audit[key] }}%</p>
           </div>
         </div>
       </div>
@@ -45,5 +39,65 @@ import ChartComponent from "../components/ChartComponent.vue";
 </template>
 
 <style scoped>
+.audit-container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+}
 
+.label-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding-top: 100px;
+  padding-right: 20px;
+  max-width: 200px;
+}
+
+.label {
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+}
+
+.chart-columns {
+  display: flex;
+  flex: 2;
+  gap: 20px;
+}
+
+.chart-column-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+
+}
+
+.chart-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 10px;
+  max-width: 400px;
+}
+
+.doughnut-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.doughnut-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.percentage {
+  font-size: 1em;
+  margin-top: 10px;
+}
 </style>
