@@ -49,7 +49,7 @@ function logout() {
               <li class="menu-item"><router-link to="/pages" class="router-link">Pages</router-link></li>
               <li class="menu-item"><router-link to="/workflows" class="router-link">Workflows</router-link></li>
               <li class="menu-item"><router-link to="/variables" class="router-link">Variables</router-link></li>
-              <li class="menu-item"><router-link to="/composants" class="router-link">Composants</router-link></li>
+              <li class="menu-item"><router-link to="/wwobjects" class="router-link">Composants</router-link></li>
               <li class="menu-item"><router-link to="/actions" class="router-link">Actions</router-link></li>
             </ul>
           </ul>
