@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted, ref, watch} from 'vue';
-import store from "../store.js";
+import store from "../../../store.js";
 
 const props = defineProps({
   columns: {type: Array, required: true}, // Les clés de colonnes

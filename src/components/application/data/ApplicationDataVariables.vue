@@ -1,8 +1,8 @@
 <script setup>
-import store from '../store';
-import TableComponent from "../components/TableComponent.vue";
+import store from '../../../store.js';
+import TableComponent from "./TableComponent.vue";
 import {computed, onMounted} from "vue";
-import SelectComponent from "../components/SelectComponent.vue";
+import SelectComponent from "../../../views/SelectComponent.vue";
 
 
 onMounted(() => {

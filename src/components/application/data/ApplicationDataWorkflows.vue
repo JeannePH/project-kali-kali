@@ -1,25 +1,25 @@
 <script setup>
-import store from '../store.js';
+import store from '../../../store.js';
 import TableComponent from "./TableComponent.vue";
 import {computed, onMounted} from "vue";
-import DataVersionFilter from "./DataVersionFilter.vue";
 
 onMounted(() => {
-  store.fetchPages();
-});
+  store.fetchWorkflows();
+})
 
-// Colonnes sélectionnées pour les pages
-const selectedColumns = computed(() => store.selectedPageKeys);
+
+// Calcul des colonnes sélectionnées pour les workflows
+const selectedColumns = computed(() => store.selectedWorkflowKeys);
+
 </script>
 
 <template>
-  <data-version-filter />
   <div class="container">
-    <div v-if="!store.pages.length">
+    <div v-if="!store.workflows.length">
       No data available.
     </div>
     <div v-else>
-      <TableComponent :data="store.pages" :columns="selectedColumns"/>
+      <TableComponent :data="store.workflows" :columns="selectedColumns"/>
     </div>
   </div>
 </template>

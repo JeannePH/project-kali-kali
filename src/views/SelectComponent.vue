@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue';
-import store from '../store';
+import store from '../store.js';
 
 const versions = store.applicationVersions;
 const selectedVersion = ref(store.selectedCacheVersion);

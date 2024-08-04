@@ -1,7 +1,7 @@
 <script setup>
-import store from '../store.js';
+import store from '../../../store.js';
 import { onMounted } from 'vue';
-import ColumnsSelector from './ColumnsSelector.vue';
+import ColumnsSelector from './ApplicationManagementAdministrationColumn.vue';
 
 onMounted(async () => {
   // Assurez-vous que les clés de colonnes sont chargées avant de rendre les composants

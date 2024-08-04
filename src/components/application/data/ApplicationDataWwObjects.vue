@@ -1,25 +1,24 @@
 <script setup>
-import store from '../store';
-import TableComponent from "../components/TableComponent.vue";
+import store from '../../../store.js';
+import TableComponent from "./TableComponent.vue";
 import {computed, onMounted} from "vue";
 
 onMounted(() => {
-  store.fetchWorkflows();
+  store.fetchWwObjects()
 })
 
-
-// Calcul des colonnes sélectionnées pour les workflows
-const selectedColumns = computed(() => store.selectedWorkflowKeys);
+// Calcul des colonnes sélectionnées pour les wwObjects
+const selectedColumns = computed(() => store.selectedWwObjectKeys);
 
 </script>
 
 <template>
   <div class="container">
-    <div v-if="!store.workflows.length">
+    <div v-if="!store.wwobjects.length">
       No data available.
     </div>
     <div v-else>
-      <TableComponent :data="store.workflows" :columns="selectedColumns"/>
+      <TableComponent :data="store.wwobjects" :columns="selectedColumns"/>
     </div>
   </div>
 </template>

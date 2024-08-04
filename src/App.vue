@@ -1,7 +1,7 @@
 <script setup>
 import {ref, computed} from "vue";
 import TheSidemenu from "./components/TheSidemenu.vue";
-import HeaderComponent from "./components/HeaderComponent.vue";
+import HeaderComponent from "./components/application/ApplicationHeader.vue";
 import {useRoute} from "vue-router";
 import store from "./store.js";
 
@@ -33,7 +33,6 @@ const appObjectVariable = computed(() => currentRouteName.value);
   <div :class="['app-container', { 'menu-open': isSidemenuOpen }]">
     <TheSidemenu @toggle="handleToggle"/>
     <div class="main-container">
-      <header-component :app-name="appNameVariable" :app-object="appObjectVariable"/>
       <router-view></router-view>
     </div>
   </div>

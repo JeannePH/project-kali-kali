@@ -1,7 +1,7 @@
 <script setup>
 import {onMounted, computed} from 'vue';
-import store from '../store';
-import DoughnutComponent from '../components/DoughnutComponent.vue';
+import store from '../../../store.js';
+import DoughnutComponent from './DoughnutComponent.vue';
 
 onMounted(async () => {
   await store.getApplicationAudits();

@@ -1,8 +1,10 @@
 <script setup>
-import store from "../store.js";
+import store from "../../store.js";
 import {useRouter} from "vue-router";
-import AddApplicationButton from "../views/AddApplicationButton.vue";
-import AddApplicationDataButton from "../views/AddApplicationDataButton.vue";
+import AddApplicationButton from "../TheAddApplicationButton.vue";
+import AddApplicationDataButton from "../TheAddApplicationDataButton.vue";
+import HeaderComponent from "../../App.vue";
+import ApplicationsHeader from "./ApplicationsHeader.vue";
 
 store.fetchApplications();
 const router = useRouter();
@@ -22,6 +24,7 @@ async function selectApplication(applicationId) {
 
 <template>
   <div>
+    <ApplicationsHeader />
     <div class="btn-container-right">
       <AddApplicationButton/>
       <AddApplicationDataButton />
