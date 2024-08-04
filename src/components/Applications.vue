@@ -1,6 +1,8 @@
 <script setup>
-import store from "../store";
+import store from "../store.js";
 import {useRouter} from "vue-router";
+import AddApplicationButton from "../views/AddApplicationButton.vue";
+import AddApplicationDataButton from "../views/AddApplicationDataButton.vue";
 
 store.fetchApplications();
 const router = useRouter();
@@ -20,10 +22,14 @@ async function selectApplication(applicationId) {
 
 <template>
   <div>
+    <div class="btn-container-right">
+      <AddApplicationButton/>
+      <AddApplicationDataButton />
+    </div>
     <div class="container" v-if="!store.applications.length">Il n'y a pas d'application dans la table application</div>
     <div class="container" v-else>
       <div class="card" v-for="application in store.applications" :id="application.id" :key="application.id">
-          <span @click="selectApplication(application.id)">{{ application.name }}</span>
+        <span @click="selectApplication(application.id)">{{ application.name }}</span>
       </div>
     </div>
   </div>
@@ -58,4 +64,13 @@ async function selectApplication(applicationId) {
 .card span {
   font-weight: bold;
 }
+
+.btn-container-right {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top: 32px;
+  gap: 32px;
+}
 </style>
+

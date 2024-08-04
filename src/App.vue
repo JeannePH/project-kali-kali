@@ -3,9 +3,10 @@ import {ref, computed} from "vue";
 import TheSidemenu from "./components/TheSidemenu.vue";
 import HeaderComponent from "./components/HeaderComponent.vue";
 import {useRoute} from "vue-router";
+import store from "./store.js";
 
 //Déclarer et définir des variables pour les props du header.
-const appNameVariable = "OCT";
+const appNameVariable = store.selectedApplicationName || "OCT";
 
 //Ajouter une référence réactive pour suivre l'état du menu latéral.
 const isSidemenuOpen = ref(true);

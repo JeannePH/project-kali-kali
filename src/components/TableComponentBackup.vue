@@ -1,6 +1,6 @@
 <script setup>
 import store from "../store.js";
-import { computed, watchEffect } from "vue";
+import {computed} from "vue";
 
 const props = defineProps({
   data: { type: Array, default: () => [] },
@@ -11,15 +11,12 @@ const props = defineProps({
 const filteredData = computed(() => {
   return props.data.filter(row => row.cache_version === store.selectedCacheVersion);
 });
-
-watchEffect(() => {
-  console.log(`Selected cache version: ${store.selectedCacheVersion}`);
-});
 </script>
+
 
 <template>
   <div class="container">
-    <div v-if="!filteredData.length">
+    <div v-if="!data.length">
       No data available.
     </div>
 
@@ -31,7 +28,7 @@ watchEffect(() => {
         </tr>
         </thead>
         <tbody>
-        <tr v-for="row in filteredData" :key="row.id">
+        <tr v-for="row in data" :key="row.id">
           <td v-for="column in columns" :key="column">
               <span v-if="row[column] !== null && row[column] !== undefined">
                 {{ row[column] }}
@@ -55,6 +52,7 @@ watchEffect(() => {
   margin-top: 32px;
   min-width: 100%;
 }
+
 
 .data-table {
   min-width: 100%;
