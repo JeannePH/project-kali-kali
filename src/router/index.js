@@ -10,9 +10,8 @@ import Workflows from "../components/application/data/ApplicationDataWorkflows.v
 import Variables from "../components/application/data/ApplicationDataVariables.vue";
 import WwObjects from "../components/application/data/ApplicationDataWwObjects.vue";
 import Actions from "../components/application/data/ApplicationDataActions.vue";
-import AddApplication from "../components/applications/AddNewApplication.vue";
-import AddApplicationData from "../components/application/data/AddApplicationData.vue";
-import ApplicationData from "../components/application/data/ApplicationData.vue";
+import AddApplication from "../components/forms/AddNewApplication.vue";
+import AddApplicationData from "../components/forms/AddApplicationData.vue";
 import Application from "../components/application/Application.vue";
 
 const routes = [
@@ -30,13 +29,11 @@ const routes = [
             {path: 'administration', name: 'Administration', component: Administration},
             {path: 'audit', name: 'Audit', component: Audit},
             {path: 'search', name: 'Recherche', component: Search},
-            {path: 'data', name: 'Data', component: ApplicationData, children: [
-                    {path: 'pages', name: 'Pages', component: Pages},
-                    {path: 'workflows', name: 'Workflows', component: Workflows},
-                    {path: 'variables', name: 'Variables', component: Variables},
-                    {path: 'wwobjects', name: 'Composants', component: WwObjects},
-                    {path: 'actions', name: 'Actions', component: Actions},
-                ]},
+            {path: 'pages', name: 'Pages', component: Pages},
+            {path: 'workflows', name: 'Workflows', component: Workflows},
+            {path: 'variables', name: 'Variables', component: Variables},
+            {path: 'wwobjects', name: 'Composants', component: WwObjects},
+            {path: 'actions', name: 'Actions', component: Actions},
         ]
     }
 ];

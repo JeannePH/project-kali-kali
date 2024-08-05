@@ -1,10 +1,12 @@
 <script setup>
-import {ref} from 'vue';
+import {computed, ref} from 'vue';
+import SidemenuItem from "./SidemenuItem.vue";
+import store from "../../store.js";
 
 const emits = defineEmits(['toggle']);
 
 const sidemenuOpen = ref(true);
-const userName = ref('jeanne@ezacae.com');
+const userName = ref('user@mail.com');
 
 function toggleSideMenu() {
   sidemenuOpen.value = !sidemenuOpen.value;
@@ -14,49 +16,60 @@ function toggleSideMenu() {
 function logout() {
   alert('Logged out!');
 }
+
+const isApplicationSelected = computed(() => store.selectedApplicationId !== null);
+
+const dropdownOpen = ref(false);
+
+function toggleDropdown() {
+  dropdownOpen.value = !dropdownOpen.value;
+}
 </script>
 
 <template>
   <div :class="['menu', { open: sidemenuOpen }]">
     <div class="close-icon-container">
       <div class="close-icon" @click="toggleSideMenu">
-        <img src="../assets/chevron_double_right.svg" alt="close-menu-icon">
+        <img src="../../assets/chevron_double_right.svg" alt="close-menu-icon">
       </div>
     </div>
     <div class="content" v-if="sidemenuOpen">
       <div class="top-section">
         <div class="app-logo-container">
           <div class="app-logo">
-            <img src="../assets/logo_kali.png" alt="Logo">
+            <img src="../../assets/logo_kali.png" alt="Logo">
           </div>
         </div>
         <div class="menu-container">
           <ul class="menu-list">
-            <li class="menu-item">
-              <router-link to="/applications" class="router-link">Applications</router-link>
-            </li>
-            <li class="menu-item">
-              <router-link to="/application/administration" class="router-link">Administration</router-link>
-            </li>
-            <li class="menu-item">
-              <router-link to="/application/audit" class="router-link">Audit</router-link>
-            </li>
-            <li class="menu-item">
-              <router-link to="/application/search" class="router-link">Recherche</router-link>
-            </li>
-            <li class="menu-item non-clickable">Data ▼</li>
-            <ul class="submenu">
-              <li class="menu-item"><router-link to="/application/data/pages" class="router-link">Pages</router-link></li>
-              <li class="menu-item"><router-link to="/application/data/workflows" class="router-link">Workflows</router-link></li>
-              <li class="menu-item"><router-link to="/application/data/variables" class="router-link">Variables</router-link></li>
-              <li class="menu-item"><router-link to="/application/data/wwobjects" class="router-link">Composants</router-link></li>
-              <li class="menu-item"><router-link to="/application/data/actions" class="router-link">Actions</router-link></li>
-            </ul>
+            <SidemenuItem to="/applications" label="Applications"/>
+            <div v-if="isApplicationSelected">
+              <SidemenuItem to="/application/administration" label="Administration"/>
+              <SidemenuItem to="/application/audit" label="Audit"/>
+              <SidemenuItem to="/application/search" label="Recherche"/>
+              <SidemenuItem
+                  to="#"
+                  :icon="dropdownOpen ? 'mdi--chevron-down-box.svg' : 'mdi--chevron-right-box.svg'"
+                  label="Data"
+                  :dropdown="true"
+                  :dropdownOpen="dropdownOpen"
+                  :toggleDropdown="toggleDropdown"
+              />
+              <ul class="submenu" v-if="dropdownOpen">
+                <SidemenuItem to="/application/pages" icon="mdi--file-outline.svg" label="Pages"/>
+                <SidemenuItem to="/application/workflows" icon="mdi--set-left.svg" label="Workflows"/>
+                <SidemenuItem to="/application/variables" icon="mdi--vector-combine.svg" label="Variables"/>
+                <SidemenuItem to="/application/wwobjects" icon="mdi--database.svg" label="Composants"/>
+                <SidemenuItem to="/application/actions" icon="mdi--format-section.svg" label="Actions"/>
+              </ul>
+            </div>
           </ul>
         </div>
       </div>
       <div class="profile-container">
-        <span class="name">{{ userName }}</span>
+        <div class="container-mail">
+          <span class="name">{{ userName }}</span>
+        </div>
         <span class="logout-button" @click="logout">
           Log Out
         </span>
@@ -65,9 +78,7 @@ function logout() {
   </div>
 </template>
 
-
 <style scoped>
-
 .menu {
   position: fixed;
   top: 0;
@@ -104,6 +115,7 @@ function logout() {
   flex-direction: column;
   justify-content: space-between;
   height: calc(100vh - 72px);
+  transition: opacity 0.3s;
 }
 
 .top-section {
@@ -116,16 +128,14 @@ function logout() {
 .app-logo-container {
   display: flex;
   flex-direction: column;
-  max-width: 240px;
-  max-height: 150px;
+  width: 100%;
+  height: 125px;
   padding-inline: 8px;
   text-align: center;
 }
 
 .app-logo img {
-  max-width: 100%;
-  max-height: 120px;
-  height: auto;
+  height: 120px;
   display: block;
   margin: 4px auto;
 }
@@ -133,7 +143,7 @@ function logout() {
 .menu-container {
   display: flex;
   flex-direction: column;
-  padding-inline: 16px;
+  padding: 16px;
   flex-grow: 1;
 }
 
@@ -143,28 +153,13 @@ function logout() {
 }
 
 .menu-item a {
-  color: #2c3e50;  /* Adapted to dark color for white background */
+  color: #52525B;
   opacity: 0.7;
   transition: opacity 0.2s ease, color 0.2s ease;
-}
-
-.menu-item {
-  padding: 8px;
+  text-decoration: none;
   display: flex;
   align-items: center;
-}
-
-.menu-item a.kali-active-link,
-.menu-item a:hover {
-  opacity: 1;
-  color: #2c3e50;
-}
-
-.menu-item.non-clickable {
-  background-color: transparent;
-  color: #BBBAB2;
-  cursor: default;
-  font-style: italic;
+  width: 100%;
 }
 
 .submenu {
@@ -178,8 +173,19 @@ function logout() {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-inline: 8px;
+  padding: 16px;
+  gap: 8px;
   text-align: center;
+}
+
+.container-mail {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 0px;
+  width: 100%;
+  border-bottom: 1px solid #00bcd4;
 }
 
 .logout-button {

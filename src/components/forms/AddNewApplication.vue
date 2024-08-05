@@ -1,5 +1,6 @@
 <script setup>
-import { ref } from 'vue';
+import {ref} from 'vue';
+import TheAddApplicationButton from "../TheAddApplicationButton.vue";
 
 const name = ref('');
 const wewebid = ref('');
@@ -17,18 +18,24 @@ const addApplication = () => {
 </script>
 
 <template>
-  <div class="form-container">
-    <div class="form-header">
-      <h3>Ajouter une application</h3>
+  <div class="header">
+    <div class="header-left">
+      <h1 class="app-name">Ajouter une application</h1>
+      <div class="chevron-container">
+        <img src="../../assets/chevron_right.svg" alt="chevron">
+      </div>
     </div>
+  </div>
+
+  <div class="form-container">
     <div class="form-body">
       <div class="form-group">
         <label for="name">Nom</label>
-        <input type="text" id="name" placeholder="Short answer" v-model="name" />
+        <input type="text" id="name" placeholder="Short answer" v-model="name"/>
       </div>
       <div class="form-group">
         <label for="wewebid">weweb id</label>
-        <input type="text" id="wewebid" placeholder="Short answer" v-model="wewebid" />
+        <input type="text" id="wewebid" placeholder="Short answer" v-model="wewebid"/>
       </div>
     </div>
     <div class="form-footer">
@@ -39,6 +46,46 @@ const addApplication = () => {
 </template>
 
 <style scoped>
+
+.header {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #d3d3d3;
+  padding: 10px 0;
+  width: 100%;
+}
+
+.app-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1a3e83; /* Blue color */
+  margin: 0;
+}
+
+.chevron-container {
+  display: flex;
+  align-items: center;
+  margin: 0 10px;
+
+}
+
+.chevron-container img {
+  width: 20px;
+  height: 20px;
+}
+
+
+.header-left {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+
+
 .form-container {
   background: white;
   border-radius: 8px;
@@ -46,20 +93,9 @@ const addApplication = () => {
   max-width: 80%;
   padding: 20px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  margin: 20px auto;
+  margin: 70px auto;
 }
 
-.form-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #e5e5e5;
-  padding-bottom: 10px;
-}
-
-.form-header h3 {
-  margin: 0;
-}
 
 .form-body {
   margin: 20px 0;

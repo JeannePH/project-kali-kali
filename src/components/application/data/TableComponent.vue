@@ -1,10 +1,11 @@
 <script setup>
 import store from "../../../store.js";
-import { computed, watchEffect } from "vue";
+import {computed, watchEffect} from "vue";
+import TheSelectComponent from "./TheVersionFilterComponent.vue";
 
 const props = defineProps({
-  data: { type: Array, default: () => [] },
-  columns: { type: Array, default: () => [] } // Colonnes sélectionnées
+  data: {type: Array, default: () => []},
+  columns: {type: Array, default: () => []} // Colonnes sélectionnées
 });
 
 // Utiliser la version sélectionnée pour filtrer les données
@@ -18,7 +19,10 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="container">
+  <div class="container-filter">
+    <TheSelectComponent/>
+  </div>
+  <div class="container-table">
     <div v-if="!filteredData.length">
       No data available.
     </div>
@@ -46,7 +50,7 @@ watchEffect(() => {
 </template>
 
 <style scoped>
-.container {
+.container-table {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -86,5 +90,13 @@ watchEffect(() => {
 
 .red-dot {
   background-color: red;
+}
+
+.container-filter {
+  display: flex;
+  flex-direction: row;
+  margin-top: 24px;
+  width: 100%;
+  justify-content: flex-start;
 }
 </style>

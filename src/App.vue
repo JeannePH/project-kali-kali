@@ -1,12 +1,7 @@
 <script setup>
 import {ref, computed} from "vue";
-import TheSidemenu from "./components/TheSidemenu.vue";
-import HeaderComponent from "./components/application/ApplicationHeader.vue";
+import TheSidemenu from "./components/sidemenu/TheSidemenu.vue";
 import {useRoute} from "vue-router";
-import store from "./store.js";
-
-//Déclarer et définir des variables pour les props du header.
-const appNameVariable = store.selectedApplicationName || "OCT";
 
 //Ajouter une référence réactive pour suivre l'état du menu latéral.
 const isSidemenuOpen = ref(true);
@@ -15,16 +10,6 @@ const isSidemenuOpen = ref(true);
 function handleToggle(open) {
   isSidemenuOpen.value = open;
 }
-
-// Utiliser useRoute pour obtenir le nom de la route actuelle.
-const route = useRoute();
-
-
-// Déclarer une constante réactive pour le nom de la route actuelle.
-const currentRouteName = computed(() => route.name || '');
-
-// Ajouter une constante pour appObjectVariable qui utilise currentRouteName
-const appObjectVariable = computed(() => currentRouteName.value);
 
 
 </script>
@@ -43,6 +28,7 @@ const appObjectVariable = computed(() => currentRouteName.value);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  width: 100%;
 }
 
 
@@ -58,7 +44,10 @@ const appObjectVariable = computed(() => currentRouteName.value);
 }
 
 .app-container.menu-open .main-container {
+  display: flex;
+  flex-grow: 1;
   margin-left: 240px;
+  max-width: calc(100vw - 240px);
 }
 
 </style>

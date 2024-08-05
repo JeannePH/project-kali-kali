@@ -2,7 +2,6 @@
 import store from '../../../store.js';
 import TableComponent from "./TableComponent.vue";
 import {computed, onMounted} from "vue";
-import DataVersionFilter from "../../TheVersionFilter.vue";
 
 onMounted(() => {
   store.fetchPages();
@@ -13,7 +12,6 @@ const selectedColumns = computed(() => store.selectedPageKeys);
 </script>
 
 <template>
-  <data-version-filter />
   <div class="container">
     <div v-if="!store.pages.length">
       No data available.

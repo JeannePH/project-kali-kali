@@ -1,4 +1,6 @@
 <script setup>
+import TheAddApplicationButton from "../TheAddApplicationButton.vue";
+
 const props = defineProps(['appName', 'appObject']);
 </script>
 
@@ -11,7 +13,7 @@ const props = defineProps(['appName', 'appObject']);
       </div>
     </div>
     <div class="header-right">
-      <router-link to="/test" class="router-link">Test</router-link>
+      <the-add-application-button />
     </div>
   </div>
 </template>
@@ -46,12 +48,6 @@ const props = defineProps(['appName', 'appObject']);
   height: 20px;
 }
 
-.app-object {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #1a3e83; /* Blue color */
-  margin: 0;
-}
 
 .header-right {
   display: flex;

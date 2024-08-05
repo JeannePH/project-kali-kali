@@ -10,8 +10,8 @@ import Workflows from "../components/application/data/ApplicationDataWorkflows.v
 import Variables from "../components/application/data/ApplicationDataVariables.vue";
 import WwObjects from "../components/application/data/ApplicationDataWwObjects.vue";
 import Actions from "../components/application/data/ApplicationDataActions.vue";
-import AddApplication from "../components/applications/AddNewApplication.vue";
-import AddApplicationData from "../components/application/data/AddApplicationData.vue";
+import AddApplication from "../components/forms/AddNewApplication.vue";
+import AddApplicationData from "../components/forms/AddApplicationData.vue";
 
 const routes = [
     {path: '/', name: 'Home', component: Home},

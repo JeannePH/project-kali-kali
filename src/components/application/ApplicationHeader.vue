@@ -1,22 +1,5 @@
 <script setup>
-
-//Déclarer et définir des variables pour les props du header.
-import store from "../../store.js";
-import {computed} from "vue";
-import {useRoute} from "vue-router";
-
-// Utiliser useRoute pour obtenir le nom de la route actuelle.
-const route = useRoute();
-
-
-// Déclarer une constante réactive pour le nom de la route actuelle.
-const currentRouteName = computed(() => route.name || '');
-
-const appNameVariable = store.selectedApplicationName || "OCT";
-
-// Ajouter une constante pour appObjectVariable qui utilise currentRouteName
-const appObjectVariable = computed(() => currentRouteName.value);
-
+import TheAddApplicationDataButton from "../TheAddApplicationDataButton.vue";
 const props = defineProps(['appName', 'appObject']);
 </script>
 
@@ -30,7 +13,7 @@ const props = defineProps(['appName', 'appObject']);
       <h2 class="app-object">{{ props.appObject }}</h2>
     </div>
     <div class="header-right">
-      <router-link to="/test" class="router-link">Test</router-link>
+      <TheAddApplicationDataButton />
     </div>
   </div>
 </template>
@@ -38,6 +21,8 @@ const props = defineProps(['appName', 'appObject']);
 <style scoped>
 
 .header {
+  flex-grow: 1;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -74,7 +59,6 @@ const props = defineProps(['appName', 'appObject']);
 
 .header-right {
   display: flex;
-  justify-content: flex-end;
 }
 
 .header-left {
