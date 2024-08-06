@@ -24,13 +24,5 @@ const selectedColumns = computed(() => store.selectedWwObjectKeys);
 </template>
 
 <style scoped>
-.container {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-top: 32px;
-  min-width: 100%;
-}
+
 </style>

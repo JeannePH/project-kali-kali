@@ -84,8 +84,8 @@ function toggleDropdown() {
   top: 0;
   left: 0;
   height: 100vh;
-  background-color: #fff;
-  border-right: 1px solid #ddd;
+  background-color: var(--txt-white);
+  border-right: 1px solid var(--border-color-primary);
   transition: width 0.3s;
   overflow: hidden;
   z-index: 1000;
@@ -153,7 +153,7 @@ function toggleDropdown() {
 }
 
 .menu-item a {
-  color: #52525B;
+  color: var(--txt-primary);
   opacity: 0.7;
   transition: opacity 0.2s ease, color 0.2s ease;
   text-decoration: none;
@@ -185,7 +185,8 @@ function toggleDropdown() {
   align-items: center;
   padding: 16px 0px;
   width: 100%;
-  border-bottom: 1px solid #00bcd4;
+  border-bottom: 1px solid var(--border-kali);
+
 }
 
 .logout-button {
@@ -194,11 +195,12 @@ function toggleDropdown() {
   border: none;
   background: none;
   cursor: pointer;
-  color: #00bcd4;
+  color: var(--txt-kali);
   font-weight: bold;
 }
 
 .logout-button:hover {
   text-decoration: none;
+  color: #099AF2;
 }
 </style>

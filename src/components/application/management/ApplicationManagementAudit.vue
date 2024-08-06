@@ -18,7 +18,7 @@ const labels = {
 </script>
 
 <template>
-  <div class="audit-container">
+  <div class="container-row">
     <div class="label-column">
       <p v-for="(label, key) in labels" :key="key" class="label">{{ label }}</p>
     </div>
@@ -39,11 +39,7 @@ const labels = {
 </template>
 
 <style scoped>
-.audit-container {
-  display: flex;
-  flex-direction: row;
-  margin-top: 20px;
-}
+
 
 .label-column {
   display: flex;

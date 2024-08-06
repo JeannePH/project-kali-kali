@@ -6,57 +6,17 @@ const props = defineProps(['appName', 'appObject']);
 
 <template>
   <div class="header">
-    <div class="header-left">
-      <h1 class="app-name">Liste des applications</h1>
-      <div class="chevron-container">
+    <div class="container-space-between-align-center">
+      <h2>Liste des applications</h2>
+      <div class="container-icon">
         <img src="../../assets/chevron_right.svg" alt="chevron">
       </div>
     </div>
-    <div class="header-right">
+    <div class="container-flex-end-align-center">
       <the-add-application-button />
     </div>
   </div>
 </template>
 
 <style scoped>
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #d3d3d3;
-  padding: 10px 0;
-  width: 100%;
-}
-
-.app-name {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #1a3e83; /* Blue color */
-  margin: 0;
-}
-
-.chevron-container {
-  display: flex;
-  align-items: center;
-  margin: 0 10px;
-
-}
-
-.chevron-container img {
-  width: 20px;
-  height: 20px;
-}
-
-
-.header-right {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.header-left {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 </style>

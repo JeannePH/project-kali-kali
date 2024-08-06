@@ -1,0 +1,63 @@
+/******* ADD FILES *******/
+
+.upload-container {
+  background: white;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 80%;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin: 70px auto;
+}
+
+.upload-container h3 {
+  margin: 0 0 10px 0;
+}
+
+.upload-container input[type="file"] {
+  width: 100%;
+  padding: 10px;
+}
+
+
+
+/******* ADD NEW APPLICATION *******/
+
+
+.form-container {
+  background: white;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 80%;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin: 70px auto;
+}
+
+
+.form-body {
+  margin: 20px 0;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: calc(100% - 20px);
+  padding: 10px;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+}
+
+.form-footer {
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid #e5e5e5;
+  padding-top: 10px;
+}

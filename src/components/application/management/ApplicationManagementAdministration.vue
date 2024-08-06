@@ -10,7 +10,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="container">
+  <div class="container-sans-wrap-align-top">
     <ColumnsSelector :title="'Pages'" :columns="store.pageKeys"  type="pages"/>
     <ColumnsSelector :title="'Variables'" :columns="store.variableKeys"  type="variables"/>
     <ColumnsSelector :title="'Workflows'" :columns="store.workflowKeys"  type="workflows"/>
@@ -20,8 +20,5 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-.container {
-  display: flex;
-  flex-direction: row;
-}
+
 </style>

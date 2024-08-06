@@ -1,0 +1,21 @@
+/******* Header *******/
+
+.main-header {
+  position: sticky;
+  top: 0;
+  z-index: 10000;
+  background-color: var(--bg);
+}
+
+.main-header .container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 8rem;
+  padding-block: 1.2rem;
+}
+
+.logo img {
+  width: 11.2rem;
+}

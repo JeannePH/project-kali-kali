@@ -1,0 +1,31 @@
+.btn-primary {
+  background-color: #1e5ab6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn-primary:is(:hover, :focus) {
+  background-color: #164a8a;
+}
+
+
+.btn-secondary {
+  background: none;
+  border: none;
+  color: #1e5ab6;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.small {
+  padding: 4px 8px;
+  font-size: 14px;
+}

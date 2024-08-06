@@ -1,0 +1,52 @@
+
+:root {
+  /* NEUTRALS COLORS */
+  --black: #000;
+  --white: #fff;
+
+  --dark: #3F3F46;
+  --grey-dark: #52525B;
+  --grey: #E4E4E7;
+  --grey-medium: #A1A1AA;
+  --grey-light: #d1d5db;
+  --grey-extra-light: #F0F0F0;
+
+  /* BLUES COLORS */
+  --blue-extra-extra-dark: #0C2273;
+  --blue-extra-dark: #1d2a9e;
+  --blue-dark: #1E40AF;
+  --blue-medium: #1D4ED8;
+  --blue: #099AF2;
+  --blue-neutral: #8BA9E5;
+  --blue-kali: #00aaff;
+
+  /* TEXT COLORS */
+  --txt-black: var(--black);
+  --txt-primary: var(--grey-dark);
+  --txt-secondary: var(--grey-dark);
+  --txt-tertiary: var(--dark);
+  --txt-white: var(--white);
+  --txt-kali: var(--blue-kali);
+
+  /* BACKGROUND COLOR */
+  --bg: var(--white);
+  --bg-secondary: var(--blue-medium);
+  --bg-tertiary: var(--blue-neutral);
+
+  /* BORDER COLORS */
+  --border-color-primary: var(--grey-light);
+  --border-color-secondary: var(--blue-neutral);
+  --border-kali: var(--blue-kali);
+
+}
+
+/* DARK MODE COLORS */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --txt-primary: var(--white);
+    --bg: var(--dark);
+    --txt-secondary: var(--white);
+  }
+}
+
+

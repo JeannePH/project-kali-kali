@@ -1,5 +1,5 @@
 import {reactive} from "vue";
-import {supabase} from "./supabase.js";
+import {supabase} from "../supabase.js";
 
 const store = reactive({
     // Données

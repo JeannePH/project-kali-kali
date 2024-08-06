@@ -1,0 +1,63 @@
+/******* Typographie *******/
+
+body {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.625;
+  line-height: calc(26 / 16); /* Dans la maquette, un interligne de 26px pour une police de 16px - choisir une des deux méthodes */
+  color: var(--txt-primary);
+  background-color: var(--bg);
+  text-align: center;
+}
+
+:is(h1, h2, h3, h4, .h1, .h2, .h3, .h4) {
+  letter-spacing: -0.014em;
+}
+
+h1,
+.h1 {
+  position: relative;
+  padding-block-start: 6rem;
+  font-size: clamp(4.8rem, 3.955rem + 2.254vw, 7.2rem);
+  line-height: 1;
+}
+
+h1::before,
+.h1::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 15rem;
+  height: 0.1rem;
+  background-color: var(--accent-light);
+}
+
+
+h2,
+.h2 {
+  color: var(--blue-extra-extra-dark);
+  font-size: 2.8rem;
+  line-height: 1;
+  align-self: center;
+  margin: 0;
+
+}
+
+h3,
+.h3 {
+  color: var(--blue-extra-extra-dark);
+  font-size: 2rem;
+  line-height: calc(38 / 28);
+}
+
+.no-scroll {
+  overflow: hidden;
+}
+
+@media screen and (min-width: 36em) {
+  body {
+    text-align: start;
+  }
+}

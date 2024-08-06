@@ -32,16 +32,6 @@ async function selectApplication(applicationId) {
 </template>
 
 <style scoped>
-.container {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-top: 64px;
-  gap: 16px;
-}
-
 .card {
   display: flex;
   justify-content: center;
@@ -49,7 +39,6 @@ async function selectApplication(applicationId) {
   width: 160px;
   border: 1px solid #000;
   border-radius: 25px;
-  background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   font-size: 24px;
   color: #000;

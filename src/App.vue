@@ -1,7 +1,6 @@
 <script setup>
 import {ref, computed} from "vue";
 import TheSidemenu from "./components/sidemenu/TheSidemenu.vue";
-import {useRoute} from "vue-router";
 
 //Ajouter une référence réactive pour suivre l'état du menu latéral.
 const isSidemenuOpen = ref(true);
