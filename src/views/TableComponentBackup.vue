@@ -1,26 +1,30 @@
 <script setup>
 import store from "../store.js";
-import {computed} from "vue";
+import {computed, watchEffect} from "vue";
+import TheSelectComponent from "../components/application/data/TheVersionFilterComponent.vue";
 
 const props = defineProps({
-  data: { type: Array, default: () => [] },
-  columns: { type: Array, default: () => [] } // Colonnes sélectionnées
+  data: {type: Array, default: () => []},
+  columns: {type: Array, default: () => []} // Colonnes sélectionnées
 });
 
 // Utiliser la version sélectionnée pour filtrer les données
 const filteredData = computed(() => {
   return props.data.filter(row => row.cache_version === store.selectedCacheVersion);
 });
+
+watchEffect(() => {
+  console.log(`Selected cache version: ${store.selectedCacheVersion}`);
+});
 </script>
 
-
 <template>
-  <div class="container">
-    <div v-if="!data.length">
+  <TheSelectComponent/>
+  <div class="custom-scrollbar">
+    <div v-if="!filteredData.length" class="container-table custom-scrollbar">
       No data available.
     </div>
-
-    <div v-else>
+    <div v-else class="container-table custom-scrollbar">
       <table class="data-table">
         <thead>
         <tr>
@@ -28,7 +32,7 @@ const filteredData = computed(() => {
         </tr>
         </thead>
         <tbody>
-        <tr v-for="row in data" :key="row.id">
+        <tr v-for="row in filteredData" :key="row.id">
           <td v-for="column in columns" :key="column">
               <span v-if="row[column] !== null && row[column] !== undefined">
                 {{ row[column] }}
@@ -43,16 +47,16 @@ const filteredData = computed(() => {
 </template>
 
 <style scoped>
-.container {
+
+.container-table {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  flex-wrap: wrap;
   margin-top: 32px;
   min-width: 100%;
+  overflow: auto;
 }
-
 
 .data-table {
   min-width: 100%;
@@ -61,18 +65,24 @@ const filteredData = computed(() => {
 
 .data-table th,
 .data-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
+  border-bottom: 1px solid var(--border-color-primary);
+  border-right: none;
+  padding: 8px 12px;
   text-align: left;
-  height: 80px; /* Hauteur fixe pour chaque cellule */
-  max-width: 150px; /* Largeur maximale pour gérer les débordements */
-  overflow: hidden; /* Cache le texte qui dépasse */
-  text-overflow: ellipsis; /* Ajoute '...' pour les textes trop longs */
-  white-space: nowrap; /* Empêche le retour à la ligne */
+  max-width: 280px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .data-table th {
-  background-color: #f2f2f2;
+  background-color: var(--bg-tertiary);
+}
+
+
+.data-table tr {
+  border-left: none; /* Enlever la bordure gauche des rangées */
+  border-right: none; /* Enlever la bordure droite des rangées */
 }
 
 .dot {
@@ -85,4 +95,5 @@ const filteredData = computed(() => {
 .red-dot {
   background-color: red;
 }
+
 </style>

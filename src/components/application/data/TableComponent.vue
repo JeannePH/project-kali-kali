@@ -1,55 +1,45 @@
 <script setup>
-import store from "../../../store.js";
-import {computed, watchEffect} from "vue";
-import TheSelectComponent from "./TheVersionFilterComponent.vue";
+import { computed } from "vue";
 
 const props = defineProps({
-  data: {type: Array, default: () => []},
-  columns: {type: Array, default: () => []} // Colonnes sélectionnées
+  data: { type: Array, default: () => [] },
+  columns: { type: Array, default: () => [] }
 });
 
 // Utiliser la version sélectionnée pour filtrer les données
 const filteredData = computed(() => {
-  return props.data.filter(row => row.cache_version === store.selectedCacheVersion);
-});
-
-watchEffect(() => {
-  console.log(`Selected cache version: ${store.selectedCacheVersion}`);
+  return props.data;
 });
 </script>
 
 <template>
-  <div class="container-filter">
-    <TheSelectComponent/>
-  </div>
   <div class="custom-scrollbar">
     <div v-if="!filteredData.length" class="container-table custom-scrollbar">
       No data available.
     </div>
     <div v-else class="container-table custom-scrollbar">
-        <table class="data-table">
-          <thead>
-          <tr>
-            <th v-for="column in columns" :key="column">{{ column }}</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="row in filteredData" :key="row.id">
-            <td v-for="column in columns" :key="column">
+      <table class="data-table">
+        <thead>
+        <tr>
+          <th v-for="column in columns" :key="column">{{ column }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="row in filteredData" :key="row.id">
+          <td v-for="column in columns" :key="column">
               <span v-if="row[column] !== null && row[column] !== undefined">
                 {{ row[column] }}
               </span>
-              <span v-else class="dot red-dot"></span>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
+            <span v-else class="dot red-dot"></span>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
 <style scoped>
-
 .container-table {
   display: flex;
   flex-direction: row;
@@ -57,10 +47,11 @@ watchEffect(() => {
   align-items: center;
   margin-top: 32px;
   min-width: 100%;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .data-table {
+  min-width: 100%;
   border-collapse: collapse;
 }
 
@@ -78,13 +69,11 @@ watchEffect(() => {
 
 .data-table th {
   background-color: var(--bg-tertiary);
-  border-right: none;
 }
 
-
 .data-table tr {
-  border-left: none; /* Enlever la bordure gauche des rangées */
-  border-right: none; /* Enlever la bordure droite des rangées */
+  border-left: none;
+  border-right: none;
 }
 
 .dot {
@@ -96,13 +85,5 @@ watchEffect(() => {
 
 .red-dot {
   background-color: red;
-}
-
-.container-filter {
-  display: flex;
-  flex-direction: row;
-  margin-top: 24px;
-  width: 100%;
-  justify-content: flex-start;
 }
 </style>

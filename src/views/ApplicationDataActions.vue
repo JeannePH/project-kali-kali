@@ -1,6 +1,6 @@
 <script setup>
-import store from '../../../store.js';
-import TableComponent from "./TableComponent.vue";
+import store from '../store.js';
+import TableComponent from "../components/application/data/TableComponent.vue";
 import {computed, onMounted} from "vue";
 
 onMounted(() => {

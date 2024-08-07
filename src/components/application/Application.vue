@@ -17,9 +17,8 @@ const appObjectVariable = computed(() => currentRouteName.value);
 </script>
 
 <template>
-
-    <header-component :app-name="appNameVariable" :app-object="appObjectVariable"/>
-    <router-view></router-view>
+  <header-component :app-name="appNameVariable" :app-object="appObjectVariable"/>
+  <router-view></router-view>
 </template>
 
 <style scoped>
