@@ -18,83 +18,72 @@ const labels = {
 </script>
 
 <template>
-  <div class="container-row  custom-scrollbar">
-    <div class="label-column">
+  <div class="container-row custom-scrollbar">
+    <div class="container-label">
       <p v-for="(label, key) in labels" :key="key" class="label">{{ label }}</p>
     </div>
-    <div class="chart-columns">
-      <div v-for="audit in audits" :key="audit.cache_version" class="chart-card">
-        <div class="chart-column-header">
+    <div class="container-columns">
+      <div v-for="audit in audits" :key="audit.cache_version" class="column-version">
+        <div class="column-version-header">
           <h3>Version {{ audit.cache_version }}</h3>
         </div>
-        <div class="doughnut-container">
+        <div class="column-version-doughnuts">
           <div class="doughnut-item" v-for="(label, key) in labels" :key="key">
             <DoughnutComponent :label="label" :value="audit[key]"/>
-            <p class="percentage">{{ audit[key] }}%</p>
+            <p>{{ audit[key] }}%</p>
           </div>
         </div>
       </div>
 
-  </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
-
-
-.label-column {
+.container-label {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  padding-top: 80px;
-  padding-right: 16px;
-  max-width: 267px;
+  margin-top: 30px;
+  margin-right: 24px;
+  max-width: 280px;
+  background-color: #E4E4E7;
 }
 
 .label {
   font-size: 1em;
-  display: flex;
-  align-items: center;
+  padding-top: 24px;
+  margin-bottom: 38px;
 }
 
-.chart-columns {
+.container-columns {
   display: flex;
-  flex: 2;
+  align-items: flex-start;
   gap: 20px;
 }
 
-.chart-column-header {
+.column-version {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.column-version-header {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  height: 100px;
-
 }
 
-.chart-card {
+.column-version-doughnuts {
   display: flex;
   flex-direction: column;
-  border-radius: 10px;
-  padding: 20px;
-  margin: 10px;
-  max-width: 400px;
-}
-
-.doughnut-container {
-  display: flex;
-  flex-direction: column;
+  gap: 16px;
 }
 
 .doughnut-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
-}
-
-.percentage {
-  font-size: 1em;
-  margin-top: 8px;
 }
 </style>

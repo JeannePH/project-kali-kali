@@ -27,6 +27,7 @@ watch(selectedVersion, (newValue) => {
   flex-direction: row;
   align-items: center;
   gap: 8px;
+  margin-bottom: 16px;
 }
 
 label {

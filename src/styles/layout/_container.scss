@@ -25,7 +25,7 @@
 .container-row {
   display: flex;
   flex-direction: row;
-  background-color: thistle;
+  background-color: lightpink;
 }
 
 .container-space-between-align-center {
@@ -50,6 +50,7 @@
   align-items: center;
   border-bottom: 1px solid #d3d3d3;
   margin-bottom: 64px;
+  margin-top: 24px;
   padding: 10px 0;
   width: 100%;
   background-color: gold;

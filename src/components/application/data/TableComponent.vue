@@ -1,9 +1,9 @@
 <script setup>
-import { computed } from "vue";
+import {computed} from "vue";
 
 const props = defineProps({
-  data: { type: Array, default: () => [] },
-  columns: { type: Array, default: () => [] }
+  data: {type: Array, default: () => []},
+  columns: {type: Array, default: () => []}
 });
 
 // Utiliser la version sélectionnée pour filtrer les données
@@ -13,11 +13,10 @@ const filteredData = computed(() => {
 </script>
 
 <template>
-  <div class="custom-scrollbar">
-    <div v-if="!filteredData.length" class="container-table custom-scrollbar">
+    <div v-if="!filteredData.length">
       No data available.
     </div>
-    <div v-else class="container-table custom-scrollbar">
+    <div v-else class="table-container custom-scrollbar">
       <table class="data-table">
         <thead>
         <tr>
@@ -36,18 +35,12 @@ const filteredData = computed(() => {
         </tbody>
       </table>
     </div>
-  </div>
 </template>
 
 <style scoped>
-.container-table {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  margin-top: 32px;
-  min-width: 100%;
-  overflow: auto;
+.table-container {
+  max-height: calc(100vh - 250px); /* Définir une hauteur maximale pour activer la barre de défilement */
+  max-width: 100%;
 }
 
 .data-table {
@@ -55,20 +48,22 @@ const filteredData = computed(() => {
   border-collapse: collapse;
 }
 
-.data-table th,
-.data-table td {
+.data-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: var(--bg-tertiary);
+}
+
+.data-table th, .data-table td {
   border-bottom: 1px solid var(--border-color-primary);
   border-right: none;
-  padding: 8px 12px;
+  padding: 8px 16px;
   text-align: left;
   max-width: 280px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.data-table th {
-  background-color: var(--bg-tertiary);
 }
 
 .data-table tr {

@@ -1,20 +1,44 @@
 <script setup>
 import {ref} from 'vue';
-import TheAddApplicationButton from "../TheAddApplicationButton.vue";
 
 const name = ref('');
 const wewebid = ref('');
 
+const filesContent = ref([]);
+
+const handleFileUpload = (event) => {
+  const file = event.target.files[0];
+  if (file && file.type === "application/json") {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const content = e.target.result;
+      console.log("Fichier JSON téléchargé :", content);
+      // Vous pouvez ajouter la logique de traitement du fichier ici
+    };
+    reader.readAsText(file);
+  } else {
+    console.error("Veuillez télécharger un fichier JSON valide.");
+  }
+};
+
 const resetForm = () => {
   name.value = '';
   wewebid.value = '';
+  filesContent.value = [];
+  const inputFileElement = document.querySelector('input[type="file"]');
+  if (inputFileElement) {
+    inputFileElement.value = '';
+  }
 };
+
 
 const addApplication = () => {
   // Logique pour ajouter une application (à implémenter selon votre logique)
   console.log(`Nom: ${name.value}, weweb id: ${wewebid.value}`);
   resetForm();
 };
+
+
 </script>
 
 <template>
@@ -29,13 +53,16 @@ const addApplication = () => {
 
   <div class="form-container">
     <div class="form-body">
-      <div class="form-group">
+      <div class="container-input">
         <label for="name">Nom</label>
-        <input type="text" id="name" placeholder="Short answer" v-model="name"/>
+        <input type="text" id="name" placeholder="Le nom de l'application" v-model="name"/>
       </div>
-      <div class="form-group">
-        <label for="wewebid">weweb id</label>
-        <input type="text" id="wewebid" placeholder="Short answer" v-model="wewebid"/>
+      <div class="container-input">
+        <label for="wewebid">Weweb Id</label>
+        <input type="text" id="wewebid" placeholder="78" v-model="wewebid"/>
+      </div>
+      <div>
+        <input type="file" accept=".json" multiple @change="handleFileUpload"/>
       </div>
     </div>
     <div class="form-footer">

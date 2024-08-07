@@ -92,3 +92,6 @@ export const fetchVariables = async (selectedApplicationId) => {
     }
     return variables;
 };
+
+
+// Ajouter une application
