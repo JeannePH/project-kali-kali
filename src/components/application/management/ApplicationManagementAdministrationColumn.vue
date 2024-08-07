@@ -28,7 +28,7 @@ watch(selectedColumns, (newColumns) => {
 
 <template>
   <div class="column-container">
-    <h3>{{ title }}</h3>
+    <h3 class="margin-bottom-24">{{ title }}</h3>
     <div v-for="column in columns" :key="column" class="column">
       <label class="checkbox-label">
         <input type="checkbox" :value="column" v-model="selectedColumns"/>

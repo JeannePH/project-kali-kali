@@ -1,15 +1,21 @@
+/* Importer vos variables et mixins */
+@import 'utils/mixins';
+@import 'utils/_variables.css';
+
+/* Tailwind CSS Directives */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Autres styles SCSS peuvent suivre ici */
 @import 'reset.css';
 @import 'helpers.css';
-
 @import 'base/fonts';
+@import 'base/spacing';
 @import 'base/typography';
-
 @import 'buttons/buttons';
-
 @import 'layout/container';
 @import 'layout/form';
 @import 'layout/header';
 
-@import 'utils/mixins';
-@import 'utils/_variables.css';
 

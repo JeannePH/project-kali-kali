@@ -49,8 +49,8 @@ onMounted(() => {
 
 <style scoped>
 .doughnut {
-  width: 100px;
-  height: 100px;
+  width: 30px;
+  height: 30px;
   margin: 10px;
   text-align: center;
 }

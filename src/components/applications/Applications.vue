@@ -20,10 +20,10 @@ async function selectApplication(applicationId) {
 </script>
 
 <template>
-  <div>
     <ApplicationsHeader />
-    <div class="container" v-if="!store.applications.length">Il n'y a pas d'application dans la table application</div>
-    <div class="container" v-else>
+  <div class="container-row">
+    <div v-if="!store.applications.length">Il n'y a pas d'application dans la table application</div>
+    <div v-else>
       <div class="card" v-for="application in store.applications" :id="application.id" :key="application.id">
         <span @click="selectApplication(application.id)">{{ application.name }}</span>
       </div>

@@ -6,7 +6,7 @@
   justify-content: flex-start;
   align-items: center;
   flex-wrap: wrap;
-  margin-top: 40px;
+  margin-top: 64px;
   gap: 16px;
   background-color: rosybrown;
 }
@@ -16,15 +16,18 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
-  margin-top: 40px;
+  margin-top: 64px;
+  padding-bottom: 24px;
   gap: 16px;
   background-color: peachpuff;
+  overflow: scroll;
+  overflow-scrolling: touch;
 }
 
 .container-row {
   display: flex;
   flex-direction: row;
-  margin-top: 20px;
+  margin-top: 64px;
   background-color: thistle;
 }
 
@@ -66,11 +69,38 @@
   height: 20px;
 }
 
+/* styles/_scrollbar.scss */
+.custom-scrollbar {
+  overflow: auto;
+
+  /* Styles pour les barres de défilement */
+  &::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+}
 
 
 
-
-
+/*
 
 .container-benoist {
   width: 100%;
@@ -102,3 +132,4 @@
   }
 
 }
+*/

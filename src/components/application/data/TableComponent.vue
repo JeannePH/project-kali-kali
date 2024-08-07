@@ -22,63 +22,69 @@ watchEffect(() => {
   <div class="container-filter">
     <TheSelectComponent/>
   </div>
-  <div class="container-table">
-    <div v-if="!filteredData.length">
+  <div class="custom-scrollbar">
+    <div v-if="!filteredData.length" class="container-table custom-scrollbar">
       No data available.
     </div>
-
-    <div v-else>
-      <table class="data-table">
-        <thead>
-        <tr>
-          <th v-for="column in columns" :key="column">{{ column }}</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="row in filteredData" :key="row.id">
-          <td v-for="column in columns" :key="column">
+    <div v-else class="container-table custom-scrollbar">
+        <table class="data-table">
+          <thead>
+          <tr>
+            <th v-for="column in columns" :key="column">{{ column }}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="row in filteredData" :key="row.id">
+            <td v-for="column in columns" :key="column">
               <span v-if="row[column] !== null && row[column] !== undefined">
                 {{ row[column] }}
               </span>
-            <span v-else class="dot red-dot"></span>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
+              <span v-else class="dot red-dot"></span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
   </div>
 </template>
 
 <style scoped>
+
 .container-table {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  flex-wrap: wrap;
   margin-top: 32px;
   min-width: 100%;
+  overflow: hidden;
 }
 
 .data-table {
-  min-width: 100%;
   border-collapse: collapse;
 }
 
 .data-table th,
 .data-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
+  border-bottom: 1px solid var(--border-color-primary);
+  border-right: none;
+  padding: 8px 12px;
   text-align: left;
-  height: 80px; /* Hauteur fixe pour chaque cellule */
-  max-width: 150px; /* Largeur maximale pour gérer les débordements */
-  overflow: hidden; /* Cache le texte qui dépasse */
-  text-overflow: ellipsis; /* Ajoute '...' pour les textes trop longs */
-  white-space: nowrap; /* Empêche le retour à la ligne */
+  max-width: 280px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .data-table th {
-  background-color: #f2f2f2;
+  background-color: var(--bg-tertiary);
+  border-right: none;
+}
+
+
+.data-table tr {
+  border-left: none; /* Enlever la bordure gauche des rangées */
+  border-right: none; /* Enlever la bordure droite des rangées */
 }
 
 .dot {

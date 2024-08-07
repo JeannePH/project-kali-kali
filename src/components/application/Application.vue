@@ -17,14 +17,10 @@ const appObjectVariable = computed(() => currentRouteName.value);
 </script>
 
 <template>
-  <div class="application-container">
+
     <header-component :app-name="appNameVariable" :app-object="appObjectVariable"/>
     <router-view></router-view>
-  </div>
 </template>
 
 <style scoped>
-.application-container {
-  flex-grow: 1;
-}
 </style>

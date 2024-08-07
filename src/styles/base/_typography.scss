@@ -9,6 +9,7 @@ body {
   color: var(--txt-primary);
   background-color: var(--bg);
   text-align: center;
+  overflow: hidden;
 }
 
 :is(h1, h2, h3, h4, .h1, .h2, .h3, .h4) {

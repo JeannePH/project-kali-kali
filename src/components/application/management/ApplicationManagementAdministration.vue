@@ -10,7 +10,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="container-sans-wrap-align-top">
+  <div class="container-sans-wrap-align-top custom-scrollbar">
     <ColumnsSelector :title="'Pages'" :columns="store.pageKeys"  type="pages"/>
     <ColumnsSelector :title="'Variables'" :columns="store.variableKeys"  type="variables"/>
     <ColumnsSelector :title="'Workflows'" :columns="store.workflowKeys"  type="workflows"/>

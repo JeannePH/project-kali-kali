@@ -28,6 +28,8 @@ function handleToggle(open) {
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
+  overflow: hidden;
+  background-color: khaki;
 }
 
 
@@ -40,6 +42,7 @@ function handleToggle(open) {
   flex-grow: 1;
   padding: 20px;
   width: 100%;
+  background-color: bisque;
 }
 
 .app-container.menu-open .main-container {

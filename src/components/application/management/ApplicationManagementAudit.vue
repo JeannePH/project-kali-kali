@@ -18,7 +18,7 @@ const labels = {
 </script>
 
 <template>
-  <div class="container-row">
+  <div class="container-row  custom-scrollbar">
     <div class="label-column">
       <p v-for="(label, key) in labels" :key="key" class="label">{{ label }}</p>
     </div>
@@ -34,7 +34,8 @@ const labels = {
           </div>
         </div>
       </div>
-    </div>
+
+  </div>
   </div>
 </template>
 
@@ -45,9 +46,9 @@ const labels = {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  padding-top: 100px;
-  padding-right: 20px;
-  max-width: 200px;
+  padding-top: 80px;
+  padding-right: 16px;
+  max-width: 267px;
 }
 
 .label {
@@ -94,6 +95,6 @@ const labels = {
 
 .percentage {
   font-size: 1em;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 </style>
