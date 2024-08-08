@@ -1,4 +1,4 @@
-import { reactive } from "vue";
+import {reactive} from "vue";
 import {
     fetchApplications,
     fetchApplicationVersions,
@@ -7,7 +7,10 @@ import {
     fetchWorkflows,
     fetchWwObjects,
     fetchActions,
-    fetchVariables
+    fetchVariables,
+    login,
+    logout,
+    fetchUser
 } from "./api/supabaseApi.js";
 
 const store = reactive({
@@ -32,6 +35,8 @@ const store = reactive({
     selectedActionKeys: [],
     selectedWwObjectKeys: [],
     selectedVariableKeys: [],
+    user: null,
+    errorMessage: null,
 
     // Mutations
     setSelectedCacheVersion(version) {
@@ -175,6 +180,44 @@ const store = reactive({
                 this[propertyName] = [];
             }
         });
+    },
+
+    // User Action pour se connecter
+    async login(email, password) {
+        console.log("store.login appelée avec:", {email, password});
+        try {
+            // Appelle la fonction de login de l'API
+            const data = await login(email, password);
+
+            // Vérifiez si 'data' contient bien 'user'
+            if (data && data.user) {
+                this.user = data.user;
+                this.errorMessage = null;
+                console.log("store.login - Connexion réussie:", this.user);
+            } else {
+                this.errorMessage = "Utilisateur non trouvé dans la réponse de l'API";
+                console.log("store.login - Réponse API inattendue:", data);
+            }
+        } catch (error) {
+            this.errorMessage = error.message;
+            console.error("store.login - Erreur:", error.message);
+        }
+    },
+
+
+    async logout() {
+        try {
+            await logout();
+            this.user = null;
+            window.location.href = '/login';
+        } catch (error) {
+            console.error('Erreur lors de la déconnexion dans le store:', error);
+        }
+    },
+
+    async fetchUser() {
+        this.user = await fetchUser();
+        console.log("store.fetchUser - Utilisateur récupéré:", this.user);
     },
 
     // Mapping types to properties

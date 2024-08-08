@@ -93,5 +93,39 @@ export const fetchVariables = async (selectedApplicationId) => {
     return variables;
 };
 
+// Fonction de login
+export const login = async (email, password) => {
+    console.log("API login appelée avec:", { email, password });
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+    });
+    console.log("Réponse brute de l'API login:", { data, error });
+
+    if (error) {
+        console.error('Erreur lors de la connexion via API:', error.message);
+        throw error;
+    }
+
+    return data;
+};
+
+// Fonction de logout
+export const logout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+        console.error('Erreur lors de la déconnexion via API:', error.message);
+        throw error;
+    }
+};
+
+// Fonction pour récupérer l'utilisateur connecté
+export const fetchUser = () => {
+    console.log("Utilisateur récupéré:", user);
+    return supabase.auth.getUser();
+};
+
+
 
 // Ajouter une application

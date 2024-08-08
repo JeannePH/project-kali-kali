@@ -2,20 +2,22 @@
 import {computed, ref} from 'vue';
 import SidemenuItem from "./SidemenuItem.vue";
 import store from "../../store.js";
+import router from "../../router/index.js";
 
 const emits = defineEmits(['toggle']);
 
 const sidemenuOpen = ref(true);
-const userName = ref('user@mail.com');
 
 function toggleSideMenu() {
   sidemenuOpen.value = !sidemenuOpen.value;
   emits('toggle', sidemenuOpen.value);
 }
 
-function logout() {
+const handleLogout = async () => {
+  await store.logout();
   alert('Logged out!');
-}
+  await router.push('/login');
+};
 
 const isApplicationSelected = computed(() => store.selectedApplicationId !== null);
 
@@ -24,6 +26,13 @@ const dropdownOpen = ref(false);
 function toggleDropdown() {
   dropdownOpen.value = !dropdownOpen.value;
 }
+
+// Computed pour vérifier si l'utilisateur est connecté
+const isAuthenticated = computed(() => store.user !== null);
+
+const userName = computed(() => store.user ? store.user.email : 'user@mail.com');
+
+
 </script>
 
 <template>
@@ -40,7 +49,7 @@ function toggleDropdown() {
             <img src="../../assets/logo_kali.png" alt="Logo">
           </div>
         </div>
-        <div class="menu-container">
+        <div class="menu-container" v-if="isAuthenticated">
           <ul class="menu-list">
             <SidemenuItem to="/applications" label="Applications"/>
             <div v-if="isApplicationSelected">
@@ -66,11 +75,11 @@ function toggleDropdown() {
           </ul>
         </div>
       </div>
-      <div class="profile-container">
+      <div class="profile-container" v-if="isAuthenticated">
         <div class="container-mail">
-          <span class="name">{{ userName }}</span>
+          <p class="name">{{ userName }}</p>
         </div>
-        <span class="logout-button" @click="logout">
+        <span class="logout-button" @click="handleLogout">
           Log Out
         </span>
       </div>
@@ -186,7 +195,13 @@ function toggleDropdown() {
   padding: 16px 0px;
   width: 100%;
   border-bottom: 1px solid var(--border-kali);
+}
 
+.name {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .logout-button {
