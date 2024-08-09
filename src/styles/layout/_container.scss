@@ -28,6 +28,15 @@
   background-color: lightpink;
 }
 
+.container-column {
+  display: flex;
+  flex-direction: column;
+  background-color: azure;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+}
+
 .container-space-between-align-center {
   display: flex;
   justify-content: space-between;

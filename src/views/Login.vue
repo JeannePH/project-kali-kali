@@ -29,24 +29,45 @@ const handleLogin = async () => {
 </script>
 
 <template>
-  <div class="form-container">
-    <h2>Connexion</h2>
-    <form @submit.prevent="handleLogin" class="form-body">
-      <div class="container-input">
-        <label for="email">Email:</label>
-        <input type="email" v-model="email" required/>
+  <div class="container-column">
+    <div class="app-logo-container">
+      <div class="app-logo">
+        <img src="../assets/logo_kali.png" alt="Logo">
       </div>
-      <div class="container-input">
-        <label for="password">Password:</label>
-        <input type="password" v-model="password" required/>
-      </div>
-      <div class="form-footer">
-        <button type="submit" class="btn-primary">Login</button>
-      </div>
-    </form>
-    <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+    </div>
+    <div class="form-container">
+      <form @submit.prevent="handleLogin" class="form-body">
+        <div class="container-input">
+          <label for="email">Email:</label>
+          <input type="email" v-model="email" required/>
+        </div>
+        <div class="container-input">
+          <label for="password">Password:</label>
+          <input type="password" v-model="password" required/>
+        </div>
+        <div class="form-footer">
+          <button type="submit" class="btn-primary">Login</button>
+        </div>
+      </form>
+      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+    </div>
   </div>
 </template>
 
 <style scoped>
+
+.app-logo-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 125px;
+  padding-inline: 8px;
+  text-align: center;
+}
+
+.app-logo img {
+  height: 120px;
+  display: block;
+  margin: 4px auto;
+}
 </style>

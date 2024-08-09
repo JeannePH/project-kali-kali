@@ -2,8 +2,8 @@
 import {computed, ref} from 'vue';
 import SidemenuItem from "./SidemenuItem.vue";
 import store from "../../store.js";
-import router from "../../router/index.js";
 
+// TOGGLE SIDEMENU
 const emits = defineEmits(['toggle']);
 
 const sidemenuOpen = ref(true);
@@ -13,25 +13,24 @@ function toggleSideMenu() {
   emits('toggle', sidemenuOpen.value);
 }
 
-const handleLogout = async () => {
-  await store.logout();
-  alert('Logged out!');
-  await router.push('/login');
-};
 
-const isApplicationSelected = computed(() => store.selectedApplicationId !== null);
-
-const dropdownOpen = ref(false);
+// DROPDOWN SUBMENU
+const dropdownOpen = ref(true);
 
 function toggleDropdown() {
   dropdownOpen.value = !dropdownOpen.value;
+  console.log("dropdownOpen state:", dropdownOpen.value);
 }
-
-// Computed pour vérifier si l'utilisateur est connecté
-const isAuthenticated = computed(() => store.user !== null);
 
 const userName = computed(() => store.user ? store.user.email : 'user@mail.com');
 
+// LOG OUT
+const handleLogout = async () => {
+  await store.logout();
+  alert('Logged out!');
+};
+
+const isApplicationSelected = computed(() => store.selectedApplicationId !== null);
 
 </script>
 
@@ -49,7 +48,7 @@ const userName = computed(() => store.user ? store.user.email : 'user@mail.com')
             <img src="../../assets/logo_kali.png" alt="Logo">
           </div>
         </div>
-        <div class="menu-container" v-if="isAuthenticated">
+        <div class="menu-container">
           <ul class="menu-list">
             <SidemenuItem to="/applications" label="Applications"/>
             <div v-if="isApplicationSelected">
@@ -75,7 +74,7 @@ const userName = computed(() => store.user ? store.user.email : 'user@mail.com')
           </ul>
         </div>
       </div>
-      <div class="profile-container" v-if="isAuthenticated">
+      <div class="profile-container">
         <div class="container-mail">
           <p class="name">{{ userName }}</p>
         </div>

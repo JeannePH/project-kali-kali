@@ -48,7 +48,7 @@ const addApplication = async () => {
     }
 
     // Appelez votre fonction pour traiter les fichiers et ajouter l'application
-    await processFiles(filesContent.value, wewebid.value);
+    await processFiles(filesContent.value, name.value, wewebid.value);
 
     // Réinitialiser le formulaire après le succès
     resetForm();

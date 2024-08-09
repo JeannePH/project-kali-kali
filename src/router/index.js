@@ -9,6 +9,7 @@ import AddApplication from "../components/forms/AddNewApplication.vue";
 import AddApplicationData from "../components/forms/AddApplicationData.vue";
 import Application from "../components/application/Application.vue";
 import ApplicationData from "../components/application/data/ApplicationData.vue";
+import store from "../store.js";
 
 const routes = [
     {path: '/', name: 'Home', component: Home},
@@ -36,5 +37,18 @@ const router = createRouter({
     routes,
     linkActiveClass: 'kali-active-link'
 })
+
+
+// Ajouter un garde de navigation global
+router.beforeEach((to, from, next) => {
+    const isAuthenticated = store.user !== null; // Ou une autre logique pour vérifier l'authentification
+
+    // Si la route n'est pas 'login' et que l'utilisateur n'est pas authentifié, redirigez vers 'login'
+    if (!isAuthenticated && to.name !== 'Login') {
+        next({ name: 'Login' });
+    } else {
+        next(); // Sinon, continuez vers la route demandée
+    }
+});
 
 export default router

@@ -21,14 +21,17 @@ async function selectApplication(applicationId) {
 
 <template>
     <ApplicationsHeader />
-  <div class="container-row">
-    <div v-if="!store.applications.length">Il n'y a pas d'application dans la table application</div>
-    <div v-else>
-      <div class="card" v-for="application in store.applications" :id="application.id" :key="application.id">
-        <span @click="selectApplication(application.id)">{{ application.name }}</span>
+    <div class="container" v-if="!store.applications.length">Il n'y a pas d'application dans la table application</div>
+    <div class="container" v-else>
+      <div class="card"
+           v-for="application in store.applications"
+           :id="application.id"
+           :key="application.id"
+           @click="selectApplication(application.id)"
+      >
+        <span>{{ application.name }}</span>
       </div>
     </div>
-  </div>
 </template>
 
 <style scoped>
@@ -43,11 +46,12 @@ async function selectApplication(applicationId) {
   font-size: 24px;
   color: #000;
   padding: 16px;
+  cursor: pointer;
 }
 
 .card span {
   font-weight: bold;
-  cursor: pointer;
+  text-transform: uppercase;
 }
 </style>
 
