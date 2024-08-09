@@ -1,5 +1,6 @@
 <script setup>
 import {ref} from 'vue';
+import {processFiles} from "../../api/extractor.js";
 
 const name = ref('');
 const wewebid = ref('');
@@ -7,17 +8,22 @@ const wewebid = ref('');
 const filesContent = ref([]);
 
 const handleFileUpload = (event) => {
-  const file = event.target.files[0];
-  if (file && file.type === "application/json") {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const content = e.target.result;
-      console.log("Fichier JSON téléchargé :", content);
-      // Vous pouvez ajouter la logique de traitement du fichier ici
-    };
-    reader.readAsText(file);
-  } else {
-    console.error("Veuillez télécharger un fichier JSON valide.");
+  const files = event.target.files;
+  for (const file of files) {
+    if (file && file.type === "application/json") {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const content = e.target.result;
+        filesContent.value.push({
+          name: file.name,
+          content: JSON.parse(content) // Stocker le contenu JSON parsé directement
+        });
+        console.log("Fichier JSON téléchargé :", content);
+      };
+      reader.readAsText(file);
+    } else {
+      console.error("Veuillez télécharger un fichier JSON valide.");
+    }
   }
 };
 
@@ -31,14 +37,25 @@ const resetForm = () => {
   }
 };
 
+const addApplication = async () => {
+  try {
+    console.log(`Nom: ${name.value}, weweb id: ${wewebid.value}`);
 
-const addApplication = () => {
-  // Logique pour ajouter une application (à implémenter selon votre logique)
-  console.log(`Nom: ${name.value}, weweb id: ${wewebid.value}`);
-  resetForm();
+    // Vérifiez que les champs requis sont remplis
+    if (!name.value || !wewebid.value || filesContent.value.length === 0) {
+      console.error("Veuillez remplir tous les champs et télécharger au moins un fichier JSON.");
+      return;
+    }
+
+    // Appelez votre fonction pour traiter les fichiers et ajouter l'application
+    await processFiles(filesContent.value, wewebid.value);
+
+    // Réinitialiser le formulaire après le succès
+    resetForm();
+  } catch (error) {
+    console.error('Erreur lors de l\'ajout de l\'application :', error);
+  }
 };
-
-
 </script>
 
 <template>

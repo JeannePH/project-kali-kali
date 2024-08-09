@@ -1,129 +1,74 @@
-require('dotenv').config();
-const { createClient } = require('@supabase/supabase-js');
-const fs = require("fs");
-const path = require("path");
+import { supabase } from "../supabase.js";
 
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_KEY;
-const environment = process.env.ENVIRONMENT;
+async function processFiles(files, appName, wewebId) {
+    try {
+        // 1. Créer l'application et récupérer l'ID généré automatiquement
+        const { data: newApp, error: insertAppError } = await supabase
+            .from('application')
+            .insert({
+                name: appName,
+                weweb_id: wewebId
+            })
+            .select('id')
+            .single();
 
-const supabase = createClient(supabaseUrl, supabaseKey);
+        if (insertAppError) {
+            throw new Error('Erreur lors de l\'insertion de l\'application : ' + insertAppError.message);
+        }
 
-let appId;
+        const appId = newApp.id;
 
-const processFiles = async (files, appIdParam) => {
-    await login();
-    appId = await init(appIdParam);
+        // 2. Extraire les données des fichiers JSON
+        const filesData = await getFiles(files);
+        const version = await getVersion(filesData);
+        const pageData = await getPageData(filesData, appId);
+        const { extractedVariableData, dataPageVariable } = await getVariableData(filesData, appId);
+        const { extractedWorkflowData, dataPageWorkflow } = await getWorkflowData(filesData, appId);
+        const { extractedWwObjectData, dataPageWwObject } = await getWwObjectData(filesData, appId);
+        const extractedActionData = await getActionData(filesData, appId);
 
-    const filesData = await getFiles(files);
+        // 3. Insérer les données extraites dans les tables respectives
+        await upsertData('application_version', [{ application_id: appId, cache_version: version }]);
+        await upsertData('page', pageData);
+        await upsertData('variable', extractedVariableData);
+        await upsertData('workflow', extractedWorkflowData);
+        await upsertData('ww_object', extractedWwObjectData);
+        await upsertData('action', extractedActionData);
+        await upsertData('page_variable', dataPageVariable, { onConflict: ['page_id', 'variable_id', 'cache_version'] });
+        await upsertData('page_workflow', dataPageWorkflow);
+        await upsertData('page_ww_object', dataPageWwObject);
 
-    const version = await getVersion(filesData);
-    const pageData = await getPageData(filesData);
-    const { extractedVariableData, dataPageVariable } = await getVariableData(filesData);
-    const { extractedWorkflowData, dataPageWorkflow } = await getWorkflowData(filesData);
-    const { extractedWwObjectData, dataPageWwObject } = await getWwObjectData(filesData);
-    const extractedActionData = await getActionData(filesData);
-
-    await upsertData('application_version', [{ application_id: appId, cache_version: version }]);
-    await upsertData('page', pageData);
-    await upsertData('variable', extractedVariableData);
-    await upsertData('workflow', extractedWorkflowData);
-    await upsertData('ww_object', extractedWwObjectData);
-    await upsertData('action', extractedActionData);
-    await upsertData('page_variable', dataPageVariable, { onConflict: ['page_id', 'variable_id', 'cache_version'] });
-    await upsertData('page_workflow', dataPageWorkflow);
-    await upsertData('page_ww_object', dataPageWwObject);
+        console.log('Application et données associées insérées avec succès.');
+    } catch (error) {
+        logError(error.message);
+    }
 }
 
 function logError(message) {
     console.log('❌ Erreur :', message);
 }
 
-async function login() {
-    const {data, error} = await supabase.auth.signInWithPassword({
-        email: process.env.USER_EMAIL,
-        password: process.env.USER_PASSWORD
-    });
-
-    if (error) {
-        logError(error);
-        process.exit(1);
-    } else {
-        console.log("login réussi");
-    }
-}
-
-
-async function setAppId() {
-    let {data, error} = await supabase
-        .rpc('get_latest_application_id')
-    if (error) logError(error);
-    return data;
-}
-
-async function getAppId(appName) {
-    let {data, error} = await supabase
-        .rpc('get_application_id_by_name', {
-            'app_name': appName
-        })
-    if (error) logError(error);
-    return data;
-}
-
 async function getFiles(files) {
     try {
-        let filesData;
-        if (environment === "DEV") {
-            filesData = fs.readdirSync(dataPath).map(file => {
-                let filePath = path.join(dataPath, file);
-                let rawData = fs.readFileSync(filePath);
-                return {
-                    name: file,
-                    content: JSON.parse(rawData)
-                };
-            });
-        } else {
-            // En production, les fichiers sont déjà en mémoire, pas besoin de lire à partir du système de fichiers
-            filesData = files.map(file => ({
-                name: file.originalname,
-                content: JSON.parse(file.buffer.toString())
-            }));
-        }
+        const filesData = files.map(file => ({
+            name: file.name,
+            content: file.content // Le contenu est déjà JSON.parse lors du téléchargement
+        }));
         return filesData;
     } catch (error) {
         logError(error);
-        process.exit(1);
     }
 }
-
-
-async function insertData(table, data) {
-    if (data && data.length > 0) {
-        const {output, error} = await supabase
-            .from(table)
-            .insert(data)
-            .select()
-
-        if (error) {
-            logError(error);
-        } else {
-            console.log('✅ Données insérées ou mises à jour avec succès dans la table : ', table);
-        }
-    } else {
-        logError('Aucune donnée à insérer pour la table => ' + table);
-    }
-}
-
 
 async function upsertData(table, data, onConflict) {
     if (data && data.length > 0) {
-        const {output, error} = await supabase
+        const { error } = await supabase
             .from(table)
             .upsert(data, onConflict)
-            .select()
+            .select();
 
         if (error) {
-            logError(error);
+            logError(error.message);
         } else {
             console.log('✅ Données insérées ou mises à jour avec succès dans la table : ', table);
         }
@@ -132,8 +77,8 @@ async function upsertData(table, data, onConflict) {
     }
 }
 
-
-async function getPageData(files) {
+// EXTRAIRE PAGES
+async function getPageData(files, appId) {
     let extractedData = [];
     try {
         for (let file of files) {
@@ -162,7 +107,7 @@ async function getPageData(files) {
                     page_user_groups: pageData.pageUserGroups,
                     sections: pageData.sections,
                     scripts: pageData.scripts,
-                    application_id: appId
+                    application_id: appId // Application ID
                 });
             }
         }
@@ -173,23 +118,24 @@ async function getPageData(files) {
     return extractedData;
 }
 
+// EXTRAIRE VERSION
 async function getVersion(files) {
     try {
         let file = files[0];
         if (file.name.endsWith('.json')) {
             let jsonData = file.content;
             console.log('✅ Version extraite');
-            return jsonData.cacheVersion
+            return jsonData.cacheVersion;
         } else {
             logError("Problème lors de la récupération de la version car le fichier utilisé n'est pas un json");
         }
     } catch (error) {
         logError(error);
-        process.exit(1);
     }
 }
 
-async function getVariableData(files) {
+// EXTRAIRE VARIABLES
+async function getVariableData(files, appId) {
     let extractedVariableData = [];
     let dataPageVariable = [];
     try {
@@ -197,7 +143,7 @@ async function getVariableData(files) {
             let jsonData = file.content;
             if (jsonData.variables && Array.isArray(jsonData.variables)) {
                 jsonData.variables.forEach(variableData => {
-                    if (!extractedVariableData.some(wf => wf.weweb_id == variableData.id)) {
+                    if (!extractedVariableData.some(v => v.weweb_id == variableData.id)) {
                         extractedVariableData.push({
                             weweb_id: variableData.id,
                             cache_version: jsonData.cacheVersion,
@@ -214,7 +160,7 @@ async function getVariableData(files) {
                         });
                     }
                 });
-                let variableRelations = await createRelations(jsonData.page.id, jsonData.variables, 'page_id', 'variable_id', jsonData.cacheVersion);
+                let variableRelations = await createRelations(jsonData.page.id, jsonData.variables, 'page_id', 'variable_id', jsonData.cacheVersion, appId);
                 dataPageVariable = dataPageVariable.concat(variableRelations);
             } else {
                 console.log('Aucun identifiant de page trouvé dans le fichier : ', file.name);
@@ -225,10 +171,11 @@ async function getVariableData(files) {
         logError(error);
     }
     dataPageVariable = await getUniqueData(dataPageVariable, 'page_id', "variable_id");
-    return {extractedVariableData, dataPageVariable};
+    return { extractedVariableData, dataPageVariable };
 }
 
-async function getWorkflowData(files) {
+// EXTRAIRE WORKFLOW
+async function getWorkflowData(files, appId) {
     let extractedWorkflowData = [];
     let dataPageWorkflow = [];
     try {
@@ -252,30 +199,30 @@ async function getWorkflowData(files) {
             ({
                 extractedWorkflowData,
                 dataPageWorkflow
-            } = await getExtractedWorkflowData(jsonData.workflows, extractedWorkflowData, dataPageWorkflow, jsonData, 'GLOBAL'));
+            } = await getExtractedWorkflowData(jsonData.workflows, extractedWorkflowData, dataPageWorkflow, jsonData, 'GLOBAL', appId));
             ({
                 extractedWorkflowData,
                 dataPageWorkflow
-            } = await getExtractedWorkflowData(jsonData.page.workflows, extractedWorkflowData, dataPageWorkflow, jsonData, 'PAGE'));
+            } = await getExtractedWorkflowData(jsonData.page.workflows, extractedWorkflowData, dataPageWorkflow, jsonData, 'PAGE', appId));
             ({
                 extractedWorkflowData,
                 dataPageWorkflow
-            } = await getExtractedWorkflowData(allInteractionsFromSections, extractedWorkflowData, dataPageWorkflow, jsonData, 'SECTION'));
+            } = await getExtractedWorkflowData(allInteractionsFromSections, extractedWorkflowData, dataPageWorkflow, jsonData, 'SECTION', appId));
             ({
                 extractedWorkflowData,
                 dataPageWorkflow
-            } = await getExtractedWorkflowData(allInteractionsFromComponents, extractedWorkflowData, dataPageWorkflow, jsonData, 'COMPONENT'));
+            } = await getExtractedWorkflowData(allInteractionsFromComponents, extractedWorkflowData, dataPageWorkflow, jsonData, 'COMPONENT', appId));
         }
         console.log('✅ Données des workflows extraites');
     } catch (error) {
         logError(error);
     }
     dataPageWorkflow = await getUniqueData(dataPageWorkflow, 'page_id', "workflow_id");
-    return {extractedWorkflowData, dataPageWorkflow};
+    return { extractedWorkflowData, dataPageWorkflow };
 }
 
-
-async function getExtractedWorkflowData(data, extractedWorkflowData, dataPageWorkflow, jsonData, type) {
+// EXTRAIRE WORKFLOW (suite)
+async function getExtractedWorkflowData(data, extractedWorkflowData, dataPageWorkflow, jsonData, type, appId) {
     if (data && Array.isArray(data)) {
         data.forEach(workflowData => {
             if (!extractedWorkflowData.some(wf => wf.weweb_id == workflowData.id)) {
@@ -299,19 +246,14 @@ async function getExtractedWorkflowData(data, extractedWorkflowData, dataPageWor
                 });
             }
         });
-        let workflowRelations = await createRelations(jsonData.page.id, data, 'page_id', 'workflow_id', jsonData.cacheVersion);
+        let workflowRelations = await createRelations(jsonData.page.id, data, 'page_id', 'workflow_id', jsonData.cacheVersion, appId);
         dataPageWorkflow = dataPageWorkflow.concat(workflowRelations);
     }
-
-    return {extractedWorkflowData, dataPageWorkflow}
+    return { extractedWorkflowData, dataPageWorkflow };
 }
 
-const getWwObjectData = async (files) => {
-    // Logic for getting wwObject data
-}
-
-
-async function getActionData(files) {
+// EXTRAIRE ACTIONS
+async function getActionData(files, appId) {
     let extractedActionData = [];
     try {
         for (let file of files) {
@@ -320,7 +262,6 @@ async function getActionData(files) {
 
                 let allInteractionsFromComponents = Object.values(jsonData.wwObjects).reduce((accumulator, obj) => {
                     if (obj._state && obj._state.interactions) {
-                        // Accéder à l'array 'interactions' et le concaténer avec l'accumulateur
                         return accumulator.concat(obj._state.interactions);
                     }
                     return accumulator;
@@ -328,27 +269,25 @@ async function getActionData(files) {
 
                 let allInteractionsFromSections = Object.values(jsonData.sections).reduce((accumulator, obj) => {
                     if (obj._state && obj._state.interactions) {
-                        // Accéder à l'array 'interactions' et le concaténer avec l'accumulateur
                         return accumulator.concat(obj._state.interactions);
                     }
                     return accumulator;
                 }, []);
 
-                extractedActionData = await getExtractedActionData(jsonData.workflows, extractedActionData, jsonData);
-                extractedActionData = await getExtractedActionData(jsonData.page.workflows, extractedActionData, jsonData);
-                extractedActionData = await getExtractedActionData(allInteractionsFromSections, extractedActionData, jsonData);
-                extractedActionData = await getExtractedActionData(allInteractionsFromComponents, extractedActionData, jsonData);
+                extractedActionData = await getExtractedActionData(jsonData.workflows, extractedActionData, jsonData, appId);
+                extractedActionData = await getExtractedActionData(jsonData.page.workflows, extractedActionData, jsonData, appId);
+                extractedActionData = await getExtractedActionData(allInteractionsFromSections, extractedActionData, jsonData, appId);
+                extractedActionData = await getExtractedActionData(allInteractionsFromComponents, extractedActionData, jsonData, appId);
             }
         }
         console.log('✅ Données des actions extraites');
     } catch (error) {
-        logError(error)
+        logError(error);
     }
     return extractedActionData;
 }
 
-
-async function getExtractedActionData(data, extractedActionData, jsonData) {
+async function getExtractedActionData(data, extractedActionData, jsonData, appId) {
     if (!jsonData) {
         console.error('❌ Erreur : jsonData est indéfini');
         return extractedActionData;
@@ -356,13 +295,11 @@ async function getExtractedActionData(data, extractedActionData, jsonData) {
 
     if (data && Array.isArray(data)) {
         data.forEach(workflowData => {
-            // Vérifier si workflowData.actions est un OBJET avant d'exécuter forEach
             if (workflowData.actions && typeof workflowData.actions === 'object' && !Array.isArray(workflowData.actions)) {
                 for (const key in workflowData.actions) {
                     const actionData = workflowData.actions[key];
                     if (!extractedActionData.some(action => action.weweb_id == actionData.id)) {
-                        extractedActionData.push
-                        ({
+                        extractedActionData.push({
                             weweb_id: actionData.id,
                             cache_version: jsonData.cacheVersion,
                             type: actionData.type,
@@ -377,7 +314,7 @@ async function getExtractedActionData(data, extractedActionData, jsonData) {
                             path: actionData.path,
                             var_id: actionData.varid,
                             var_value: actionData.varValue,
-                            vars_id: actionData.varsId,php
+                            vars_id: actionData.varsId,
                             args: actionData.args,
                             disabled: actionData.disabled,
                             parent_workflow_id: workflowData.id,
@@ -391,21 +328,8 @@ async function getExtractedActionData(data, extractedActionData, jsonData) {
     return extractedActionData;
 }
 
-
-
-async function getUniqueData(data, firstColumn, secondColumn) {
-    const uniqueEntries = new Map();
-    data.forEach(entry => {
-        const key = `${entry[firstColumn]}-${entry[secondColumn]}-${entry.cache_version}`;
-        if (!uniqueEntries.has(key)) {
-            uniqueEntries.set(key, entry);
-        }
-    });
-    return Array.from(uniqueEntries.values());
-}
-
-
-async function getWwObjectData(files) {
+// EXTRAIRE OBJECTS WEWEB
+async function getWwObjectData(files, appId) {
     let extractedWwObjectData = [];
     let dataPageWwObject = [];
     try {
@@ -428,7 +352,7 @@ async function getWwObjectData(files) {
                     }
                 }
                 let wwObjectArray = Object.values(jsonData.wwObjects);
-                let wwObjectRelations = await createRelations(jsonData.page.id, wwObjectArray, 'page_id', 'ww_object_id', jsonData.cacheVersion);
+                let wwObjectRelations = await createRelations(jsonData.page.id, wwObjectArray, 'page_id', 'ww_object_id', jsonData.cacheVersion, appId);
                 dataPageWwObject = dataPageWwObject.concat(wwObjectRelations);
             } else {
                 logError('Aucun wwObject trouvé dans le fichier : ' + file.name);
@@ -439,11 +363,12 @@ async function getWwObjectData(files) {
         logError(error);
     }
     dataPageWwObject = await getUniqueData(dataPageWwObject, 'page_id', "ww_object_id");
-    return {extractedWwObjectData, dataPageWwObject};
+    return { extractedWwObjectData, dataPageWwObject };
 }
 
-async function createRelations(firstId, objects, firstRelationKey, secondRelationKey, cache_version) {
-    let relation = {}
+// UTILITAIRES : Création des relations et suppression des doublons
+async function createRelations(firstId, objects, firstRelationKey, secondRelationKey, cache_version, appId) {
+    let relation = {};
     return objects.map(obj => {
         const idOrUid = obj.id || obj.uid;
         relation = {
@@ -455,3 +380,16 @@ async function createRelations(firstId, objects, firstRelationKey, secondRelatio
         return relation;
     });
 }
+
+async function getUniqueData(data, firstColumn, secondColumn) {
+    const uniqueEntries = new Map();
+    data.forEach(entry => {
+        const key = `${entry[firstColumn]}-${entry[secondColumn]}-${entry.cache_version}`;
+        if (!uniqueEntries.has(key)) {
+            uniqueEntries.set(key, entry);
+        }
+    });
+    return Array.from(uniqueEntries.values());
+}
+
+export { processFiles };
