@@ -53,6 +53,4 @@ const resetForm = () => {
 </template>
 
 <style scoped>
-
-
 </style>

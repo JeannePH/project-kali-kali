@@ -10,6 +10,7 @@ const sidemenuOpen = ref(true);
 
 function toggleSideMenu() {
   sidemenuOpen.value = !sidemenuOpen.value;
+  console.log("sidemenuOpen:", sidemenuOpen.value);
   emits('toggle', sidemenuOpen.value);
 }
 

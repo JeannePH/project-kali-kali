@@ -1,4 +1,15 @@
-/******* Header *******/
+/******* Header Page *******/
+
+.header {
+  @extend .flex, .justify-between, .align-center;
+  border-bottom: 1px solid #d3d3d3;
+  margin: 24px 0 64px;
+  padding: 10px 0;
+  width: 100%;
+  background-color: gold;
+}
+
+/******* Header Page *******/
 
 .main-header {
   position: sticky;
@@ -8,10 +19,7 @@
 }
 
 .main-header .container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
+  @extend .flex, .flex-wrap, .justify-between, .align-center;
   min-height: 8rem;
   padding-block: 1.2rem;
 }

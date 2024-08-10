@@ -1,11 +1,11 @@
 <script setup>
+
 </script>
 
 <template>
-  <div>
-    <h1>Home</h1>
-  </div>
+<h1>404</h1>
 </template>
 
 <style scoped>
+
 </style>

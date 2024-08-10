@@ -1,6 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router';
 
 
+import {createRouter, createWebHistory} from 'vue-router'
 import Home from "../views/Home.vue";
 import Applications from "../components/applications/Applications.vue";
 import Login from "../views/Login.vue";
@@ -12,26 +12,25 @@ import AddApplicationData from "../components/forms/AddApplicationData.vue";
 import Application from "../components/application/Application.vue";
 import ApplicationData from "../components/application/data/ApplicationData.vue";
 import store from "../store.js";
-import NotFound from "../components/NotFound.vue";
 import UnauthenticatedLayout from "../components/layouts/UnauthenticatedLayout.vue";
-import AuthenticatedLayout from "../components/layouts/AuthenticatedLayout.vue";  // Importez votre store ou méthode d'authentification
+import AuthenticatedLayout from "../components/layouts/AuthenticatedLayout.vue";
+import NotFound from "../components/NotFound.vue";
 
 const routes = [
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'NotFound',
+        component: NotFound
+    },
     {
         path: '/login',
         component: UnauthenticatedLayout,
         children: [
-            { path: '/login', name: 'Login', component: Login }
+            { path: '', name: 'Login', component: Login }
         ]
     },
     {
-        path: '/:pathMatch(.*)*',
-        name: 'Not Found',
-        component: NotFound
-    },
-    {
         path: '/',
-        name: 'Authenticated Layout',
         component: AuthenticatedLayout,
         meta: { requiresAuth: true },
         children: [
@@ -54,25 +53,29 @@ const routes = [
                 ]
             }
         ]
-    },
+    }
 ];
 
 const router = createRouter({
     history: createWebHistory(),
     routes,
     linkActiveClass: 'kali-active-link'
-});
+})
+
 
 // Ajouter un garde de navigation global
 router.beforeEach((to, from, next) => {
     const isAuthenticated = store.user !== null; // Ou une autre logique pour vérifier l'authentification
 
     // Si la route n'est pas 'login' et que l'utilisateur n'est pas authentifié, redirigez vers 'login'
-    if (!isAuthenticated && to.name !== 'Login') {
+    if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated) {
         next({ name: 'Login' });
     } else {
         next(); // Sinon, continuez vers la route demandée
     }
 });
 
-export default router;
+
+
+
+export default router
