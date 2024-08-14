@@ -161,7 +161,7 @@ const isApplicationSelected = computed(() => store.selectedApplicationId !== nul
   padding: 0;
 }
 
-.menu-item a {
+.sidemenu-item a {
   color: var(--txt-primary);
   opacity: 0.7;
   transition: opacity 0.2s ease, color 0.2s ease;

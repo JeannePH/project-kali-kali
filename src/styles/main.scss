@@ -1,6 +1,7 @@
 /* Importer vos variables et mixins */
 @import 'utils/mixins';
-@import 'utils/_variables.css';
+@import 'utils/utilities';
+@import 'utils/variables';
 
 /* Tailwind CSS Directives */
 @import 'tailwindcss/base';

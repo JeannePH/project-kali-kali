@@ -1,5 +1,5 @@
 <script setup>
-import TheAddApplicationButton from "../TheAddApplicationButton.vue";
+import TheAddApplicationButton from "../buttons/TheAddApplicationButton.vue";
 
 const props = defineProps(['appName', 'appObject']);
 </script>

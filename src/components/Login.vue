@@ -35,18 +35,18 @@ const handleLogin = async () => {
         <img src="../assets/logo_kali.png" alt="Logo">
       </div>
     </div>
-    <div class="form-container">
+    <div class="login-form-container">
       <form @submit.prevent="handleLogin" class="form-body">
         <div class="container-input">
           <label for="email">Email:</label>
           <input type="email" v-model="email" required/>
         </div>
         <div class="container-input">
-          <label for="password">Password:</label>
+          <label for="password">Mot de passe:</label>
           <input type="password" v-model="password" required/>
         </div>
-        <div class="form-footer">
-          <button type="submit" class="btn-primary">Login</button>
+        <div class="login-form-footer">
+          <button type="submit" class="btn-primary">Se connecter</button>
         </div>
       </form>
       <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
@@ -55,6 +55,22 @@ const handleLogin = async () => {
 </template>
 
 <style scoped>
+
+
+
+.login-form-container {
+  border-radius: 8px;
+  max-width: 400px;
+  padding: 24px 36px;
+  border: 1px solid var(--border-color-primary);
+  gap: 24px;
+}
+
+.login-form-footer {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+}
 
 .app-logo-container {
   display: flex;

@@ -32,31 +32,31 @@ const iconSrc = new URL(`../../assets/${props.icon}`, import.meta.url).href;
 </script>
 
 <template>
-  <li class="menu-item" :class="{ active: isActive() }" @click="navigate">
-    <img  v-if=icon :src=" iconSrc " alt="{{ label }}" class="menu-icon"/>
+  <li class="sidemenu-item" :class="{ active: isActive() }" @click="navigate">
+    <img  v-if=icon :src=" iconSrc " alt="{{ label }}" class="sidemenu-item__icon"/>
     <span>{{ label }}</span>
   </li>
 </template>
 
 <style scoped>
-.menu-item {
+.sidemenu-item {
   display: flex;
   padding: 8px;
   margin-bottom: 1px;
   align-items: center;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  color: #52525B;
+  color: var(--txt-primary);
   gap: 8px;
 }
 
-.menu-item.active,
-.menu-item:hover {
-  background-color: #E4E4E7;
+.sidemenu-item.active,
+.sidemenu-item:hover {
+  background-color: var(--bg-primary);
   border-radius: 8px;
 }
 
-.menu-icon {
+.sidemenu-item__icon {
   max-width: 20px;
   max-height: 20px;
   align-self: center;

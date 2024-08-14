@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 
-import Home from "../views/Home.vue";
+import Home from "../components/Home.vue";
 import Applications from "../components/applications/Applications.vue";
-import Login from "../views/Login.vue";
+import Login from "../components/Login.vue";
 import Audit from "../components/application/management/ApplicationManagementAudit.vue";
 import Administration from "../components/application/management/ApplicationManagementAdministration.vue";
 import Search from "../components/application/management/Search.vue";

@@ -7,44 +7,37 @@
 
 .container {
   @extend .flex, .flex-row, .justify-start, .align-center, .flex-wrap, .gap-16;
-  background-color: rosybrown;
 }
 
 .container-sans-wrap-align-top {
   @extend .flex, .flex-row, .justify-start, .align-start, .gap-16;
   padding-bottom: 24px;
-  background-color: peachpuff;
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
 }
 
 .container-row {
   @extend .flex, .flex-row;
-  background-color: lightpink;
 }
 
 .container-column {
   @extend .flex, .flex-column, .justify-center, .align-center, .gap-24;
-  background-color: azure;
 }
 
 .container-space-between-align-center {
   @extend .flex, .justify-between, .align-center;
-  background-color: yellowgreen;
 }
 
 
 .container-flex-end-align-center {
   @extend .flex, .justify-end, .align-center;
   padding: 8px;
-  background-color: mediumaquamarine;
 }
 
 
 .container-icon {
   @extend .flex, .align-center;
   margin: 0 8px;
-  background-color: darkorange;
 }
 
 .container-icon img {

@@ -28,8 +28,6 @@ function handleToggle(open) {
   flex-direction: column;
   width: 100%;
   overflow: hidden;
-  background-color: deeppink;
-
 }
 
 
@@ -40,7 +38,6 @@ function handleToggle(open) {
   transition: margin-left 0.3s;
   flex-grow: 1;
   padding: 20px;
-  background-color: bisque;
   height: 100vh
 }
 
