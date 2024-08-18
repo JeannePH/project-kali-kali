@@ -1,7 +1,7 @@
 <script setup>
 import store from "../../store.js";
 import {useRouter} from "vue-router";
-import ApplicationsHeader from "./ApplicationsHeader.vue";
+import ApplicationsHeader from "./TheApplicationsHeader.vue";
 
 store.fetchApplications();
 const router = useRouter();

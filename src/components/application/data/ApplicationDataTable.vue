@@ -16,7 +16,7 @@ const filteredData = computed(() => {
     <div v-if="!filteredData.length">
       No data available.
     </div>
-    <div v-else class="table-container custom-scrollbar">
+    <div v-else class="container-table custom-scrollbar">
       <table class="data-table">
         <thead>
         <tr>
@@ -38,7 +38,7 @@ const filteredData = computed(() => {
 </template>
 
 <style scoped>
-.table-container {
+.container-table {
   max-height: calc(100vh - 250px); /* Définir une hauteur maximale pour activer la barre de défilement */
   max-width: 100%;
 }

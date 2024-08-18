@@ -1,8 +1,8 @@
 <script setup>
 import {computed, onMounted, watchEffect} from "vue";
 import store from "../../../store.js";
-import TheSelectComponent from "./TheVersionFilterComponent.vue";
-import TableComponent from "./TableComponent.vue"; // Importer TableComponent
+import ApplicationDataTableVersionFilter from "./ApplicationDataTableVersionFilter.vue";
+import ApplicationDataTable from "./ApplicationDataTable.vue";
 
 // Utiliser useRoute pour obtenir le nom de la route actuelle.
 import {useRoute} from "vue-router";
@@ -74,12 +74,12 @@ watchEffect(() => {
 </script>
 
 <template>
-    <TheSelectComponent/>
+    <ApplicationDataTableVersionFilter/>
     <div v-if="!filteredData.length">
       No data available.
     </div>
     <div v-else>
-      <TableComponent :data="filteredData" :columns="selectedColumns"/>
+      <ApplicationDataTable :data="filteredData" :columns="selectedColumns"/>
     </div>
 </template>
 

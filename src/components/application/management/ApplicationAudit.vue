@@ -47,7 +47,6 @@ const labels = {
   margin-top: 30px;
   margin-right: 24px;
   max-width: 280px;
-  background-color: #E4E4E7;
 }
 
 .label {

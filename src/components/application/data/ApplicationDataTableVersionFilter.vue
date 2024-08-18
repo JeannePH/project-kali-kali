@@ -11,7 +11,7 @@ watch(selectedVersion, (newValue) => {
 </script>
 
 <template>
-  <div class="filter-container">
+  <div class="container-filter">
     <label for="version-select">Version </label>
     <select id="version-select" v-model="selectedVersion" class="custom-select">
       <option v-for="version in versions" :key="version.cache_version" :value="version.cache_version">
@@ -22,7 +22,7 @@ watch(selectedVersion, (newValue) => {
 </template>
 
 <style scoped>
-.filter-container {
+.container-filter {
   display: flex;
   flex-direction: row;
   align-items: center;

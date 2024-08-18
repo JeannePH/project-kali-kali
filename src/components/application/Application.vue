@@ -1,5 +1,5 @@
 <script setup>
-import HeaderComponent from "./ApplicationHeader.vue";
+import HeaderComponent from "./TheApplicationHeader.vue";
 import store from "../../store.js";
 import {computed} from "vue";
 import {useRoute} from "vue-router";
