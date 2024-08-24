@@ -18,16 +18,16 @@ import AuthenticatedLayout from "../components/layouts/AuthenticatedLayout.vue";
 
 const routes = [
     {
+        path: '/:pathMatch(.*)*',
+        name: 'Not Found',
+        component: NotFound
+    },
+    {
         path: '/login',
         component: UnauthenticatedLayout,
         children: [
             { path: '/login', name: 'Login', component: Login }
         ]
-    },
-    {
-        path: '/:pathMatch(.*)*',
-        name: 'Not Found',
-        component: NotFound
     },
     {
         path: '/',

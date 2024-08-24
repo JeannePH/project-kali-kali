@@ -44,25 +44,6 @@ const store = reactive({
         this.selectedCacheVersion = version;
     },
 
-    setSelectedApplicationId(id) {
-        this.selectedApplicationId = id;
-    },
-
-    getSelectedApplicationId() {
-        return this.selectedApplicationId;
-    },
-
-    setSelectedColumns(type, columns) {
-        const propertyName = this.typeToProperty[type];
-        if (propertyName) {
-            this[propertyName] = columns;
-            localStorage.setItem(propertyName, JSON.stringify(columns));
-            console.log(`✅ Saved columns for ${type}:`, columns);
-        } else {
-            console.error(`❌ Unknown data type: ${type}`);
-        }
-    },
-
     // Actions
     async fetchApplications() {
         const applications = await fetchApplications();
@@ -170,6 +151,24 @@ const store = reactive({
         }
     },
 
+    setSelectedApplicationId(id) {
+        this.selectedApplicationId = id;
+    },
+
+    getSelectedApplicationId() {
+        return this.selectedApplicationId;
+    },
+
+    setSelectedColumns(type, columns) {
+        const propertyName = this.typeToProperty[type];
+        if (propertyName) {
+            this[propertyName] = columns;
+            localStorage.setItem(propertyName, JSON.stringify(columns));
+            console.log(`✅ Saved columns for ${type}:`, columns);
+        } else {
+            console.error(`❌ Unknown data type: ${type}`);
+        }
+    },
 
     loadSelectedColumns() {
         Object.keys(this.typeToProperty).forEach(type => {

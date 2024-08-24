@@ -52,7 +52,7 @@ async function getFiles(files) {
     try {
         const filesData = files.map(file => ({
             name: file.name,
-            content: file.content // Le contenu est déjà JSON.parse lors du téléchargement
+            content: file.content
         }));
         return filesData;
     } catch (error) {
@@ -66,14 +66,13 @@ async function upsertData(table, data, onConflict) {
             .from(table)
             .upsert(data, onConflict)
             .select();
-
         if (error) {
             logError(error.message);
         } else {
             console.log('✅ Données insérées ou mises à jour avec succès dans la table : ', table);
         }
     } else {
-        logError('Aucune donnée à insérer pour la table => ' + table);
+        logError('Aucune donnée à insérer pour la table : ' + table);
     }
 }
 

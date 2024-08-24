@@ -16,7 +16,7 @@ const handleFileUpload = (event) => {
         const content = e.target.result;
         filesContent.value.push({
           name: file.name,
-          content: JSON.parse(content) // Stocker le contenu JSON parsé directement
+          content: JSON.parse(content)
         });
         console.log("Fichier JSON téléchargé :", content);
       };
@@ -40,17 +40,11 @@ const resetForm = () => {
 const addApplication = async () => {
   try {
     console.log(`Nom: ${name.value}, weweb id: ${wewebid.value}`);
-
-    // Vérifiez que les champs requis sont remplis
     if (!name.value || !wewebid.value || filesContent.value.length === 0) {
       console.error("Veuillez remplir tous les champs et télécharger au moins un fichier JSON.");
       return;
     }
-
-    // Appelez votre fonction pour traiter les fichiers et ajouter l'application
     await processFiles(filesContent.value, name.value, wewebid.value);
-
-    // Réinitialiser le formulaire après le succès
     resetForm();
   } catch (error) {
     console.error('Erreur lors de l\'ajout de l\'application :', error);
@@ -67,7 +61,6 @@ const addApplication = async () => {
       </div>
     </div>
   </div>
-
   <div class="form-container">
     <div class="form-body">
       <div class="container-input">

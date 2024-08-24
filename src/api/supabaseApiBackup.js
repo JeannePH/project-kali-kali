@@ -6,7 +6,7 @@ export const fetchApplications = async () => {
         .from('application')
         .select();
     if (error) {
-        console.error('Erreur lors de la récupération des applications:', error);
+        console.error('Error fetching applications:', error);
     }
     return applications;
 };
@@ -95,13 +95,19 @@ export const fetchVariables = async (selectedApplicationId) => {
 
 // Fonction de login
 export const login = async (email, password) => {
+    console.log("API login appelée avec:", { email, password });
+
     const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
     });
+    console.log("Réponse brute de l'API login:", { data, error });
+
     if (error) {
+        console.error('Erreur lors de la connexion via API:', error.message);
         throw error;
     }
+
     return data;
 };
 
