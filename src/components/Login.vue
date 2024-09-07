@@ -8,22 +8,16 @@ const email = ref('');
 const password = ref('');
 const errorMessage = ref('');
 
-// Fonction pour gérer la connexion
 const handleLogin = async () => {
   console.log("Tentative de connexion avec email:", email.value);
   try {
-    // Appelez l'action de login du store
     await store.login(email.value, password.value);
-
-    // Vérifiez s'il n'y a pas d'erreur et redirigez l'utilisateur
     if (!store.errorMessage) {
-      console.log("Connexion réussie, redirection vers /applications");
+      console.log("✅ Connexion réussie, redirection vers /applications");
       await router.push('/applications');
     }
   } catch (error) {
-    // Si une erreur se produit, affichez-la
-    console.error("Erreur dans handleLogin:", error.message);
-    errorMessage.value = error.message;
+    console.log("❌ Erreur dans handleLogin:", error.message);
   }
 };
 </script>

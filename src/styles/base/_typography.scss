@@ -53,6 +53,18 @@ h3,
   line-height: calc(38 / 28);
 }
 
+.error-message {
+  color: red;
+  font-weight: bold;
+  margin-top: 0.1rem;
+}
+
+.success-message {
+  color: green;
+  font-weight: bold;
+  margin-top: 0.1rem;
+}
+
 .no-scroll {
   overflow: hidden;
 }

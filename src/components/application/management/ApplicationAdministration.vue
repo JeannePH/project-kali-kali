@@ -15,7 +15,6 @@ onMounted(async () => {
     <ColumnsSelector :title="'Variables'" :columns="store.variableKeys"  type="variables"/>
     <ColumnsSelector :title="'Workflows'" :columns="store.workflowKeys"  type="workflows"/>
     <ColumnsSelector :title="'Composants'" :columns="store.wwObjectKeys"  type="objects"/>
-    <ColumnsSelector :title="'Actions'" :columns="store.actionKeys"  type="actions"/>
   </div>
 </template>
 

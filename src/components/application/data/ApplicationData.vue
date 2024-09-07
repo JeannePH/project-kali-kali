@@ -4,12 +4,10 @@ import store from "../../../store.js";
 import ApplicationDataTableVersionFilter from "./ApplicationDataTableVersionFilter.vue";
 import ApplicationDataTable from "./ApplicationDataTable.vue";
 
-// Utiliser useRoute pour obtenir le nom de la route actuelle.
 import {useRoute} from "vue-router";
 
 const route = useRoute();
 
-// Colonnes sélectionnées et données en fonction de la route actuelle
 const selectedColumns = computed(() => {
   switch (route.name) {
     case 'Pages':
@@ -20,8 +18,6 @@ const selectedColumns = computed(() => {
       return store.selectedVariableKeys;
     case 'Composants':
       return store.selectedWwObjectKeys;
-    case 'Actions':
-      return store.selectedActionKeys;
     default:
       return [];
   }
@@ -41,9 +37,6 @@ const fetchData = () => {
     case 'Composants':
       store.fetchWwObjects();
       break;
-    case 'Actions':
-      store.fetchActions();
-      break;
     default:
       break;
   }
@@ -59,8 +52,6 @@ const filteredData = computed(() => {
       return store.variables.filter(row => row.cache_version === store.selectedCacheVersion);
     case 'Composants':
       return store.wwobjects.filter(row => row.cache_version === store.selectedCacheVersion);
-    case 'Actions':
-      return store.actions.filter(row => row.cache_version === store.selectedCacheVersion);
     default:
       return [];
   }

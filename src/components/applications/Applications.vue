@@ -7,13 +7,8 @@ store.fetchApplications();
 const router = useRouter();
 
 async function selectApplication(applicationId) {
-  // Définir l'application sélectionnée
   store.setSelectedApplicationId(applicationId);
-
-  // Récupérer toutes les données associées
   await store.fetchAllSelectedApplicationData();
-
-  // Naviguer vers la page des détails des pages ou une autre vue
   router.push({name: 'Pages'});
 }
 

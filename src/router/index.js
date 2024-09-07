@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-
-import Home from "../components/Home.vue";
 import Applications from "../components/applications/Applications.vue";
 import Login from "../components/Login.vue";
 import Audit from "../components/application/management/ApplicationAudit.vue";
@@ -50,7 +48,6 @@ const routes = [
                     { path: 'workflows', name: 'Workflows', component: ApplicationData },
                     { path: 'variables', name: 'Variables', component: ApplicationData },
                     { path: 'wwobjects', name: 'Composants', component: ApplicationData },
-                    { path: 'actions', name: 'Actions', component: ApplicationData },
                 ]
             }
         ]

@@ -12,13 +12,8 @@ const props = defineProps(['appName', 'appObject']);
       </div>
       <h2 class="app-object">{{ props.appObject }}</h2>
     </div>
-    <div class="container-flex-end-align-center">
-      <TheAddApplicationDataButton />
-    </div>
   </div>
 </template>
 
 <style scoped>
-
-
 </style>

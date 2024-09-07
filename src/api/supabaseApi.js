@@ -69,18 +69,6 @@ export const fetchWwObjects = async (selectedApplicationId) => {
     return objects;
 };
 
-// Actions API
-export const fetchActions = async (selectedApplicationId) => {
-    let { data: actions, error } = await supabase
-        .from('action')
-        .select()
-        .eq('application_id', selectedApplicationId);
-    if (error) {
-        console.error('Error fetching actions:', error);
-    }
-    return actions;
-};
-
 // Variables API
 export const fetchVariables = async (selectedApplicationId) => {
     let { data: variables, error } = await supabase

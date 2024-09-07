@@ -6,7 +6,6 @@ const props = defineProps({
   columns: {type: Array, default: () => []}
 });
 
-// Utiliser la version sélectionnée pour filtrer les données
 const filteredData = computed(() => {
   return props.data;
 });

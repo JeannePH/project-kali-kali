@@ -1,11 +1,15 @@
 <script setup>
 import {ref} from 'vue';
 import {processFiles} from "../../api/extractor.js";
+import store from "../../store.js";
 
-const name = ref('');
-const wewebid = ref('');
-
+const appName = ref('');
 const filesContent = ref([]);
+
+const formErrors = ref({
+  appName: '',
+  file: ''
+});
 
 const handleFileUpload = (event) => {
   const files = event.target.files;
@@ -22,15 +26,21 @@ const handleFileUpload = (event) => {
       };
       reader.readAsText(file);
     } else {
-      console.error("Veuillez télécharger un fichier JSON valide.");
+      formErrors.value.file = `${file ? file.name : 'Le fichier'} n'est pas un fichier JSON valide.`;
     }
   }
 };
 
 const resetForm = () => {
-  name.value = '';
-  wewebid.value = '';
+  // Réinitialiser les champs de saisie
+  appName.value = '';
   filesContent.value = [];
+  // Réinitialiser les erreurs du formulaire
+  formErrors.value.appName = '';
+  formErrors.value.file = '';
+  // Réinitialiser les messages globaux du store
+  store.clearMessages();
+  // Réinitialiser l'élément de fichier
   const inputFileElement = document.querySelector('input[type="file"]');
   if (inputFileElement) {
     inputFileElement.value = '';
@@ -39,15 +49,32 @@ const resetForm = () => {
 
 const addApplication = async () => {
   try {
-    console.log(`Nom: ${name.value}, weweb id: ${wewebid.value}`);
-    if (!name.value || !wewebid.value || filesContent.value.length === 0) {
-      console.error("Veuillez remplir tous les champs et télécharger au moins un fichier JSON.");
-      return;
+    // Réinitialiser les erreurs avant soumission
+    formErrors.value.appName = '';
+    formErrors.value.file = '';
+    store.clearMessages();
+
+    console.log(`Nom: ${appName.value}`);
+
+    if (!appName.value) {
+      formErrors.value.appName = "Le nom de l'application est requis.";
     }
-    await processFiles(filesContent.value, name.value, wewebid.value);
+    if (filesContent.value.length === 0) {
+      formErrors.value.file = "Vous devez télécharger au moins un fichier JSON.";
+    }
+
+    // Arrêter la soumission si des erreurs existent
+    if (formErrors.value.appName || formErrors.value.file) return;
+
+    await processFiles(filesContent.value, appName.value);
     resetForm();
+
+    // Si tout se passe bien
+    store.setSuccessMessage = "L'application a été ajoutée avec succès !";
+    resetForm(); // Réinitialiser le formulaire après l'ajout
   } catch (error) {
-    console.error('Erreur lors de l\'ajout de l\'application :', error);
+    console.error('❌ Erreur lors de l\'ajout de l\'application :', error);
+    store.setErrorMessage = `Erreur lors de l'ajout de l'application : ${error.message}`;
   }
 };
 </script>
@@ -61,25 +88,43 @@ const addApplication = async () => {
       </div>
     </div>
   </div>
-  <div class="form-container">
-    <div class="form-body">
-      <div class="container-input">
-        <label for="name">Nom</label>
-        <input type="text" id="name" placeholder="Le nom de l'application" v-model="name"/>
+
+  <!-- Formulaire -->
+  <form @submit.prevent="addApplication">
+    <div class="form-container">
+      <div class="form-body">
+        <div class="container-input">
+          <label for="appName">Nom</label>
+          <input type="text" id="appName" placeholder="Le nom de l'application" v-model="appName"/>
+        </div>
+        <!-- Erreur pour le champ nom -->
+        <div v-if="formErrors.appName" class="error-message">
+          {{ formErrors.appName }}
+        </div>
+        <div>
+          <input type="file" accept=".json" multiple @change="handleFileUpload"/>
+        </div>
+
+        <!-- Erreur pour le fichier -->
+        <div v-if="formErrors.file" class="error-message">
+          {{ formErrors.file }}
+        </div>
       </div>
-      <div class="container-input">
-        <label for="wewebid">Weweb Id</label>
-        <input type="text" id="wewebid" placeholder="78" v-model="wewebid"/>
+
+      <div class="form-footer">
+        <button type="button" class="btn-secondary" @click="resetForm">Annuler</button>
+        <button type="submit" class="btn-primary submit-button">Ajouter</button>
       </div>
-      <div>
-        <input type="file" accept=".json" multiple @change="handleFileUpload"/>
+
+      <div v-if="store.errorMessage" class="error-message">
+        {{ store.errorMessage }}
       </div>
+      <div v-if="store.successMessage" class="success-message">
+        {{ store.successMessage }}
+      </div>
+
     </div>
-    <div class="form-footer">
-      <button class="btn-secondary" @click="resetForm">Annuler</button>
-      <button class="btn-primary" @click="addApplication">Ajouter</button>
-    </div>
-  </div>
+  </form>
 </template>
 
 <style scoped>

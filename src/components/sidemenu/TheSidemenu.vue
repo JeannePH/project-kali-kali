@@ -28,7 +28,6 @@ const userName = computed(() => store.user ? store.user.email : 'user@mail.com')
 // LOG OUT
 const handleLogout = async () => {
   await store.logout();
-  alert('Logged out!');
 };
 
 const isApplicationSelected = computed(() => store.selectedApplicationId !== null);
@@ -69,7 +68,6 @@ const isApplicationSelected = computed(() => store.selectedApplicationId !== nul
                 <SidemenuItem to="/application/workflows" icon="mdi--set-left.svg" label="Workflows"/>
                 <SidemenuItem to="/application/variables" icon="mdi--vector-combine.svg" label="Variables"/>
                 <SidemenuItem to="/application/wwobjects" icon="mdi--database.svg" label="Composants"/>
-                <SidemenuItem to="/application/actions" icon="mdi--format-section.svg" label="Actions"/>
               </ul>
             </div>
           </ul>

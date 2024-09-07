@@ -6,7 +6,6 @@ import {
     fetchPages,
     fetchWorkflows,
     fetchWwObjects,
-    fetchActions,
     fetchVariables,
     login,
     logout,
@@ -20,7 +19,6 @@ const store = reactive({
     pages: [],
     workflows: [],
     wwobjects: [],
-    actions: [],
     variables: [],
     selectedApplicationId: null,
     applicationVersions: [],
@@ -28,18 +26,29 @@ const store = reactive({
     applicationAudits: [],
     pageKeys: [],
     workflowKeys: [],
-    actionKeys: [],
     wwObjectKeys: [],
     variableKeys: [],
     selectedPageKeys: [],
     selectedWorkflowKeys: [],
-    selectedActionKeys: [],
     selectedWwObjectKeys: [],
     selectedVariableKeys: [],
     user: null,
     errorMessage: null,
+    successMessage: null,
 
-    // Mutations
+
+    // Actions
+    setSuccessMessage(message) {
+        this.successMessage = message;
+    },
+    setErrorMessage(message) {
+        this.errorMessage = message;
+    },
+    clearMessages() {
+        this.successMessage = null;
+        this.errorMessage = null;
+    },
+
     setSelectedCacheVersion(version) {
         this.selectedCacheVersion = version;
     },
@@ -77,7 +86,6 @@ const store = reactive({
                 this.fetchPages(),
                 this.fetchWorkflows(),
                 this.fetchWwObjects(),
-                this.fetchActions(),
                 this.fetchVariables(),
                 this.fetchApplicationVersions(),
                 this.getApplicationAudits()
@@ -122,19 +130,6 @@ const store = reactive({
                 this.wwObjectKeys = Object.keys(wwobjects[0]);
                 if (this.selectedWwObjectKeys.length === 0) {
                     this.selectedWwObjectKeys = [...this.wwObjectKeys];
-                }
-            }
-        }
-    },
-
-    async fetchActions() {
-        const actions = await fetchActions(this.selectedApplicationId);
-        if (actions) {
-            this.actions = actions;
-            if (actions.length > 0) {
-                this.actionKeys = Object.keys(actions[0]);
-                if (this.selectedActionKeys.length === 0) {
-                    this.selectedActionKeys = [...this.actionKeys];
                 }
             }
         }
@@ -223,7 +218,6 @@ const store = reactive({
     typeToProperty: {
         pages: 'selectedPageKeys',
         workflows: 'selectedWorkflowKeys',
-        actions: 'selectedActionKeys',
         objects: 'selectedWwObjectKeys',
         variables: 'selectedVariableKeys'
     }
