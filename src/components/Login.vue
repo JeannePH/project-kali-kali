@@ -18,6 +18,7 @@ const handleLogin = async () => {
     }
   } catch (error) {
     console.log("❌ Erreur dans handleLogin:", error.message);
+    errorMessage.value = "Erreur lors de la tentative de connexion.";
   }
 };
 </script>
@@ -33,11 +34,11 @@ const handleLogin = async () => {
       <form @submit.prevent="handleLogin" class="form-body">
         <div class="container-input">
           <label for="email">Email:</label>
-          <input type="email" v-model="email" required/>
+          <input id="email" type="email" v-model="email"  autocomplete="email"/>
         </div>
         <div class="container-input">
           <label for="password">Mot de passe:</label>
-          <input type="password" v-model="password" required/>
+          <input id="password" type="password" v-model="password" required autocomplete="current-password"/>
         </div>
         <div class="login-form-footer">
           <button type="submit" class="btn-primary">Se connecter</button>

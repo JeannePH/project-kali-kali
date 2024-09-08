@@ -27,11 +27,11 @@ watch(selectedColumns, (newColumns) => {
 </script>
 
 <template>
-  <div class="column-container">
-    <h3 class="margin-bottom-24">{{ title }}</h3>
-    <div v-for="column in columns" :key="column" class="column">
-      <label class="checkbox-label">
-        <input type="checkbox" :value="column" v-model="selectedColumns"/>
+  <div class="column-container" role="group" aria-labelledby="column-selection-title">
+    <h3 id="column-selection-title" class="margin-bottom-24">{{ title }}</h3>
+    <div v-for="(column, index) in columns" :key="column + '-' + index" class="column">
+      <label class="checkbox-label" :for="'column-' + props.type + '-' + column + '-' + index">
+        <input type="checkbox" :id="'column-' + props.type + '-' + column + '-' + index" :value="column" v-model="selectedColumns"/>
         {{ column }}
       </label>
     </div>

@@ -41,9 +41,11 @@ const store = reactive({
     setSuccessMessage(message) {
         this.successMessage = message;
     },
+
     setErrorMessage(message) {
         this.errorMessage = message;
     },
+
     clearMessages() {
         this.successMessage = null;
         this.errorMessage = null;

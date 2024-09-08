@@ -20,18 +20,16 @@
   padding-top: 10px;
 }
 
-/******* ADD FILES *******/
-
-.upload-container h3 {
-  margin: 0 0 10px 0;
-}
-
-.upload-container input[type="file"] {
+.container-upload {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   width: 100%;
-  padding: 10px;
 }
 
-/******* ADD NEW APPLICATION *******/
+.container-upload input[type="file"] {
+  width: 100%;
+}
 
 .container-input {
   display: flex;

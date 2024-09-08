@@ -4,9 +4,7 @@ import Applications from "../components/applications/Applications.vue";
 import Login from "../components/Login.vue";
 import Audit from "../components/application/management/ApplicationAudit.vue";
 import Administration from "../components/application/management/ApplicationAdministration.vue";
-import Search from "../components/application/management/Search.vue";
 import AddApplication from "../components/forms/AddNewApplication.vue";
-import AddApplicationData from "../components/forms/AddApplicationData.vue";
 import Application from "../components/application/Application.vue";
 import ApplicationData from "../components/application/data/ApplicationData.vue";
 import store from "../store.js";
@@ -35,7 +33,6 @@ const routes = [
         children: [
             { path: 'applications', name: 'Applications', component: Applications },
             { path: 'add-application', name: 'Add Application', component: AddApplication },
-            { path: 'add-application-data', name: 'Add Application Data', component: AddApplicationData },
             {
                 path: 'application',
                 name: 'Application',
@@ -43,7 +40,6 @@ const routes = [
                 children: [
                     { path: 'administration', name: 'Administration', component: Administration },
                     { path: 'audit', name: 'Audit', component: Audit },
-                    { path: 'search', name: 'Recherche', component: Search },
                     { path: 'pages', name: 'Pages', component: ApplicationData },
                     { path: 'workflows', name: 'Workflows', component: ApplicationData },
                     { path: 'variables', name: 'Variables', component: ApplicationData },

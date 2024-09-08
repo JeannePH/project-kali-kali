@@ -1,5 +1,4 @@
 import {supabase} from "../supabase.js";
-import store from "../store.js";
 
 async function processFiles(files, appName) {
     try {
@@ -7,7 +6,6 @@ async function processFiles(files, appName) {
         const appId = await checkOrCreateApplication(appName);
         if (!appId) {
             console.error('❌ Impossible de récupérer ou créer l\'application.');
-            store.setErrorMessage('Impossible de récupérer ou créer l\'application.');
             return;
         }
 
@@ -19,7 +17,6 @@ async function processFiles(files, appName) {
         const versionExists = await checkOrCreateVersion(appId, version);
         if (!versionExists) {
             console.error('❌ Impossible de vérifier ou créer la version.');
-            store.setErrorMessage('Impossible de vérifier ou créer la version.');
             return;
         }
 
@@ -39,11 +36,8 @@ async function processFiles(files, appName) {
         await upsertData('page_ww_object', pageToWwObjectRelations);
 
         console.log('✅ Application et données associées insérées avec succès.');
-        store.setSuccessMessage('L\'application et les données associées ont été insérées avec succès.');
-
     } catch (error) {
         console.log('❌ Erreur : ', error.message);
-        store.setErrorMessage(`Erreur lors du traitement des fichiers : ${error.message}`);
     }
 }
 

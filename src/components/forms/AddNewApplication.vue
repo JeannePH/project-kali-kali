@@ -35,6 +35,8 @@ const resetForm = () => {
   // Réinitialiser les champs de saisie
   appName.value = '';
   filesContent.value = [];
+  store.setSuccessMessage("Ceci est un message de succès !");
+  store.setErrorMessage("Ceci est un message d'erreur !");
   // Réinitialiser les erreurs du formulaire
   formErrors.value.appName = '';
   formErrors.value.file = '';
@@ -67,14 +69,12 @@ const addApplication = async () => {
     if (formErrors.value.appName || formErrors.value.file) return;
 
     await processFiles(filesContent.value, appName.value);
-    resetForm();
 
-    // Si tout se passe bien
-    store.setSuccessMessage = "L'application a été ajoutée avec succès !";
-    resetForm(); // Réinitialiser le formulaire après l'ajout
+    resetForm();
+    store.setSuccessMessage("L'application a été ajoutée avec succès !");
   } catch (error) {
-    console.error('❌ Erreur lors de l\'ajout de l\'application :', error);
-    store.setErrorMessage = `Erreur lors de l'ajout de l'application : ${error.message}`;
+    console.log('❌ Erreur lors de l\'ajout de l\'application :', error);
+    store.setErrorMessage('Erreur lors de l\'ajout de l\'application : ${error.message}');
   }
 };
 </script>
@@ -95,14 +95,15 @@ const addApplication = async () => {
       <div class="form-body">
         <div class="container-input">
           <label for="appName">Nom</label>
-          <input type="text" id="appName" placeholder="Le nom de l'application" v-model="appName"/>
+          <input id="appName" type="text" placeholder="Le nom de l'application" v-model="appName"/>
         </div>
         <!-- Erreur pour le champ nom -->
         <div v-if="formErrors.appName" class="error-message">
           {{ formErrors.appName }}
         </div>
-        <div>
-          <input type="file" accept=".json" multiple @change="handleFileUpload"/>
+        <div class="container-upload">
+          <label for="fileUpload">Ajouter les fichiers</label>
+          <input id="fileUpload" type="file" accept=".json" multiple @change="handleFileUpload"/>
         </div>
 
         <!-- Erreur pour le fichier -->

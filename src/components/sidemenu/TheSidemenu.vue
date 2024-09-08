@@ -54,7 +54,6 @@ const isApplicationSelected = computed(() => store.selectedApplicationId !== nul
             <div v-if="isApplicationSelected">
               <SidemenuItem to="/application/administration" label="Administration"/>
               <SidemenuItem to="/application/audit" label="Audit"/>
-              <SidemenuItem to="/application/search" label="Recherche"/>
               <SidemenuItem
                   to="#"
                   :icon="dropdownOpen ? 'mdi--chevron-down-box.svg' : 'mdi--chevron-right-box.svg'"
@@ -63,7 +62,7 @@ const isApplicationSelected = computed(() => store.selectedApplicationId !== nul
                   :dropdownOpen="dropdownOpen"
                   :toggleDropdown="toggleDropdown"
               />
-              <ul class="submenu" v-if="dropdownOpen">
+              <ul :id="'submenu-' + label" class="submenu" v-if="dropdownOpen">
                 <SidemenuItem to="/application/pages" icon="mdi--file-outline.svg" label="Pages"/>
                 <SidemenuItem to="/application/workflows" icon="mdi--set-left.svg" label="Workflows"/>
                 <SidemenuItem to="/application/variables" icon="mdi--vector-combine.svg" label="Variables"/>
@@ -77,8 +76,8 @@ const isApplicationSelected = computed(() => store.selectedApplicationId !== nul
         <div class="container-mail">
           <p class="name">{{ userName }}</p>
         </div>
-        <span class="logout-button" @click="handleLogout">
-          Log Out
+        <span class="logout-button" @click="handleLogout" role="button" tabindex="0" aria-label="Se déconnecter">
+          Se déconnecter
         </span>
       </div>
     </div>
@@ -157,16 +156,6 @@ const isApplicationSelected = computed(() => store.selectedApplicationId !== nul
 .menu-list {
   width: 100%;
   padding: 0;
-}
-
-.sidemenu-item a {
-  color: var(--txt-primary);
-  opacity: 0.7;
-  transition: opacity 0.2s ease, color 0.2s ease;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  width: 100%;
 }
 
 .submenu {
