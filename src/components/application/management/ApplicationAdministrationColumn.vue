@@ -1,29 +1,29 @@
 <script setup>
 import {onMounted, ref, watch} from 'vue';
-import store from "../../../store.js";
+import {useAdministrationStore} from "../../../stores/administration.js";
 
 const props = defineProps({
-  columns: {type: Array, required: true}, // Les clés de colonnes
-  title: {type: String, required: true}, // Le titre pour chaque section
-  type: { type: String, required: true } // Type de données (pages, workflows, etc.)
+  columns: {type: Array, required: true},
+  title: {type: String, required: true},
+  type: {type: String, required: true}
 });
 
 // Initialiser selectedColumns avec les clés sélectionnées dans le store
 const selectedColumns = ref([]);
 
-onMounted(() => {
-  // Charger les sélections actuelles depuis le store
-  selectedColumns.value = [...store[store.typeToProperty[props.type]]];
-  console.log(`Initial selected columns for ${props.type}:`, selectedColumns.value);
+// Utilisation du store Pinia
+const administrationStore = useAdministrationStore();
 
+onMounted(() => {
+  const propertyName = administrationStore.typeToProperty[props.type];
+  selectedColumns.value = [...administrationStore[propertyName]];
+  console.log(`Initial selected columns for ${props.type}:`, selectedColumns.value);
 });
 
 // Observer les changements dans selectedColumns et les propager au store
 watch(selectedColumns, (newColumns) => {
-  store.setSelectedColumns(props.type, newColumns);
+  administrationStore.setSelectedColumns(props.type, newColumns);
 });
-
-
 </script>
 
 <template>
@@ -42,12 +42,13 @@ watch(selectedColumns, (newColumns) => {
 .checkbox-label {
   display: inline-block;
   vertical-align: middle;
-  white-space: nowrap; /* Empêche le texte de passer à la ligne */
+  white-space: nowrap;
 }
+
 .checkbox-label input[type="checkbox"] {
   display: inline-block;
   vertical-align: middle;
-  margin-right: 8px; /* Espace entre la checkbox et le texte */
+  margin-right: 8px;
 }
 
 .column-container {

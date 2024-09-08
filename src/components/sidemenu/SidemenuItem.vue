@@ -41,7 +41,12 @@ const iconSrc = new URL(`../../assets/${props.icon}`, import.meta.url).href;
         @keydown.enter.prevent="navigate"
         aria-label="Naviguer vers {{ label }}"
     >
-      <img v-if="icon" :src="iconSrc" :alt="label" class="sidemenu-item__icon"/>
+      <img
+          v-if="icon"
+          :src="iconSrc"
+          :alt="label"
+          class="sidemenu-item__icon"
+          :class="{'rotate-90': dropdown && !dropdownOpen}"/>
       <span>{{ label }}</span>
     </label>
   </li>
@@ -57,11 +62,14 @@ const iconSrc = new URL(`../../assets/${props.icon}`, import.meta.url).href;
   cursor: pointer;
   transition: background-color 0.2s ease;
   color: var(--txt-primary);
-  gap: 8px;
 }
+
 .sidemenu-item label{
   display: flex;
   flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 100%;
   gap: 4px
 }
 
@@ -75,5 +83,17 @@ const iconSrc = new URL(`../../assets/${props.icon}`, import.meta.url).href;
   max-width: 20px;
   max-height: 20px;
   align-self: center;
+}
+
+.rotate-90 {
+  transform: rotate(-90deg);
+  transition: transform 0.3s ease;
+}
+
+.sidemenu-item__icon {
+  max-width: 20px;
+  max-height: 20px;
+  align-self: center;
+  transition: transform 0.3s ease;
 }
 </style>

@@ -1,12 +1,19 @@
 <script setup>
-import {ref, watch} from 'vue';
-import store from '../../../store.js';
+import {computed, ref, watch} from 'vue';
+import {useApplicationStore} from "../../../stores/application.js";
 
-const versions = store.applicationVersions;
-const selectedVersion = ref(store.selectedCacheVersion);
+// Utiliser le store Pinia pour accéder à l'état de l'application
+const applicationStore = useApplicationStore();
 
+// Obtenir les versions de l'application depuis le store Pinia
+const versions = computed(() => applicationStore.applicationVersions);
+
+// Initialiser selectedVersion avec la version sélectionnée actuelle du store
+const selectedVersion = ref(applicationStore.selectedCacheVersion);
+
+// Observer les changements de selectedVersion et les propager au store Pinia
 watch(selectedVersion, (newValue) => {
-  store.setSelectedCacheVersion(newValue);
+  applicationStore.setSelectedCacheVersion(newValue);
 });
 </script>
 

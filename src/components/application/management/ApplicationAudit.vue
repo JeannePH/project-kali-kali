@@ -1,14 +1,16 @@
 <script setup>
 import {onMounted, computed} from 'vue';
-import store from '../../../store.js';
 import DoughnutComponent from './DoughnutComponent.vue';
+import {useApplicationStore} from "../../../stores/application.js";
+
+const applicationStore = useApplicationStore();
 
 onMounted(async () => {
   await store.getApplicationAudits();
-  console.log(store.applicationAudits);
+  console.log(applicationStore.applicationAudits);
 });
 
-const audits = computed(() => store.applicationAudits);
+const audits = computed(() => applicationStore.applicationAudits);
 const labels = {
   null_error_action_percentage: 'Pourcentage de workflows n\'ayant pas de gestion des cas d\'erreur',
   workflow_nameless_percentage: 'Pourcentage de workflows n\'ayant pas de nom',

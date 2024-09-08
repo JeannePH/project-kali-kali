@@ -1,7 +1,12 @@
 <script setup>
 import {computed, ref} from 'vue';
 import SidemenuItem from "./SidemenuItem.vue";
-import store from "../../store.js";
+import {useApplicationStore} from "../../stores/application.js";
+import {useAuth} from "../../stores/auth.js";
+
+// Utilisation des stores Pinia
+const authStore = useAuth();
+const applicationStore = useApplicationStore();
 
 // TOGGLE SIDEMENU
 const emits = defineEmits(['toggle']);
@@ -23,14 +28,14 @@ function toggleDropdown() {
   console.log("dropdownOpen state:", dropdownOpen.value);
 }
 
-const userName = computed(() => store.user ? store.user.email : 'user@mail.com');
+const userName = computed(() => authStore.user ? authStore.user.email : 'user@mail.com');
 
 // LOG OUT
 const handleLogout = async () => {
-  await store.logout();
+  await authStore.logout();
 };
 
-const isApplicationSelected = computed(() => store.selectedApplicationId !== null);
+const isApplicationSelected = computed(() => applicationStore.selectedApplicationId !== null);
 
 </script>
 

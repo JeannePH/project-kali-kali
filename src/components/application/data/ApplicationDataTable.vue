@@ -13,7 +13,7 @@ const filteredData = computed(() => {
 
 <template>
     <div v-if="!filteredData.length">
-      No data available.
+      Pas de données disponible.
     </div>
     <div v-else class="container-table custom-scrollbar">
       <table class="data-table">

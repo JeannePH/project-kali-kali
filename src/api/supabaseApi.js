@@ -1,7 +1,7 @@
 import { supabase } from "../supabase.js";
 
 // Applications API
-export const fetchApplications = async () => {
+export const getAllApplications = async () => {
     let { data: applications, error } = await supabase
         .from('application')
         .select();
@@ -11,7 +11,7 @@ export const fetchApplications = async () => {
     return applications;
 };
 
-export const fetchApplicationVersions = async (selectedApplicationId) => {
+export const getApplicationVersions = async (selectedApplicationId) => {
     let { data: versions, error } = await supabase
         .from('application_version')
         .select('*')
@@ -34,7 +34,7 @@ export const getApplicationAudits = async (selectedApplicationId) => {
 };
 
 // Pages API
-export const fetchPages = async (selectedApplicationId) => {
+export const getPages = async (selectedApplicationId) => {
     let { data: pages, error } = await supabase
         .from('page')
         .select()
@@ -46,7 +46,7 @@ export const fetchPages = async (selectedApplicationId) => {
 };
 
 // Workflows API
-export const fetchWorkflows = async (selectedApplicationId) => {
+export const getWorkflows = async (selectedApplicationId) => {
     let { data: workflows, error } = await supabase
         .from('workflow')
         .select()
@@ -58,7 +58,7 @@ export const fetchWorkflows = async (selectedApplicationId) => {
 };
 
 // WWObjects API
-export const fetchWwObjects = async (selectedApplicationId) => {
+export const getWwObjects = async (selectedApplicationId) => {
     let { data: objects, error } = await supabase
         .from('ww_object')
         .select()
@@ -70,7 +70,7 @@ export const fetchWwObjects = async (selectedApplicationId) => {
 };
 
 // Variables API
-export const fetchVariables = async (selectedApplicationId) => {
+export const getVariables = async (selectedApplicationId) => {
     let { data: variables, error } = await supabase
         .from('variable')
         .select()

@@ -1,57 +1,65 @@
 <script setup>
 import {computed, onMounted, watchEffect} from "vue";
-import store from "../../../store.js";
 import ApplicationDataTableVersionFilter from "./ApplicationDataTableVersionFilter.vue";
 import ApplicationDataTable from "./ApplicationDataTable.vue";
 
 import {useRoute} from "vue-router";
+import {useAdministrationStore} from "../../../stores/administration.js";
+import {useApplicationStore} from "../../../stores/application.js";
+
+// Utilisation des stores Pinia
+const applicationStore = useApplicationStore();
+const administrationStore = useAdministrationStore();
 
 const route = useRoute();
 
+// Calculer les colonnes sélectionnées en fonction de la route actuelle
 const selectedColumns = computed(() => {
   switch (route.name) {
     case 'Pages':
-      return store.selectedPageKeys;
+      return administrationStore.selectedPageKeys;
     case 'Workflows':
-      return store.selectedWorkflowKeys;
+      return administrationStore.selectedWorkflowKeys;
     case 'Variables':
-      return store.selectedVariableKeys;
+      return administrationStore.selectedVariableKeys;
     case 'Composants':
-      return store.selectedWwObjectKeys;
+      return administrationStore.selectedWwObjectKeys;
     default:
       return [];
   }
 });
 
+// Fonction pour charger les données en fonction de la route actuelle
 const fetchData = () => {
   switch (route.name) {
     case 'Pages':
-      store.fetchPages();
+      applicationStore.fetchPages();
       break;
     case 'Workflows':
-      store.fetchWorkflows();
+      applicationStore.fetchWorkflows();
       break;
     case 'Variables':
-      store.fetchVariables();
+      applicationStore.fetchVariables();
       break;
     case 'Composants':
-      store.fetchWwObjects();
+      applicationStore.fetchWwObjects();
       break;
     default:
       break;
   }
 };
 
+// Filtrer les données en fonction de la version sélectionnée
 const filteredData = computed(() => {
   switch (route.name) {
     case 'Pages':
-      return store.pages.filter(row => row.cache_version === store.selectedCacheVersion);
+      return applicationStore.pages.filter(row => row.cache_version === applicationStore.selectedCacheVersion);
     case 'Workflows':
-      return store.workflows.filter(row => row.cache_version === store.selectedCacheVersion);
+      return applicationStore.workflows.filter(row => row.cache_version === applicationStore.selectedCacheVersion);
     case 'Variables':
-      return store.variables.filter(row => row.cache_version === store.selectedCacheVersion);
+      return applicationStore.variables.filter(row => row.cache_version === applicationStore.selectedCacheVersion);
     case 'Composants':
-      return store.wwobjects.filter(row => row.cache_version === store.selectedCacheVersion);
+      return applicationStore.wwobjects.filter(row => row.cache_version === applicationStore.selectedCacheVersion);
     default:
       return [];
   }

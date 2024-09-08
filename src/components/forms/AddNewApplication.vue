@@ -1,7 +1,7 @@
 <script setup>
 import {ref} from 'vue';
 import {processFiles} from "../../api/extractor.js";
-import store from "../../store.js";
+import {useMessageStore} from "../../stores/messages.js";
 
 const appName = ref('');
 const filesContent = ref([]);
@@ -10,6 +10,8 @@ const formErrors = ref({
   appName: '',
   file: ''
 });
+
+const messageStore = useMessageStore();
 
 const handleFileUpload = (event) => {
   const files = event.target.files;
@@ -35,13 +37,13 @@ const resetForm = () => {
   // Réinitialiser les champs de saisie
   appName.value = '';
   filesContent.value = [];
-  store.setSuccessMessage("Ceci est un message de succès !");
-  store.setErrorMessage("Ceci est un message d'erreur !");
+  messageStore.setSuccessMessage("Ceci est un message de succès !");
+  messageStore.setErrorMessage("Ceci est un message d'erreur !");
   // Réinitialiser les erreurs du formulaire
   formErrors.value.appName = '';
   formErrors.value.file = '';
   // Réinitialiser les messages globaux du store
-  store.clearMessages();
+  messageStore.clearMessages();
   // Réinitialiser l'élément de fichier
   const inputFileElement = document.querySelector('input[type="file"]');
   if (inputFileElement) {
@@ -54,7 +56,7 @@ const addApplication = async () => {
     // Réinitialiser les erreurs avant soumission
     formErrors.value.appName = '';
     formErrors.value.file = '';
-    store.clearMessages();
+    messageStore.clearMessages();
 
     console.log(`Nom: ${appName.value}`);
 
@@ -71,10 +73,10 @@ const addApplication = async () => {
     await processFiles(filesContent.value, appName.value);
 
     resetForm();
-    store.setSuccessMessage("L'application a été ajoutée avec succès !");
+    messageStore.setSuccessMessage("L'application a été ajoutée avec succès !");
   } catch (error) {
     console.log('❌ Erreur lors de l\'ajout de l\'application :', error);
-    store.setErrorMessage('Erreur lors de l\'ajout de l\'application : ${error.message}');
+    messageStore.setErrorMessage('Erreur lors de l\'ajout de l\'application : ${error.message}');
   }
 };
 </script>
@@ -117,11 +119,11 @@ const addApplication = async () => {
         <button type="submit" class="btn-primary submit-button">Ajouter</button>
       </div>
 
-      <div v-if="store.errorMessage" class="error-message">
-        {{ store.errorMessage }}
+      <div v-if="messageStore.errorMessage" class="error-message">
+        {{ messageStore.errorMessage }}
       </div>
-      <div v-if="store.successMessage" class="success-message">
-        {{ store.successMessage }}
+      <div v-if="messageStore.successMessage" class="success-message">
+        {{ messageStore.successMessage }}
       </div>
 
     </div>

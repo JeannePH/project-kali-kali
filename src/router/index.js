@@ -7,10 +7,10 @@ import Administration from "../components/application/management/ApplicationAdmi
 import AddApplication from "../components/forms/AddNewApplication.vue";
 import Application from "../components/application/Application.vue";
 import ApplicationData from "../components/application/data/ApplicationData.vue";
-import store from "../store.js";
 import NotFound from "../components/NotFound.vue";
 import UnauthenticatedLayout from "../components/layouts/UnauthenticatedLayout.vue";
-import AuthenticatedLayout from "../components/layouts/AuthenticatedLayout.vue";  // Importez votre store ou méthode d'authentification
+import AuthenticatedLayout from "../components/layouts/AuthenticatedLayout.vue";
+import {useAuth} from "../stores/auth.js";  // Importez votre store ou méthode d'authentification
 
 const routes = [
     {
@@ -58,7 +58,9 @@ const router = createRouter({
 
 // Ajouter un garde de navigation global
 router.beforeEach((to, from, next) => {
-    const isAuthenticated = store.user !== null; // Ou une autre logique pour vérifier l'authentification
+    const authStore = useAuth();  // Utiliser Pinia pour vérifier l'authentification
+
+    const isAuthenticated = authStore.user !== null; // Ou une autre logique pour vérifier l'authentification
 
     // Si la route n'est pas 'login' et que l'utilisateur n'est pas authentifié, redirigez vers 'login'
     if (!isAuthenticated && to.name !== 'Login') {

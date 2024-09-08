@@ -1,18 +1,21 @@
 <script setup>
 import {ref} from 'vue';
-import store from "../store.js";
 import router from "../router/index.js";
+import {useAuth} from "../stores/auth.js";
 
 // Références réactives pour l'email, le mot de passe, et les messages d'erreur
 const email = ref('');
 const password = ref('');
 const errorMessage = ref('');
 
+// Utilisation du store auth
+const authStore = useAuth();
+
 const handleLogin = async () => {
   console.log("Tentative de connexion avec email:", email.value);
   try {
-    await store.login(email.value, password.value);
-    if (!store.errorMessage) {
+    await authStore.login(email.value, password.value);
+    if (!authStore.errorMessage) {
       console.log("✅ Connexion réussie, redirection vers /applications");
       await router.push('/applications');
     }
@@ -82,3 +85,4 @@ const handleLogin = async () => {
   margin: 4px auto;
 }
 </style>
+
