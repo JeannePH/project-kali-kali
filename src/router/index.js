@@ -19,10 +19,10 @@ const routes = [
         component: NotFound
     },
     {
-        path: '/login',
+        path: '/processLogin',
         component: UnauthenticatedLayout,
         children: [
-            { path: '/login', name: 'Login', component: Login }
+            { path: '/processLogin', name: 'Login', component: Login }
         ]
     },
     {
@@ -62,7 +62,7 @@ router.beforeEach((to, from, next) => {
 
     const isAuthenticated = authStore.user !== null; // Ou une autre logique pour vérifier l'authentification
 
-    // Si la route n'est pas 'login' et que l'utilisateur n'est pas authentifié, redirigez vers 'login'
+    // Si la route n'est pas 'processLogin' et que l'utilisateur n'est pas authentifié, redirigez vers 'processLogin'
     if (!isAuthenticated && to.name !== 'Login') {
         next({ name: 'Login' });
     } else {

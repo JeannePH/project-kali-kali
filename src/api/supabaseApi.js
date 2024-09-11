@@ -81,7 +81,7 @@ export const getVariables = async (selectedApplicationId) => {
     return variables;
 };
 
-// Fonction de login
+// Fonction de processLogin
 export const login = async (email, password) => {
     const { data, error } = await supabase.auth.signInWithPassword({
         email,

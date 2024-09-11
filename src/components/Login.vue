@@ -3,25 +3,20 @@ import {ref} from 'vue';
 import router from "../router/index.js";
 import {useAuth} from "../stores/auth.js";
 
-// Références réactives pour l'email, le mot de passe, et les messages d'erreur
 const email = ref('');
 const password = ref('');
-const errorMessage = ref('');
-
-// Utilisation du store auth
 const authStore = useAuth();
 
-const handleLogin = async () => {
+const submitLogin = async () => {
   console.log("Tentative de connexion avec email:", email.value);
   try {
-    await authStore.login(email.value, password.value);
+    await authStore.processLogin(email.value, password.value);
     if (!authStore.errorMessage) {
       console.log("✅ Connexion réussie, redirection vers /applications");
       await router.push('/applications');
     }
   } catch (error) {
-    console.log("❌ Erreur dans handleLogin:", error.message);
-    errorMessage.value = "Erreur lors de la tentative de connexion.";
+    console.log("❌ Erreur dans submitLogin:", error.message);
   }
 };
 </script>
@@ -34,20 +29,23 @@ const handleLogin = async () => {
       </div>
     </div>
     <div class="login-form-container">
-      <form @submit.prevent="handleLogin" class="form-body">
+      <form @submit.prevent="submitLogin" class="form-body">
         <div class="container-input">
           <label for="email">Email:</label>
           <input id="email" type="email" v-model="email"  autocomplete="email"/>
         </div>
         <div class="container-input">
           <label for="password">Mot de passe:</label>
-          <input id="password" type="password" v-model="password" required autocomplete="current-password"/>
+          <input id="password"
+                 type="password"
+                 v-model="password"
+                 required autocomplete="current-password"/>
         </div>
         <div class="login-form-footer">
           <button type="submit" class="btn-primary">Se connecter</button>
         </div>
       </form>
-      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+      <p v-if="authStore.errorMessage" class="error">{{ authStore.errorMessage }}</p>
     </div>
   </div>
 </template>

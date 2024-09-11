@@ -10,9 +10,9 @@ export const useAuth = defineStore('auth', {
     }),
 
     actions: {
-        async login(email, password) {
+        async processLogin(email, password) {
             this.loading = true;
-            console.log("store.login appelée avec:", {email, password});
+            console.log("store.processLogin appelée avec:", {email, password});
             try {
                 const data = await login(email, password);
                 if (data && data.user) {
