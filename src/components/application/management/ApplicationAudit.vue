@@ -22,7 +22,7 @@ const labels = {
 <template>
   <div class="container-row custom-scrollbar">
     <div class="container-label">
-      <p v-for="(label, key) in labels" :key="key" class="label">{{ label }}</p>
+      <p v-for="(pageName, key) in labels" :key="key" class="label">{{ pageName }}</p>
     </div>
     <div class="container-columns">
       <div v-for="audit in audits" :key="audit.cache_version" class="column-version">
@@ -30,7 +30,7 @@ const labels = {
           <h3>Version {{ audit.cache_version }}</h3>
         </div>
         <div class="column-version-doughnuts">
-          <div class="doughnut-item" v-for="(label, key) in labels" :key="key">
+          <div class="doughnut-item" v-for="(pageName, key) in labels" :key="key">
             <DoughnutComponent :label="label" :value="audit[key]"/>
             <p>{{ audit[key] }}%</p>
           </div>

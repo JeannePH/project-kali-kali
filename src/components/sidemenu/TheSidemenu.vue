@@ -55,23 +55,23 @@ const isApplicationSelected = computed(() => applicationStore.selectedApplicatio
         </div>
         <div class="menu-container">
           <ul class="menu-list">
-            <SidemenuItem to="/applications" label="Applications"/>
+            <SidemenuItem to="/applications" pageName="Applications"/>
             <div v-if="isApplicationSelected">
-              <SidemenuItem to="/application/administration" label="Administration"/>
-              <SidemenuItem to="/application/audit" label="Audit"/>
+              <SidemenuItem to="/application/administration" pageName="Administration"/>
+              <SidemenuItem to="/application/audit" pageName="Audit"/>
               <SidemenuItem
                   to="#"
                   :icon="dropdownOpen ? 'mdi--chevron-down-box.svg' : 'mdi--chevron-right-box.svg'"
-                  label="Data"
+                  pageName="Data"
                   :dropdown="true"
                   :dropdownOpen="dropdownOpen"
                   :toggleDropdown="toggleDropdown"
               />
-              <ul :id="'submenu-' + label" class="submenu" v-if="dropdownOpen">
-                <SidemenuItem to="/application/pages" icon="mdi--file-outline.svg" label="Pages"/>
-                <SidemenuItem to="/application/workflows" icon="mdi--set-left.svg" label="Workflows"/>
-                <SidemenuItem to="/application/variables" icon="mdi--vector-combine.svg" label="Variables"/>
-                <SidemenuItem to="/application/wwobjects" icon="mdi--database.svg" label="Composants"/>
+              <ul id="data" class="submenu" v-if="dropdownOpen">
+                <SidemenuItem to="/application/pages" icon="mdi--file-outline.svg" pageName="Pages"/>
+                <SidemenuItem to="/application/workflows" icon="mdi--set-left.svg" pageName="Workflows"/>
+                <SidemenuItem to="/application/variables" icon="mdi--vector-combine.svg" pageName="Variables"/>
+                <SidemenuItem to="/application/wwobjects" icon="mdi--database.svg" pageName="Composants"/>
               </ul>
             </div>
           </ul>

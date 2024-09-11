@@ -10,6 +10,13 @@ export const useAuth = defineStore('auth', {
     }),
 
     actions: {
+        setUser(user) {
+            this.user = user;
+        },
+        clearUser() {
+            this.user = null;
+        },
+
         async processLogin(email, password) {
             this.loading = true;
             console.log("store.processLogin appelée avec:", {email, password});
@@ -30,7 +37,6 @@ export const useAuth = defineStore('auth', {
             } finally {
                 this.loading = false;
             }
-
         },
 
         async logout() {
@@ -54,6 +60,6 @@ export const useAuth = defineStore('auth', {
         clearMessages() {
             this.errorMessage = null;
             this.successMessage = null;
-        }
+        },
     }
 });

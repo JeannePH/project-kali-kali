@@ -5,7 +5,7 @@ import {useRoute, useRouter} from 'vue-router';
 const props = defineProps({
   to: String,
   icon: String,
-  label: String,
+  pageName: String,
   exact: Boolean,
   dropdown: Boolean,
   dropdownOpen: Boolean,
@@ -39,15 +39,15 @@ const iconSrc = new URL(`../../assets/${props.icon}`, import.meta.url).href;
         @click="navigate"
         @keydown.space.prevent="navigate"
         @keydown.enter.prevent="navigate"
-        aria-label="Naviguer vers {{ label }}"
+        aria-label="Naviguer vers {{ pageName }}"
     >
       <img
           v-if="icon"
           :src="iconSrc"
-          :alt="label"
+          :alt="pageName"
           class="sidemenu-item__icon"
           :class="{'rotate-90': dropdown && !dropdownOpen}"/>
-      <span>{{ label }}</span>
+      <span>{{ pageName }}</span>
     </label>
   </li>
 </template>

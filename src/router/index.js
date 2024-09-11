@@ -19,10 +19,10 @@ const routes = [
         component: NotFound
     },
     {
-        path: '/processLogin',
+        path: '/login',
         component: UnauthenticatedLayout,
         children: [
-            { path: '/processLogin', name: 'Login', component: Login }
+            { path: '/login', name: 'Login', component: Login }
         ]
     },
     {
@@ -56,17 +56,15 @@ const router = createRouter({
     linkActiveClass: 'kali-active-link'
 });
 
-// Ajouter un garde de navigation global
+// Garde de navigation global
 router.beforeEach((to, from, next) => {
-    const authStore = useAuth();  // Utiliser Pinia pour vérifier l'authentification
+    const authStore = useAuth();
+    const isAuthenticated = authStore.user !== null;
 
-    const isAuthenticated = authStore.user !== null; // Ou une autre logique pour vérifier l'authentification
-
-    // Si la route n'est pas 'processLogin' et que l'utilisateur n'est pas authentifié, redirigez vers 'processLogin'
     if (!isAuthenticated && to.name !== 'Login') {
         next({ name: 'Login' });
     } else {
-        next(); // Sinon, continuez vers la route demandée
+        next();
     }
 });
 
