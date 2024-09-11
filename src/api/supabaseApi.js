@@ -102,8 +102,3 @@ export const logout = async () => {
     }
 };
 
-// Fonction pour récupérer l'utilisateur connecté
-export const fetchUser = () => {
-    console.log("Utilisateur récupéré:", user);
-    return supabase.auth.getUser();
-};

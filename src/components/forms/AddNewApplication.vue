@@ -107,25 +107,20 @@ const addApplication = async () => {
           <label for="fileUpload">Ajouter les fichiers</label>
           <input id="fileUpload" type="file" accept=".json" multiple @change="handleFileUpload"/>
         </div>
-
-        <!-- Erreur pour le fichier -->
         <div v-if="formErrors.file" class="error-message">
           {{ formErrors.file }}
         </div>
       </div>
-
       <div class="form-footer">
         <button type="button" class="btn-secondary" @click="resetForm">Annuler</button>
         <button type="submit" class="btn-primary submit-button">Ajouter</button>
       </div>
-
       <div v-if="messageStore.errorMessage" class="error-message">
         {{ messageStore.errorMessage }}
       </div>
       <div v-if="messageStore.successMessage" class="success-message">
         {{ messageStore.successMessage }}
       </div>
-
     </div>
   </form>
 </template>

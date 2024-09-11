@@ -27,13 +27,13 @@ async function processFiles(files, appName) {
         const {extractedWwObjects, pageToWwObjectRelations} = await extractAndProcessWwObjects(filesData, appId);
 
         // 5. Insérer les données extraites dans les tables respectives
-        await upsertData('page', pageData);
-        await upsertData('variable', extractedVariables);
-        await upsertData('workflow', extractedWorkflows);
-        await upsertData('ww_object', extractedWwObjects);
-        await upsertData('page_variable', pageToVariableRelations, {onConflict: ['page_id', 'variable_id', 'cache_version']});
-        await upsertData('page_workflow', pageToWorkflowRelations);
-        await upsertData('page_ww_object', pageToWwObjectRelations);
+        await insertData('page', pageData);
+        await insertData('variable', extractedVariables);
+        await insertData('workflow', extractedWorkflows);
+        await insertData('ww_object', extractedWwObjects);
+        await insertData('page_variable', pageToVariableRelations);
+        await insertData('page_workflow', pageToWorkflowRelations);
+        await insertData('page_ww_object', pageToWwObjectRelations);
 
         console.log('✅ Application et données associées insérées avec succès.');
     } catch (error) {
@@ -55,19 +55,19 @@ async function getFiles(files) {
 }
 
 // Insertion ou mise à jour des données dans Supabase
-async function upsertData(tableName, data, onConflict) {
+async function insertData(tableName, data) {
     if (data && data.length > 0) {
         const {error} = await supabase
             .from(tableName)
-            .upsert(data, onConflict)
+            .insert(data)
             .select();
         if (error) {
             console.log(error.message);
         } else {
-            console.log('✅ Données insérées ou mises à jour avec succès dans la table nommée ', tableName);
+            console.log('✅ Données insérées dans la table : ', tableName);
         }
     } else {
-        console.log('❌ Erreur : Aucune donnée à insérer pour la table nommée ' + tableName);
+        console.log('❌ Aucune donnée à insérer pour la table : ' + tableName);
     }
 }
 

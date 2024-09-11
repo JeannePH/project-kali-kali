@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { login, logout, fetchUser } from '../api/supabaseApi';
+import { login, logout } from '../api/supabaseApi';
 
 export const useAuth = defineStore('auth', {
     state: () => ({
@@ -45,15 +45,6 @@ export const useAuth = defineStore('auth', {
                 this.user = null;
             } catch (error) {
                 console.log('❌ Logout - erreur:', error);
-            }
-        },
-
-        async fetchUser() {
-            try {
-                this.user = await fetchUser();
-                console.log("✅ Utilisateur récupéré:", this.user);
-            } catch (error) {
-                console.log('❌ Erreur lors de la récupération de l\'utilisateur :', error);
             }
         },
 
