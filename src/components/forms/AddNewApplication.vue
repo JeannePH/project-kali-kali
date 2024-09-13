@@ -24,7 +24,6 @@ const handleFileUpload = (event) => {
           name: file.name,
           content: JSON.parse(content)
         });
-        console.log("Fichier JSON téléchargé :", content);
       };
       reader.readAsText(file);
     } else {
@@ -76,7 +75,7 @@ const addApplication = async () => {
     messageStore.setSuccessMessage("L'application a été ajoutée avec succès !");
   } catch (error) {
     console.log('❌ Erreur lors de l\'ajout de l\'application :', error);
-    messageStore.setErrorMessage('Erreur lors de l\'ajout de l\'application : ${error.message}');
+    messageStore.setErrorMessage('❌ Erreur lors de l\'ajout de l\'application : ${error.message}');
   }
 };
 </script>

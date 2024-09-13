@@ -54,8 +54,25 @@ async function getFiles(files) {
     }
 }
 
-// Insertion ou mise à jour des données dans Supabase
 async function insertData(tableName, data) {
+    if (data && data.length > 0) {
+        try {
+            const {error} = await supabase
+                .from(tableName)
+                .insert(data)
+                .select();
+            if (error) throw new Error(error.message);
+            console.log('✅ Données insérées dans la table : ', tableName);
+        } catch (error) {
+            console.error('❌ Erreur lors de l\'insertion dans la table ' + tableName + ':', error.message);
+        }
+    } else {
+        console.log('❌ Aucune donnée à insérer pour la table : ' + tableName);
+    }
+}
+
+// Insertion ou mise à jour des données dans Supabase
+async function insertDataOld(tableName, data) {
     if (data && data.length > 0) {
         const {error} = await supabase
             .from(tableName)
