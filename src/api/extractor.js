@@ -1,3 +1,4 @@
+
 import {supabase} from "../supabase.js";
 
 async function processFiles(files, appName) {
@@ -20,7 +21,7 @@ async function processFiles(files, appName) {
             return;
         }
 
-        // 4. Insérer ou mettre à jour les autres données extraites
+        // 4. Extraire les données et créer les données à insérer
         const pageData = await extractAndProcessPages(filesData, appId);
         const {extractedVariables, pageToVariableRelations} = await extractAndProcessVariables(filesData, appId);
         const {extractedWorkflows, pageToWorkflowRelations} = await extractAndStoreProcessedWorkflows(filesData, appId);
@@ -42,6 +43,7 @@ async function processFiles(files, appName) {
 }
 
 // Lecture et validation des fichiers JSON
+
 async function getFiles(files) {
     try {
         const filesData = files.map(file => ({
@@ -89,6 +91,7 @@ async function insertDataOld(tableName, data) {
 }
 
 // EXTRAIRE VERSION
+
 async function getVersion(files) {
     try {
         let file = files[0];
@@ -144,6 +147,7 @@ async function checkOrCreateApplication(appName) {
 }
 
 // Fonction pour vérifier ou créer une version dans application_version
+
 async function checkOrCreateVersion(appId, version) {
     try {
         const {data: existingVersion, error: errorVersionCheck} = await supabase

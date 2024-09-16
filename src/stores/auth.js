@@ -6,7 +6,6 @@ export const useAuth = defineStore('auth', {
         user: null,
         errorMessage: null,
         successMessage: null,
-        loading: false,
     }),
 
     actions: {
@@ -18,7 +17,6 @@ export const useAuth = defineStore('auth', {
         },
 
         async processLogin(email, password) {
-            this.loading = true;
             console.log("store.processLogin appelée avec:", {email, password});
             try {
                 const data = await login(email, password);
@@ -34,8 +32,6 @@ export const useAuth = defineStore('auth', {
             } catch (error) {
                 this.errorMessage = error.message;
                 console.error("❌ Login - Erreur:", error.message);
-            } finally {
-                this.loading = false;
             }
         },
 

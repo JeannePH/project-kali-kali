@@ -5,12 +5,10 @@ import {useMessageStore} from "../../stores/messages.js";
 
 const appName = ref('');
 const filesContent = ref([]);
-
 const formErrors = ref({
   appName: '',
   file: ''
 });
-
 const messageStore = useMessageStore();
 
 const handleFileUpload = (event) => {
@@ -75,7 +73,7 @@ const addApplication = async () => {
     messageStore.setSuccessMessage("L'application a été ajoutée avec succès !");
   } catch (error) {
     console.log('❌ Erreur lors de l\'ajout de l\'application :', error);
-    messageStore.setErrorMessage('❌ Erreur lors de l\'ajout de l\'application : ${error.message}');
+    messageStore.setErrorMessage('Erreur lors de l\'ajout de l\'application : ${error.message}');
   }
 };
 </script>
@@ -89,8 +87,6 @@ const addApplication = async () => {
       </div>
     </div>
   </div>
-
-  <!-- Formulaire -->
   <form @submit.prevent="addApplication">
     <div class="form-container">
       <div class="form-body">
@@ -98,7 +94,6 @@ const addApplication = async () => {
           <label for="appName">Nom</label>
           <input id="appName" type="text" placeholder="Le nom de l'application" v-model="appName"/>
         </div>
-        <!-- Erreur pour le champ nom -->
         <div v-if="formErrors.appName" class="error-message">
           {{ formErrors.appName }}
         </div>

@@ -12,16 +12,13 @@ import {useAdministrationStore} from "./administration.js";
 
 export const useApplicationStore = defineStore('applicationStore', {
     state: () => ({
-        // Données spécifiques à l'application
         pages: [],
         workflows: [],
         wwobjects: [],
         variables: [],
-        // Versions et audits
         applicationVersions: [],
         selectedCacheVersion: null,
         applicationAudits: [],
-        loading: false,
     }),
 
     getters: {
@@ -36,6 +33,7 @@ export const useApplicationStore = defineStore('applicationStore', {
         },
 
         // Charger toutes les données pour une application sélectionnée
+
         async fetchAllSelectedApplicationData() {
             const messageStore = useMessageStore();
             try {
@@ -55,9 +53,10 @@ export const useApplicationStore = defineStore('applicationStore', {
         },
 
         // Charger les pages
+
         async fetchPages() {
             const messageStore = useMessageStore();
-            const administrationStore = useAdministrationStore();  // Accéder au store d'administration
+            const administrationStore = useAdministrationStore();
             messageStore.clearMessages();
             try {
                 const pages = await getPages(this.selectedApplicationId);
@@ -79,7 +78,7 @@ export const useApplicationStore = defineStore('applicationStore', {
         // Charger les workflows
         async fetchWorkflows() {
             const messageStore = useMessageStore();
-            const administrationStore = useAdministrationStore();  // Accéder au store d'administration
+            const administrationStore = useAdministrationStore();
             messageStore.clearMessages();
             try {
                 const workflows = await getWorkflows(this.selectedApplicationId);
@@ -101,7 +100,7 @@ export const useApplicationStore = defineStore('applicationStore', {
         // Charger les objets
         async fetchWwObjects() {
             const messageStore = useMessageStore();
-            const administrationStore = useAdministrationStore();  // Accéder au store d'administration
+            const administrationStore = useAdministrationStore();
             messageStore.clearMessages();
             try {
                 const wwobjects = await getWwObjects(this.selectedApplicationId);
@@ -122,7 +121,7 @@ export const useApplicationStore = defineStore('applicationStore', {
 
         async fetchVariables() {
             const messageStore = useMessageStore();
-            const administrationStore = useAdministrationStore();  // Accéder au store d'administration
+            const administrationStore = useAdministrationStore();
             messageStore.clearMessages();
             try {
                 const variables = await getVariables(this.selectedApplicationId);

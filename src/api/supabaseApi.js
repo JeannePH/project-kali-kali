@@ -1,5 +1,25 @@
 import { supabase } from "../supabase.js";
 
+export const login = async (email, password) => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+    });
+    if (error) {
+        throw error;
+    }
+    return data;
+};
+
+// Fonction de logout
+export const logout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+        console.error('Erreur lors de la déconnexion via API:', error.message);
+        throw error;
+    }
+};
+
 // Applications API
 export const getAllApplications = async () => {
     let { data: applications, error } = await supabase
@@ -34,6 +54,7 @@ export const getApplicationAudits = async (selectedApplicationId) => {
 };
 
 // Pages API
+
 export const getPages = async (selectedApplicationId) => {
     let { data: pages, error } = await supabase
         .from('page')
@@ -81,24 +102,5 @@ export const getVariables = async (selectedApplicationId) => {
     return variables;
 };
 
-// Fonction de processLogin
-export const login = async (email, password) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-    });
-    if (error) {
-        throw error;
-    }
-    return data;
-};
 
-// Fonction de logout
-export const logout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-        console.error('Erreur lors de la déconnexion via API:', error.message);
-        throw error;
-    }
-};
 

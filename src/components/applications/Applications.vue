@@ -15,19 +15,14 @@ allApplicationsStore.fetchApplications();
 // Fonction pour sélectionner une application et charger toutes les données associées
 async function selectApplication(applicationId) {
   applicationStore.setSelectedApplicationId(applicationId);
-  await applicationStore.fetchAllSelectedApplicationData();  // Charger toutes les données de l'application sélectionnée
+  await applicationStore.fetchAllSelectedApplicationData();
   router.push({ name: 'Pages' });
 }
-
 </script>
 
 <template>
   <ApplicationsHeader/>
-
-  <!-- Message s'il n'y a pas d'applications -->
   <div class="container" v-if="!allApplicationsStore.applications.length">Il n'y a pas d'application dans la table application</div>
-
-  <!-- Liste d'applications -->
   <div class="container" v-else>
     <button
         v-for="application in allApplicationsStore.applications"

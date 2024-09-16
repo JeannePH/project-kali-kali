@@ -57,6 +57,7 @@ const router = createRouter({
 });
 
 // Garde de navigation global
+
 router.beforeEach((to, from, next) => {
     const authStore = useAuth();
     const isAuthenticated = authStore.user !== null;
